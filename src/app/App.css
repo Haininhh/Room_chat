@@ -1,0 +1,138 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#logreg-forms {
+  width: 412px;
+  margin: 10vh auto;
+  background-color: #f3f3f3;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+#logreg-forms form {
+  width: 100%;
+  max-width: 410px;
+  padding: 15px;
+  margin: auto;
+}
+#logreg-forms .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+#logreg-forms .form-control:focus {
+  z-index: 2;
+}
+#logreg-forms .form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#logreg-forms .form-signin input[type="password"] {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#logreg-forms .social-login {
+  margin: 0 auto;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+#logreg-forms .social-btn {
+  font-weight: 100;
+  color: white;
+  width: 187px;
+  font-size: 0.9rem;
+}
+
+#logreg-forms button[type="submit"] {
+  margin-top: 10px;
+}
+
+#logreg-forms .facebook-btn {
+  background-color: #3c589c;
+}
+
+#logreg-forms .google-btn {
+  background-color: #df4b3b;
+}
+
+#logreg-forms .form-reset,
+#logreg-forms .form-signup {
+  display: none;
+}
+
+#logreg-forms .form-signup .social-btn {
+  width: 210px;
+}
+
+#logreg-forms .form-signup input {
+  margin-bottom: 2px;
+}
+
+.form-signup .social-login {
+  width: 210px !important;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+.btn-block {
+  display: block;
+  width: 100%;
+}
+.btn-success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.btn-success:hover {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+#logreg-forms #forgot_pswd {
+  display: block;
+  padding-top: 10px;
+  color: lightseagreen;
+  border: none;
+  background-color: #f3f3f3;
+}
+.font-weight-normal {
+  font-weight: 400 !important;
+}
+
+#logreg-forms #cancel_reset {
+  display: block;
+  padding-top: 10px;
+  color: lightseagreen;
+}
+
+.text-decoration-none {
+  text-decoration: none;
+}
+#logreg-forms #cancel_reset:hover {
+  text-decoration: underline;
+}
+#forgot_pswd:hover {
+  text-decoration: underline;
+}
+.mt-15 {
+  margin-top: 15px !important;
+}
+.mt-8 {
+  margin-top: 8px !important;
+}
+.signup__or::before,
+.signup__or::after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px dashed #ccc;
+  margin: auto;
+}
