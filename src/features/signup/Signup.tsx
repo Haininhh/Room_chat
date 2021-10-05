@@ -26,7 +26,7 @@ const Signup = () => {
             </span>{" "}
           </button>
         </div>
-        <p className="text-center signup__or"> OR </p>
+        <p className="signup__or d-flex"> OR </p>
         <input
           type="text"
           id="user-name"

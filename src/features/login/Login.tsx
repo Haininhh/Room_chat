@@ -1,8 +1,43 @@
-// import React from "react";
-
+import { signInWithPopup } from "@firebase/auth";
+import { History, LocationState } from "history";
+import React from "react";
 import { Link } from "react-router-dom";
+import {
+  auth,
+  facebookProvider,
+  googleProvider,
+} from "../../config/FirebaseConfig";
 
-const Login = () => {
+interface Props {
+  history: History<LocationState>;
+}
+
+const Login = ({ history }: Props) => {
+  const onLoginFacebook = async () => {
+    await signInWithPopup(auth, facebookProvider)
+      .then((result) => {
+        const name = result.user.displayName;
+        if (result) {
+          history.push("/dashboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const onLoginGoogle = async () => {
+    await signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const name = result.user.displayName;
+        if (result) {
+          history.push("/dashboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div id="logreg-forms">
       <form className="form-signin">
@@ -12,6 +47,7 @@ const Login = () => {
             className="btn facebook-btn social-btn"
             type="button"
             id="facebooklogin"
+            onClick={() => onLoginFacebook()}
           >
             <span>
               <i className="fab fa-facebook-f"></i> Sign in with Facebook
@@ -21,13 +57,14 @@ const Login = () => {
             className="btn google-btn social-btn"
             type="button"
             id="googleLogin"
+            onClick={() => onLoginGoogle()}
           >
             <span>
               <i className="fab fa-google-plus-g"></i> Sign in with Google+
             </span>{" "}
           </button>
         </div>
-        <p className="text-center"> OR </p>
+        <p className="text-center signup__or d-flex"> OR </p>
         <input
           type="email"
           id="inputEmail"
@@ -54,7 +91,6 @@ const Login = () => {
           <span id="forgot_pswd">Forgot password?</span>
         </Link>
         <hr />
-        {/* <p>Don't have an account!</p> */}
         <Link to="/signup" className="text-decoration-none">
           <button
             className="btn btn-primary btn-block"
