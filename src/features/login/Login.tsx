@@ -1,5 +1,4 @@
 import { signInWithPopup } from "@firebase/auth";
-import { History, LocationState } from "history";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -8,34 +7,20 @@ import {
   googleProvider,
 } from "../../config/FirebaseConfig";
 
-interface Props {
-  history: History<LocationState>;
-}
-
-const Login = ({ history }: Props) => {
+const Login = () => {
   const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider)
-      .then((result) => {
-        const name = result.user.displayName;
-        if (result) {
-          history.push("/dashboard");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await signInWithPopup(auth, facebookProvider);
+    // .then((result) => {
+    //   const name = result.user.displayName;
+    //   if (result) {
+    //   }
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
   };
   const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const name = result.user.displayName;
-        if (result) {
-          history.push("/dashboard");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await signInWithPopup(auth, googleProvider);
   };
 
   return (
