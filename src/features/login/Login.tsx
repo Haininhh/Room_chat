@@ -10,23 +10,18 @@ import {
 const Login = () => {
   const onLoginFacebook = async () => {
     await signInWithPopup(auth, facebookProvider);
-    // .then((result) => {
-    //   const name = result.user.displayName;
-    //   if (result) {
-    //   }
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
   };
   const onLoginGoogle = async () => {
     await signInWithPopup(auth, googleProvider);
+  };
+  const onLoginEmailPassword = () => {
+    // signInWithEmailAndPassword(auth, email, password);
   };
 
   return (
     <div id="logreg-forms">
       <form className="form-signin">
-        <h1 className="h3 mb-3 font-weight-normal text-center"> Sign in</h1>
+        <h1 className="h3 mb-3 pt-10 font-weight-bold text-center"> Sign in</h1>
         <div className="social-login">
           <button
             className="btn facebook-btn social-btn"
@@ -49,7 +44,10 @@ const Login = () => {
             </span>{" "}
           </button>
         </div>
-        <p className="text-center signup__or d-flex"> OR </p>
+        <p className="text-center signup__or d-flex">
+          {" "}
+          <span className="p-10">Or</span>{" "}
+        </p>
         <input
           type="email"
           id="inputEmail"
@@ -69,6 +67,7 @@ const Login = () => {
           className="btn btn-success btn-block"
           id="loginbtn"
           type="submit"
+          onClick={onLoginEmailPassword}
         >
           <i className="fas fa-sign-in-alt"></i> Sign in
         </button>

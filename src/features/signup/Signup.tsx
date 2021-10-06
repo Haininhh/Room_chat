@@ -1,10 +1,9 @@
-// import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { Form, Formik } from "formik";
-import React from "react";
-import { Link } from "react-router-dom";
-// import { auth } from "../../config/FirebaseConfig";
-import { TextField } from "./TextField";
-import * as Yup from "yup";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { auth } from "../../config/FirebaseConfig";
+import { TextField, validate } from "./TextField";
 
 interface MyFormValues {
   fullname: string;
@@ -14,37 +13,39 @@ interface MyFormValues {
 }
 
 const Signup = () => {
+  const history = useHistory();
+  const [errorMessage, setErrorMessage] = useState("");
   const initialValues: MyFormValues = {
     fullname: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
-  const validate = Yup.object({
-    fullname: Yup.string()
-      .max(15, "Must be 15 characters or less")
-      .required("Required"),
-    email: Yup.string().email("Email is invalid").required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 charaters")
-      .required("Password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Password must match")
-      .required("Confirm password is required"),
-  });
-  // createUserWithEmailAndPassword(auth, email, password);
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validate}
       onSubmit={(values) => {
-        console.log(values);
+        const { email, password } = values;
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+            history.push("/signup-success");
+          })
+          .catch((error) => {
+            setErrorMessage("Email already existed! Please try again.");
+          });
       }}
     >
       {(formik) => (
         <div id="logreg-forms">
           <Form className="form-signin">
-            <h1 className="h3 mb-3 font-weight-normal text-center"> Sign up</h1>
+            <h1 className="h3 mb-3 pt-10 font-weight-bold text-center">
+              {" "}
+              Sign up
+            </h1>
             <div className="social-login">
               <button
                 className="btn facebook-btn social-btn"
@@ -65,7 +66,10 @@ const Signup = () => {
                 </span>{" "}
               </button>
             </div>
-            <p className="signup__or d-flex"> OR </p>
+            <p className="signup__or d-flex">
+              {" "}
+              <span className="p-10">Or</span>{" "}
+            </p>
             <TextField placeholder="Full Name" name="fullname" type="text" />
             <TextField placeholder="Email" name="email" type="email" />
             <TextField placeholder="Password" name="password" type="password" />
@@ -74,6 +78,7 @@ const Signup = () => {
               name="confirmPassword"
               type="password"
             />
+            <div className="text-center color-red">{errorMessage}</div>
             <button
               className="btn btn-primary btn-block mt-15"
               type="submit"

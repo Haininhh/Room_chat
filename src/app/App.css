@@ -107,6 +107,9 @@
 .font-weight-normal {
   font-weight: 400 !important;
 }
+.font-weight-bold {
+  font-weight: 500 !important;
+}
 
 #logreg-forms #cancel_reset {
   display: block;
@@ -135,4 +138,23 @@
   flex: 1 1;
   border-bottom: 1px dotted #ccc;
   margin: auto;
+}
+
+.color-red {
+  color: #dc3545;
+}
+.p-10 {
+  padding: 0 10px !important;
+}
+.pt-1rem {
+  padding-top: 1rem !important;
+}
+.pt-10 {
+  padding-top: 10px !important;
+}
+/* .pt-8 {
+  padding-top: 8px;
+} */
+.mb-0 {
+  margin-bottom: 0 !important;
 }
