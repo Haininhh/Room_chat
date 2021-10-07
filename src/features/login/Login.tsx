@@ -22,10 +22,26 @@ const Login = () => {
   };
 
   const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider);
+    await signInWithPopup(auth, facebookProvider)
+      .then((userCredential) => {
+        history.push("/dashboard");
+      })
+      .catch((error) => {
+        if (error) {
+          alert("login unsuccessful!");
+        }
+      });
   };
   const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    await signInWithPopup(auth, googleProvider)
+      .then((userCredential) => {
+        history.push("/dashboard");
+      })
+      .catch((error) => {
+        if (error) {
+          alert("login unsuccessful!");
+        }
+      });
   };
 
   return (
@@ -34,8 +50,6 @@ const Login = () => {
       validationSchema={validateLogin}
       onSubmit={(values) => {
         const { email, password } = values;
-        console.log(email, password);
-
         if (email && password) {
           signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -45,7 +59,6 @@ const Login = () => {
               if (error) {
                 setErrorMessage("Username or password already existed!");
               }
-              return null;
             });
         }
       }}

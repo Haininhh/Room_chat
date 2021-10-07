@@ -84,7 +84,7 @@
   text-align: center;
 }
 .btn-block {
-  display: block;
+  display: inline-block;
   width: 100%;
 }
 .btn-success {
@@ -98,7 +98,7 @@
   border-color: #1e7e34;
 }
 #logreg-forms #forgot_pswd {
-  display: block;
+  display: inline-block;
   color: lightseagreen;
   border: none;
   background-color: #f3f3f3;
@@ -111,7 +111,7 @@
 }
 
 #logreg-forms #cancel_reset {
-  display: block;
+  display: inline-block;
   padding-top: 10px;
   color: lightseagreen;
 }
