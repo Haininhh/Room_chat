@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "../../config/FirebaseConfig";
-import { TextField, validate } from "./TextField";
+import { TextField, validateSignup } from "./TextFieldSignup";
 
 interface MyFormValues {
   fullname: string;
@@ -25,8 +25,9 @@ const Signup = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validate}
+      validationSchema={validateSignup}
       onSubmit={(values) => {
+        console.log(values);
         const { email, password } = values;
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
@@ -81,8 +82,8 @@ const Signup = () => {
             <div className="text-center color-red">{errorMessage}</div>
             <button
               className="btn btn-primary btn-block mt-15"
-              type="submit"
               id="btn-signup"
+              type="submit"
             >
               <i className="fas fa-user-plus"></i> Sign up
             </button>

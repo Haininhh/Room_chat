@@ -99,7 +99,6 @@
 }
 #logreg-forms #forgot_pswd {
   display: block;
-  padding-top: 10px;
   color: lightseagreen;
   border: none;
   background-color: #f3f3f3;
@@ -157,4 +156,7 @@
 } */
 .mb-0 {
   margin-bottom: 0 !important;
+}
+.mb-10 {
+  margin-bottom: 10px !important;
 }

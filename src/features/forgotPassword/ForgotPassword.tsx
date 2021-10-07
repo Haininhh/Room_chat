@@ -1,9 +1,10 @@
 import { sendPasswordResetEmail } from "@firebase/auth";
 import React, { useState, ChangeEvent, MouseEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "../../config/FirebaseConfig";
 
 const ForgotPassword = () => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -19,6 +20,7 @@ const ForgotPassword = () => {
       .then(() => {
         setError("");
         alert("Email has been sent to you, Please check and verify.");
+        history.push("/");
       })
       .catch((error) => {
         if (error) {
