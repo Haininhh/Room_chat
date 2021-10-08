@@ -2,7 +2,7 @@ import "./App.css";
 import routes from "../routes/Route";
 
 const App = () => {
-  return <div>{routes}</div>;
+  return <div className="content-app">{routes}</div>;
 };
 
 export default App;

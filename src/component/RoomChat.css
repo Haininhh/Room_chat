@@ -1,0 +1,30 @@
+.max-width-100 {
+  max-width: 100% !important;
+  background-color: #17191a !important;
+  color: #fff;
+}
+.list__top-title {
+  padding: 16px 24px 10px;
+}
+.list__top-title__btn {
+  width: 41px;
+  background-color: #3e4043;
+  border-radius: 50%;
+  border: none;
+}
+.list__top-nav {
+  padding: 0 0 16px 32px;
+  width: 60%;
+}
+.list__top-nav__btn {
+  background-color: #3e4043;
+  border-radius: 24px;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  margin-right: 10px;
+}
+.btn-list__top-more {
+  border-radius: 50%;
+  width: 40px;
+}

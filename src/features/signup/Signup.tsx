@@ -43,7 +43,7 @@ const Signup = () => {
       {(formik) => (
         <div id="logreg-forms">
           <Form className="form-signin">
-            <h1 className="h3 mb-3 pt-10 font-weight-bold text-center">
+            <h1 className="h3 mb-3 pt-10 font-weight-500 text-center">
               {" "}
               Sign up
             </h1>
