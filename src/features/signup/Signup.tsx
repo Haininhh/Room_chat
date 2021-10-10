@@ -2,7 +2,11 @@ import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "../../config/FirebaseConfig";
+import {
+  auth,
+  onLoginFacebook,
+  onLoginGoogle,
+} from "../../config/FirebaseConfig";
 import { TextField, validateSignup } from "./TextFieldSignup";
 
 interface MyFormValues {
@@ -52,6 +56,7 @@ const Signup = () => {
                 className="btn facebook-btn social-btn"
                 type="button"
                 id="facebooklogin"
+                onClick={onLoginFacebook}
               >
                 <span>
                   <i className="fab fa-facebook-f"></i> Sign in with Facebook
@@ -61,6 +66,7 @@ const Signup = () => {
                 className="btn google-btn social-btn"
                 type="button"
                 id="googleLogin"
+                onClick={onLoginGoogle}
               >
                 <span>
                   <i className="fab fa-google-plus-g"></i> Sign in with Google+

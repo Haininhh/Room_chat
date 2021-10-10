@@ -6,6 +6,8 @@
 
 .content-app {
   font-family: "Inter", sans-serif;
+  font-size: 14px !important;
+  height: 100vh;
 }
 #logreg-forms {
   width: 412px;
@@ -49,8 +51,9 @@
 #logreg-forms .social-btn {
   font-weight: 100;
   color: white;
-  width: 187px;
   font-size: 0.9rem;
+  padding-left: 11px;
+  padding-right: 11px;
 }
 
 #logreg-forms button[type="submit"] {
@@ -147,6 +150,9 @@
 .color-red {
   color: #dc3545;
 }
+.color-grey {
+  color: #ccc !important;
+}
 .p-10 {
   padding: 0 10px !important;
 }
@@ -165,9 +171,21 @@
 .mb-10 {
   margin-bottom: 10px !important;
 }
+.mb-12 {
+  margin-bottom: 12px !important;
+}
 .justify-between {
   justify-content: space-between !important;
 }
 .justify-center {
   justify-content: center !important;
+}
+.align-center {
+  align-items: center;
+}
+.m-l-r-8 {
+  margin: 0 8px;
+}
+.d-inline-block {
+  display: inline-block;
 }
