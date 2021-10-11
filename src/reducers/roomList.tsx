@@ -1,13 +1,4 @@
-// const initialState = {
-//     list: [],
-//     activeId: null
-// }
-
-interface State {
-  state: [];
-  action: [] | null;
-}
-const roomListReducer = ({ state, action }: State) => {
+const roomListReducer = (state, action) => {
   switch (action.type) {
     case "ADD_ROOMLIST": {
       return state;

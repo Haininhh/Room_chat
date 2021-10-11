@@ -3,8 +3,33 @@ import loupe from "../../assets/png/loupe.png";
 import more from "../../assets/png/more.png";
 import add from "../../assets/png/add.png";
 import downArrow from "../../assets/png/down-arrow.png";
+import { useDispatch, useSelector } from "react-redux";
 
-const ListRoomChat = () => {
+interface Props {
+  roomList: [];
+  activeId: number;
+}
+
+const ListRoomChat = ({ roomList, activeId }: Props) => {
+  const roomList = useSelector((state) => state.room.list);
+  const activeId = useSelector((state) => state.room.activeId);
+
+  const dispatch = useDispatch();
+
+  const handleAddRoomClick = () => {
+    const newRoom = {
+      id: id,
+      title: `Room ${id}`,
+    };
+    const action = addNewRoom(newRoom);
+    dispatch(action);
+  };
+
+  const handleRoomClick = (room) => {
+    const action = setActiveRoom(room);
+    dispatch(action);
+  };
+
   return (
     <>
       <div className="list__top">
@@ -49,6 +74,15 @@ const ListRoomChat = () => {
           <ul className="list__bottom-roomlist__item">
             <li className="roomlist__item-name">#Hà Nội</li>
             <li className="roomlist__item-name">#Hải Phòng</li>
+            {roomList.map((room) => (
+              <li
+                key={room.id}
+                className="roomlist__item-name"
+                onClick={() => handleAddRoomClick(room)}
+              >
+                {room.title}
+              </li>
+            ))}
             <button className="roomlist__item-add d-flex align-center">
               <span className="roomlist__item-add-btn">
                 <img src={add} alt="add" />
