@@ -1,11 +1,11 @@
-import { signInWithEmailAndPassword } from "@firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   auth,
-  onLoginFacebook,
-  onLoginGoogle,
+  facebookProvider,
+  googleProvider,
 } from "../../config/FirebaseConfig";
 import { TextField, validateLogin } from "../signup/TextFieldSignup";
 
@@ -20,6 +20,28 @@ const Login = () => {
     email: "",
     password: "",
   };
+  const onLoginFacebook = async () => {
+    await signInWithPopup(auth, facebookProvider)
+      .then((userCredential) => {
+        history.push("/room-chat");
+      })
+      .catch((error) => {
+        if (error) {
+          alert("login unsuccessful!");
+        }
+      });
+  };
+  const onLoginGoogle = async () => {
+    await signInWithPopup(auth, googleProvider)
+      .then((userCredential) => {
+        history.push("/room-chat");
+      })
+      .catch((error) => {
+        if (error) {
+          alert("login unsuccessful!");
+        }
+      });
+  };
 
   return (
     <Formik
@@ -30,7 +52,7 @@ const Login = () => {
         if (email && password) {
           signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-              history.push("/dashboard");
+              history.push("/room-chat");
             })
             .catch((error) => {
               if (error) {

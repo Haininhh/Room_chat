@@ -1,6 +1,8 @@
 import React from "react";
 import loupe from "../../assets/png/loupe.png";
 import more from "../../assets/png/more.png";
+import add from "../../assets/png/add.png";
+import downArrow from "../../assets/png/down-arrow.png";
 
 const ListRoomChat = () => {
   return (
@@ -36,19 +38,24 @@ const ListRoomChat = () => {
           </div>
         </div>
       </div>
-      <div className="list__bot">
+      <div className="list__bottom">
         <div className="list__bottom-container">
-          <div className="dropdown">
-            <button
-              className="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Danh sách các phòng
+          <h5 className="list__bottom-roomlist">
+            Danh sách các phòng{" "}
+            <span>
+              <img src={downArrow} alt="downArrow" />
+            </span>
+          </h5>
+          <ul className="list__bottom-roomlist__item">
+            <li className="roomlist__item-name">#Hà Nội</li>
+            <li className="roomlist__item-name">#Hải Phòng</li>
+            <button className="roomlist__item-add d-flex align-center">
+              <span className="roomlist__item-add-btn">
+                <img src={add} alt="add" />
+              </span>
+              <span>Thêm phòng</span>
             </button>
-          </div>
+          </ul>
         </div>
       </div>
     </>

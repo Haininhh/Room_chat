@@ -111,10 +111,26 @@
 .header__roomchat {
   border-bottom: 2px solid #333;
 }
-.list__bot {
+.list__bottom {
   margin-top: 15px;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
 .room__info {
   height: 100vh;
   border-left: 2px solid #333;
+}
+span.roomlist__item-add-btn {
+  margin-right: 5px;
+  margin-top: -2px;
+}
+.roomlist__item-name {
+  color: #1890ff;
+  margin-bottom: 8px;
+  list-style: none;
+}
+.roomlist__item-add {
+  background-color: #17191a;
+  border: none;
+  color: #fff;
 }
