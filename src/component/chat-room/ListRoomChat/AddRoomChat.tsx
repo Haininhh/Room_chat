@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { addNewRoomList } from "../../../actions/roomList";
 
-export interface NewRoom {
+interface NewRoom {
   name: string;
   description: string;
 }

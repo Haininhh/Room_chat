@@ -24,10 +24,14 @@ const facebookProvider = new FacebookAuthProvider();
 const googleProvider = new GoogleAuthProvider();
 
 const onLoginFacebook = async () => {
-  await signInWithPopup(auth, facebookProvider);
+  await signInWithPopup(auth, facebookProvider).catch((err) => {
+    alert("Login unsuccess!");
+  });
 };
 const onLoginGoogle = async () => {
-  await signInWithPopup(auth, googleProvider);
+  await signInWithPopup(auth, googleProvider).catch((err) => {
+    alert("Login unsuccess!");
+  });
 };
 
 export { auth, onLoginFacebook, onLoginGoogle };

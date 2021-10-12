@@ -1,7 +1,9 @@
-import { signInWithEmailAndPassword } from "@firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "@firebase/auth";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { authLogin } from "../../actions/user";
 import {
   auth,
   onLoginFacebook,
@@ -13,13 +15,40 @@ interface MyFormValues {
   email: string;
   password: string;
 }
+interface User {
+  name: string | null;
+  avatar: string | null;
+  id: string | null;
+  email: string | null;
+}
+
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const history = useHistory();
+  const dispatch = useDispatch();
   const initialValues: MyFormValues = {
     email: "",
     password: "",
   };
+
+  useEffect(() => {
+    const unsubscribed = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { displayName, photoURL, uid, email } = user;
+        const currentUser: User = {
+          name: displayName,
+          avatar: photoURL,
+          id: uid,
+          email: email,
+        };
+        console.log(currentUser);
+        const action = authLogin(currentUser);
+        dispatch(action);
+        history.push("/room-chat");
+      }
+    });
+    return () => unsubscribed();
+  }, [history, dispatch]);
 
   return (
     <Formik
@@ -29,7 +58,7 @@ const Login = () => {
         const { email, password } = values;
         if (email && password) {
           signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(() => {
               history.push("/room-chat");
             })
             .catch((error) => {

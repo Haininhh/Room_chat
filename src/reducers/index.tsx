@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import roomListReducer from "./roomList";
-// import userReducer from "./user";
+import userReducer from "./user";
 
 const rootReducer = combineReducers({
   roomlist: roomListReducer,
-  // user: userReducer,
+  user: userReducer,
 });
 
 export default rootReducer;

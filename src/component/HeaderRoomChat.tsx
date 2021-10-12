@@ -1,16 +1,23 @@
+import { signOut } from "firebase/auth";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import bell from "../assets/png/bell.png";
 import facetime from "../assets/png/facetime-button.png";
+import loupe from "../assets/png/loupe.png";
 import more from "../assets/png/more.png";
 import phone from "../assets/png/phone-call.png";
-import loupe from "../assets/png/loupe.png";
+import { auth } from "../config/FirebaseConfig";
 
 const HeaderRoomChat = () => {
+  const history = useHistory();
   return (
     <div className="header__roomchat">
       <div className="header__roomchat-container">
         <div className="header__roomchat-user d-flex justify-between align-center">
           <h4 className="header__roomchat-name mb-0">Hải Ninh</h4>
+          <button onClick={() => signOut(auth).then(() => history.push("/"))}>
+            Đăng xuất
+          </button>
           <div className="header__roomchat-feature d-flex">
             <button className="color-grey header__roomchat-btn-user">
               <i className="fas fa-user-plus color-grey"></i>Thêm người
