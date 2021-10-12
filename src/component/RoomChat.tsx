@@ -1,9 +1,9 @@
 import React from "react";
 import "./RoomChat.css";
-import ContentRoomChat from "./chat-room/ContentRoomChat";
-import InfoRoomChat from "./chat-room/InfoRoomChat";
-import ListRoomChat from "./chat-room/ListRoomChat";
+import ContentRoomChat from "./chat-room/ContentRoomChat/ContentRoomChat";
+import InfoRoomChat from "./chat-room/InfoRoomChat/InfoRoomChat";
 import HeaderRoomChat from "./HeaderRoomChat";
+import ListRoomChat from "./chat-room/ListRoomChat/ListRoomChat";
 
 const RoomChat = () => {
   return (
@@ -14,7 +14,7 @@ const RoomChat = () => {
         </div>
         <div className="col-9 p-0">
           <HeaderRoomChat />
-          <div className="header__roomchat-container d-flex align-center">
+          <div className="header__roomchat-container d-flex">
             <div className="w-70">
               <ContentRoomChat />
             </div>

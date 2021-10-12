@@ -1,13 +1,12 @@
-// export const addNewRoomList = (roomlist) => {
-//   return {
-//     type: "ADD_ROOMLIST",
-//     payload: roomlist,
-//   };
-// };
-// export const setActiveRoomList = (roomlist) => {
+export const addNewRoomList = (room: { name: string; description: string }) => {
+  return {
+    type: "ADD_ROOM",
+    payload: room,
+  };
+};
+// export const setActiveRoomList = (room: string) => {
 //   return {
 //     type: "SET_ACTIVE_ROOMLIST",
-//     payload: roomlist,
+//     payload: room,
 //   };
 // };
-export {};
