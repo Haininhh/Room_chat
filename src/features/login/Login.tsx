@@ -1,25 +1,20 @@
 import { onAuthStateChanged, signInWithEmailAndPassword } from "@firebase/auth";
+import { AsyncThunkAction, unwrapResult } from "@reduxjs/toolkit";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { authLogin } from "../../actions/user";
 import {
   auth,
   onLoginFacebook,
   onLoginGoogle,
 } from "../../config/FirebaseConfig";
+import { getMe } from "../../store/userSlice";
 import { TextField, validateLogin } from "../signup/TextFieldSignup";
 
 interface MyFormValues {
   email: string;
   password: string;
-}
-interface User {
-  name: string | null;
-  avatar: string | null;
-  id: string | null;
-  email: string | null;
 }
 
 const Login = () => {
@@ -32,20 +27,17 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const unsubscribed = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { displayName, photoURL, uid, email } = user;
-        const currentUser: User = {
-          name: displayName,
-          avatar: photoURL,
-          id: uid,
-          email: email,
-        };
-        console.log(currentUser);
-        const action = authLogin(currentUser);
-        dispatch(action);
-        history.push("/room-chat");
+    const unsubscribed = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        history.push("/");
+        return;
       }
+      const action = getMe();
+      const actionResult = await dispatch(action);
+      const currentUser = actionResult;
+      console.log(currentUser);
+
+      history.push("/room-chat");
     });
     return () => unsubscribed();
   }, [history, dispatch]);

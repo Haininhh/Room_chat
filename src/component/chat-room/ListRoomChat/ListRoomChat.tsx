@@ -7,16 +7,7 @@ import downArrow from "../../../assets/png/down-arrow.png";
 import { Button } from "react-bootstrap";
 import AddRoomChat from "./AddRoomChat";
 
-// import { useDispatch, useSelector } from "react-redux";
-// import { addNewRoomList } from "../../../actions/roomList";
-
-// interface Props {
-//   roomList: [];
-// }
-
-const ListRoomChat = (/* { roomList }: Props */) => {
-  // const roomList = useSelector((state) => state.room.list);
-  // const activeId = useSelector((state) => state.room.activeId);
+const ListRoomChat = () => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
 
   return (

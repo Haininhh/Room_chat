@@ -31,12 +31,9 @@ const Signup = () => {
       initialValues={initialValues}
       validationSchema={validateSignup}
       onSubmit={(values) => {
-        console.log(values);
         const { email, password } = values;
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
             history.push("/signup-success");
           })
           .catch((error) => {

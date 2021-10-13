@@ -1,6 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { addNewRoomList } from "../../../actions/roomList";
+// import { useDispatch } from "react-redux";
 import { Modal, Button, Form } from "react-bootstrap";
 
 // interface NewRoom {
@@ -16,7 +15,7 @@ interface Props {
 const AddRoomChat = (
   /* { name, description }: NewRoom */ { ...props }: Props
 ) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // const handleOk = () => {
   //   const newRoom = {
@@ -31,12 +30,7 @@ const AddRoomChat = (
   //   //reset form value
   // };
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">Tạo phòng</Modal.Title>
       </Modal.Header>

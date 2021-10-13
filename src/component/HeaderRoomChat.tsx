@@ -1,5 +1,6 @@
 import { signOut } from "firebase/auth";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import bell from "../assets/png/bell.png";
 import facetime from "../assets/png/facetime-button.png";
@@ -10,6 +11,8 @@ import { auth } from "../config/FirebaseConfig";
 
 const HeaderRoomChat = () => {
   const history = useHistory();
+  const user = useSelector((state) => state);
+  console.log(user);
   return (
     <div className="header__roomchat">
       <div className="header__roomchat-container">

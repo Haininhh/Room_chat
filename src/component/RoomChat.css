@@ -88,6 +88,9 @@
 .pd-10-15 {
   padding: 13px 15px 12px;
 }
+.height-100vh {
+  height: 100vh;
+}
 .header__roomchat-feature > button {
   background-color: #333;
   border-radius: 6px;
@@ -111,6 +114,7 @@
 .header__roomchat-container {
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);
+  height: calc(100% - 118px);
 }
 .header__roomchat {
   border-bottom: 2px solid #333;
@@ -121,7 +125,7 @@
   padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
 .room__info {
-  min-height: calc(88vh - 2px);
+  height: 100%;
   border-left: 2px solid #333;
 }
 span.roomlist__item-add-btn {
@@ -140,7 +144,7 @@ span.roomlist__item-add-btn {
 }
 .send-message {
   border-radius: 0.25rem;
-  width: 7%;
+  width: 9%;
   background-color: #096dd9;
   border: 1px solid #096dd9;
   color: #fff;
