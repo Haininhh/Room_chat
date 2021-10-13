@@ -1,82 +1,67 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addNewRoomList } from "../../../actions/roomList";
+import { Modal, Button, Form } from "react-bootstrap";
 
-interface NewRoom {
-  name: string;
-  description: string;
+// interface NewRoom {
+//   name: string;
+//   description: string;
+// }
+
+interface Props {
+  onHide: () => void;
+  show: Boolean;
 }
 
-const AddRoomChat = ({ name, description }: NewRoom) => {
+const AddRoomChat = (
+  /* { name, description }: NewRoom */ { ...props }: Props
+) => {
   const dispatch = useDispatch();
 
-  const handleOk = () => {
-    const newRoom = {
-      name: name,
-      description: description,
-    };
-    const action = addNewRoomList(newRoom);
-    dispatch(action);
-  };
+  // const handleOk = () => {
+  //   const newRoom = {
+  //     name: name,
+  //     description: description,
+  //   };
+  //   const action = addNewRoomList(newRoom);
+  //   dispatch(action);
+  // };
 
-  const handleCancel = () => {
-    //reset form value
-  };
+  // const handleCancel = () => {
+  //   //reset form value
+  // };
   return (
-    <div>
-      <div className="modal" /* tabindex="-1" */>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Tạo phòng</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="mb-3">
-                <label className="form-label">Tên phòng</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder="Nhập tên phòng"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Mô tả</label>
-                <textarea
-                  name="description"
-                  className="form-control"
-                  id="exampleFormControlTextarea1" /* rows="3" */
-                  placeholder="Nhập mô tả"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleOk}
-            >
-              Ok
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">Tạo phòng</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Tên phòng</Form.Label>
+            <Form.Control type="name" placeholder="Nhập tên phòng" />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label>Mô tả</Form.Label>
+            <Form.Control
+              as="textarea"
+              name="description"
+              placeholder="Nhập mô tả"
+              rows={3}
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary">Ok</Button>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

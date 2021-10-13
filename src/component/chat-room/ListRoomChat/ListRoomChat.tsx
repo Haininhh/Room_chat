@@ -1,8 +1,12 @@
 import React from "react";
 import loupe from "../../../assets/png/loupe.png";
+import edit from "../../../assets/png/edit.png";
 import more from "../../../assets/png/more.png";
 import add from "../../../assets/png/add.png";
 import downArrow from "../../../assets/png/down-arrow.png";
+import { Button } from "react-bootstrap";
+import AddRoomChat from "./AddRoomChat";
+
 // import { useDispatch, useSelector } from "react-redux";
 // import { addNewRoomList } from "../../../actions/roomList";
 
@@ -13,6 +17,7 @@ import downArrow from "../../../assets/png/down-arrow.png";
 const ListRoomChat = (/* { roomList }: Props */) => {
   // const roomList = useSelector((state) => state.room.list);
   // const activeId = useSelector((state) => state.room.activeId);
+  const [modalShow, setModalShow] = React.useState<Boolean>(false);
 
   return (
     <>
@@ -22,7 +27,7 @@ const ListRoomChat = (/* { roomList }: Props */) => {
             <h3 className="font-weight-bold mb-0">Chat</h3>
             <button className="list__top-title__btn w-h-36px">
               <span>
-                <i className="far fa-edit"></i>
+                <img className="list__top-edit" src={edit} alt="edit" />
               </span>
             </button>
           </div>
@@ -61,15 +66,19 @@ const ListRoomChat = (/* { roomList }: Props */) => {
             {/* {roomList.map((room) => (
               <li className="roomlist__item-name">{room.name}</li>
             ))} */}
-            <button
-              className="roomlist__item-add d-flex align-center"
-              // onClick={() => handleAddRoomClick(room)}
+
+            <Button
+              className="btn btn-primary roomlist__item-add d-flex align-center"
+              variant="primary"
+              onClick={() => setModalShow(true)}
             >
               <span className="roomlist__item-add-btn">
                 <img src={add} alt="add" />
               </span>
               <span>Thêm phòng</span>
-            </button>
+            </Button>
+
+            <AddRoomChat show={modalShow} onHide={() => setModalShow(false)} />
           </ul>
         </div>
       </div>
