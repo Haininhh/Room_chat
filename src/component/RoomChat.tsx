@@ -1,5 +1,5 @@
 import React from "react";
-import "./RoomChat.css";
+import "./chatRoom.css";
 import ContentRoomChat from "./chat-room/ContentRoomChat/ContentRoomChat";
 import InfoRoomChat from "./chat-room/InfoRoomChat/InfoRoomChat";
 import HeaderRoomChat from "./HeaderRoomChat";
@@ -14,7 +14,7 @@ const RoomChat = () => {
         </div>
         <div className="col-9 p-0 height-100vh">
           <HeaderRoomChat />
-          <div className="header__roomchat-container d-flex ">
+          <div className="content__roomchat-container d-flex ">
             <div className="w-70">
               <ContentRoomChat />
             </div>

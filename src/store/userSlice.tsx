@@ -9,7 +9,6 @@ interface UserState {
     photoURL: string;
   };
   loading: boolean;
-  error: string;
 }
 const initialState = {
   current: {
@@ -19,7 +18,6 @@ const initialState = {
     photoURL: "",
   },
   loading: false,
-  error: "",
 } as UserState;
 
 export const getMe = createAsyncThunk("/", async () => {
@@ -30,11 +28,16 @@ export const getMe = createAsyncThunk("/", async () => {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getMe.fulfilled, (state, action) => {
+    builder.addCase(getMe.fulfilled, (state, action: any) => {
       state.loading = false;
-      state.current = action.payload;
+      state = action.payload;
+      return action.payload;
     });
   },
 });

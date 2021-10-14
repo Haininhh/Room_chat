@@ -17,7 +17,7 @@
 }
 .list__top-title,
 .header__roomchat-user {
-  padding: 16px 0 10px;
+  padding: 16px 10px 10px;
 }
 .list__top-title__btn {
   background-color: #3e4043;
@@ -56,6 +56,7 @@
   position: relative;
   border: none;
   padding-bottom: 10px;
+  padding-right: 10px;
 }
 .list__top-search span {
   position: absolute;
@@ -111,13 +112,14 @@
 .w-30 {
   width: 30%;
 }
-.header__roomchat-container {
+.content__roomchat-container {
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);
-  height: calc(100% - 118px);
+  height: calc(100% - 129px);
 }
 .header__roomchat {
   border-bottom: 2px solid #333;
+  max-height: 129px;
 }
 .list__bottom {
   margin-top: 15px;
@@ -159,4 +161,35 @@ span.roomlist__item-add-btn {
   flex-direction: column;
   padding: 0px;
   justify-content: flex-end;
+}
+.content__roomchat-message {
+  overflow-y: auto;
+}
+.header__roomchat-user-info span {
+  margin-right: 8px;
+}
+.header__roomchat-user-info span img {
+  width: 52px;
+  border-radius: 50%;
+}
+.room__info {
+  padding-top: 10px;
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+}
+.message {
+  padding: 10px 0;
+}
+.message__user {
+  padding: 0;
+}
+.message__avatar span img {
+  width: 28px;
+  border-radius: 50%;
+}
+.message__avatar {
+  margin-right: 8px;
+}
+.message__content {
+  margin-left: 36px;
+  margin-top: -4px;
 }

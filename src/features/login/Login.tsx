@@ -1,5 +1,4 @@
 import { onAuthStateChanged, signInWithEmailAndPassword } from "@firebase/auth";
-import { AsyncThunkAction, unwrapResult } from "@reduxjs/toolkit";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -32,12 +31,14 @@ const Login = () => {
         history.push("/");
         return;
       }
-      const action = getMe();
-      const actionResult = await dispatch(action);
-      const currentUser = actionResult;
-      console.log(currentUser);
-
-      history.push("/room-chat");
+      try {
+        const actionResult = await dispatch(getMe());
+        const currentUser = actionResult;
+        console.log("Logged in user: ", currentUser);
+        history.push("/room-chat");
+      } catch (err) {
+        console.log("Failed to login ", err);
+      }
     });
     return () => unsubscribed();
   }, [history, dispatch]);
@@ -55,7 +56,7 @@ const Login = () => {
             })
             .catch((error) => {
               if (error) {
-                setErrorMessage("Username or password already existed!");
+                setErrorMessage("Username or password incorrect!");
               }
             });
         }

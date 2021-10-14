@@ -1,5 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
+import MessageChat from "./MessageChat";
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
 const ContentRoomChat = () => {
@@ -14,7 +15,22 @@ const ContentRoomChat = () => {
 
   return (
     <div className="content__roomchat">
-      <p>{message}</p>
+      <div className="content__roomchat-message">
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+        <MessageChat />
+      </div>
       <InputGroup className="mb-3">
         <FormControl
           placeholder="Nhập tin nhắn..."
