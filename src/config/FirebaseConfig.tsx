@@ -6,7 +6,6 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import "firebase/database";
-import { signInWithPopup } from "@firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD00GL6Rsapr9MwdGk1i-KsOhxkrRRGUOw",
@@ -23,15 +22,4 @@ const auth = getAuth();
 const facebookProvider = new FacebookAuthProvider();
 const googleProvider = new GoogleAuthProvider();
 
-const onLoginFacebook = async () => {
-  await signInWithPopup(auth, facebookProvider).catch((err) => {
-    alert("Login unsuccess!");
-  });
-};
-const onLoginGoogle = async () => {
-  await signInWithPopup(auth, googleProvider).catch((err) => {
-    alert("Login unsuccess!");
-  });
-};
-
-export { auth, onLoginFacebook, onLoginGoogle };
+export { auth, facebookProvider, googleProvider };

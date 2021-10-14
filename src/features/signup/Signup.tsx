@@ -1,11 +1,14 @@
-import { createUserWithEmailAndPassword } from "@firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "@firebase/auth";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   auth,
-  onLoginFacebook,
-  onLoginGoogle,
+  facebookProvider,
+  googleProvider,
 } from "../../config/FirebaseConfig";
 import { TextField, validateSignup } from "./TextFieldSignup";
 
@@ -24,6 +27,24 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+  };
+  const onLoginFacebook = async () => {
+    await signInWithPopup(auth, facebookProvider)
+      .then((userCredential) => {
+        history.push("/room-chat");
+      })
+      .catch((err) => {
+        alert("Login unsuccess!");
+      });
+  };
+  const onLoginGoogle = async () => {
+    await signInWithPopup(auth, googleProvider)
+      .then((userCredential) => {
+        history.push("/room-chat");
+      })
+      .catch((err) => {
+        alert("Login unsuccess!");
+      });
   };
 
   return (

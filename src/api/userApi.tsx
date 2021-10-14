@@ -1,22 +1,16 @@
-import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "../config/FirebaseConfig";
 
 const userApi = {
   getMe: () => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            resolve({
-              // The user object has basic properties such as display name, email, etc.
-              displayName: user.displayName,
-              email: user.email,
-              photoURL: user.photoURL,
-              id: user.uid,
-            });
-          }
-        });
-      }, 500);
+      const currentUser = auth.currentUser;
+      if (!currentUser) return;
+      resolve({
+        id: currentUser.uid,
+        name: currentUser.displayName,
+        email: currentUser.email,
+        photoUrl: currentUser.photoURL,
+      });
     });
   },
 };

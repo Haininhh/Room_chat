@@ -1,26 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "../api/userApi";
+import { RootState } from "./store";
 
-interface UserState {
-  current: {
-    displayName: string;
-    email: string;
-    id: string;
-    photoURL: string;
-  };
-  loading: boolean;
+export interface User {
+  displayName: string;
+  email: string;
+  uid: string;
+  photoURL: string;
 }
-const initialState = {
-  current: {
-    displayName: "",
-    email: "",
-    id: "",
-    photoURL: "",
-  },
-  loading: false,
-} as UserState;
+export interface UserState {
+  current?: User;
+}
+const initialState: UserState = {
+  current: undefined,
+};
 
-export const getMe = createAsyncThunk("/", async () => {
+export const getMe = createAsyncThunk("/user/getMe", async () => {
   const currentUser = await userApi.getMe();
   return currentUser;
 });
@@ -28,20 +23,15 @@ export const getMe = createAsyncThunk("/", async () => {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    setUser: (state, action) => {
-      state = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getMe.fulfilled, (state, action: any) => {
-      state.loading = false;
-      state = action.payload;
-      return action.payload;
+    builder.addCase(getMe.fulfilled, (state: UserState, action: any) => {
+      state.current = action.payload;
+      return state;
     });
   },
 });
 
-const { reducer: userReducer } = userSlice;
+export const selectUser = (state: RootState) => state.user.current;
 
-export default userReducer;
+export default userSlice.reducer;

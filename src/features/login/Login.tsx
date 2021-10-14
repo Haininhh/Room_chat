@@ -1,14 +1,12 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "@firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { default as React, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   auth,
-  onLoginFacebook,
-  onLoginGoogle,
+  facebookProvider,
+  googleProvider,
 } from "../../config/FirebaseConfig";
-import { getMe } from "../../store/userSlice";
 import { TextField, validateLogin } from "../signup/TextFieldSignup";
 
 interface MyFormValues {
@@ -17,31 +15,31 @@ interface MyFormValues {
 }
 
 const Login = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const initialValues: MyFormValues = {
     email: "",
     password: "",
   };
 
-  useEffect(() => {
-    const unsubscribed = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        history.push("/");
-        return;
-      }
-      try {
-        const actionResult = await dispatch(getMe());
-        const currentUser = actionResult;
-        console.log("Logged in user: ", currentUser);
+  const onLoginFacebook = async () => {
+    await signInWithPopup(auth, facebookProvider)
+      .then((userCredential) => {
         history.push("/room-chat");
-      } catch (err) {
-        console.log("Failed to login ", err);
-      }
-    });
-    return () => unsubscribed();
-  }, [history, dispatch]);
+      })
+      .catch((err) => {
+        alert("Login unsuccess!");
+      });
+  };
+  const onLoginGoogle = async () => {
+    await signInWithPopup(auth, googleProvider)
+      .then((userCredential) => {
+        history.push("/room-chat");
+      })
+      .catch((err) => {
+        alert("Login unsuccess!");
+      });
+  };
 
   return (
     <Formik
@@ -51,7 +49,7 @@ const Login = () => {
         const { email, password } = values;
         if (email && password) {
           signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
+            .then((userCredential) => {
               history.push("/room-chat");
             })
             .catch((error) => {

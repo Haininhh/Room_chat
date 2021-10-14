@@ -1,6 +1,4 @@
 import { signOut } from "firebase/auth";
-import React from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import bell from "../assets/png/bell.png";
 import facetime from "../assets/png/facetime-button.png";
@@ -8,11 +6,14 @@ import loupe from "../assets/png/loupe.png";
 import more from "../assets/png/more.png";
 import phone from "../assets/png/phone-call.png";
 import { auth } from "../config/FirebaseConfig";
-import { RootState } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const HeaderRoomChat = () => {
   const history = useHistory();
-  const user = useSelector((state: RootState) => state.user);
+
+  const user = useAppSelector((state) => state.user);
+  console.log(user);
+
   return (
     <div className="header__roomchat">
       <div className="header__roomchat-container">
@@ -20,7 +21,7 @@ const HeaderRoomChat = () => {
           <div className="header__roomchat-user-info d-flex align-center">
             <span>{/* <img src={user.photoURL} alt="photoURL" /> */}</span>
             <div>
-              {/* <h5 className="header__roomchat-name mb-0">{user.displayName}</h5> */}
+              {/* <h5 className="header__roomchat-name mb-0">{displayName}</h5> */}
               <h6 className="mb-0">Teneocto Inc.</h6>
             </div>
           </div>

@@ -4,7 +4,6 @@ import { RootState } from "../../../store/store";
 
 const MessageChat = () => {
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
   return (
     <div className="message">
       <div className="message__user d-flex">
