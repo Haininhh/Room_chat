@@ -1,15 +1,16 @@
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import {
   FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
 } from "firebase/auth";
-import "firebase/database";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD00GL6Rsapr9MwdGk1i-KsOhxkrRRGUOw",
   authDomain: "authorization-da952.firebaseapp.com",
+  databaseURL:
+    "https://authorization-da952-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "authorization-da952",
   storageBucket: "authorization-da952.appspot.com",
   messagingSenderId: "369086310243",
@@ -17,9 +18,9 @@ const firebaseConfig = {
   measurementId: "G-RTESMWBW49",
 };
 const app = initializeApp(firebaseConfig);
-getAnalytics(app);
 const auth = getAuth();
 const facebookProvider = new FacebookAuthProvider();
 const googleProvider = new GoogleAuthProvider();
+const db = getDatabase(app);
 
-export { auth, facebookProvider, googleProvider };
+export { auth, db, facebookProvider, googleProvider };

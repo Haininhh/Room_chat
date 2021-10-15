@@ -193,3 +193,6 @@ span.roomlist__item-add-btn {
   margin-left: 36px;
   margin-top: -4px;
 }
+span.ant-avatar.ant-avatar-lg.ant-avatar-circle.ant-avatar-image.avatar__group-a {
+  margin: 0px -15px 0px 0px;
+}

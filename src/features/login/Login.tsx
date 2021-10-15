@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
 import { Form, Formik } from "formik";
 import { default as React, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   auth,
   facebookProvider,
@@ -15,7 +15,6 @@ interface MyFormValues {
 }
 
 const Login = () => {
-  const history = useHistory();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const initialValues: MyFormValues = {
     email: "",
@@ -23,22 +22,14 @@ const Login = () => {
   };
 
   const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider)
-      .then((userCredential) => {
-        history.push("/room-chat");
-      })
-      .catch((err) => {
-        alert("Login unsuccess!");
-      });
+    await signInWithPopup(auth, facebookProvider).catch(() => {
+      alert("Login unsuccess!");
+    });
   };
   const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider)
-      .then((userCredential) => {
-        history.push("/room-chat");
-      })
-      .catch((err) => {
-        alert("Login unsuccess!");
-      });
+    await signInWithPopup(auth, googleProvider).catch(() => {
+      alert("Login unsuccess!");
+    });
   };
 
   return (
@@ -48,15 +39,11 @@ const Login = () => {
       onSubmit={(values) => {
         const { email, password } = values;
         if (email && password) {
-          signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              history.push("/room-chat");
-            })
-            .catch((error) => {
-              if (error) {
-                setErrorMessage("Username or password incorrect!");
-              }
-            });
+          signInWithEmailAndPassword(auth, email, password).catch((error) => {
+            if (error) {
+              setErrorMessage("Username or password incorrect!");
+            }
+          });
         }
       }}
     >

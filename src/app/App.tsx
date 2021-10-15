@@ -2,13 +2,10 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "../config/FirebaseConfig";
 import routes from "../routes/Route";
-import { useAppDispatch } from "../store/hooks";
-import { getMe } from "../store/userSlice";
 import "./App.css";
 
 const App = () => {
   const history = useHistory();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
@@ -17,15 +14,20 @@ const App = () => {
         return;
       }
       try {
-        await dispatch(getMe());
+        const { displayName, email, uid, photoURL } = user;
+        if (displayName && email && uid && photoURL) {
+          localStorage.setItem("name", displayName);
+          localStorage.setItem("email", email);
+          localStorage.setItem("photoURL", photoURL);
+          localStorage.setItem("uid", uid);
+        }
         history.push("/room-chat");
       } catch (error) {
         console.log("Failed to login ", error);
-        // show toast error
       }
     });
     return () => unregisterAuthObserver();
-  }, [history, dispatch]);
+  }, [history]);
 
   return <div className="content-app">{routes}</div>;
 };

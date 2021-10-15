@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import userApi from "../api/userApi";
+import { auth } from "../config/FirebaseConfig";
 import { RootState } from "./store";
 
 export interface User {
@@ -16,8 +16,14 @@ const initialState: UserState = {
 };
 
 export const getMe = createAsyncThunk("/user/getMe", async () => {
-  const currentUser = await userApi.getMe();
-  return currentUser;
+  const currentUser = await auth.currentUser;
+  if (!currentUser) return;
+  return {
+    uid: currentUser.uid,
+    displayName: currentUser.displayName,
+    email: currentUser.email,
+    photoUrl: currentUser.photoURL,
+  };
 });
 
 const userSlice = createSlice({

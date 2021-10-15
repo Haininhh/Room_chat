@@ -29,22 +29,14 @@ const Signup = () => {
     confirmPassword: "",
   };
   const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider)
-      .then((userCredential) => {
-        history.push("/room-chat");
-      })
-      .catch((err) => {
-        alert("Login unsuccess!");
-      });
+    await signInWithPopup(auth, facebookProvider).catch((err) => {
+      alert("Login unsuccess!");
+    });
   };
   const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider)
-      .then((userCredential) => {
-        history.push("/room-chat");
-      })
-      .catch((err) => {
-        alert("Login unsuccess!");
-      });
+    await signInWithPopup(auth, googleProvider).catch((err) => {
+      alert("Login unsuccess!");
+    });
   };
 
   return (
@@ -54,10 +46,10 @@ const Signup = () => {
       onSubmit={(values) => {
         const { email, password } = values;
         createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
+          .then(() => {
             history.push("/signup-success");
           })
-          .catch((error) => {
+          .catch(() => {
             setErrorMessage("Email already existed! Please try again.");
           });
       }}
