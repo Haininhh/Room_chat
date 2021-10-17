@@ -1,33 +1,30 @@
+import { onAuthStateChanged } from "@firebase/auth";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "../config/FirebaseConfig";
 import routes from "../routes/Route";
+import { useAppDispatch } from "../store/hooks";
+import { getMe } from "../store/userSlice";
 import "./App.css";
 
 const App = () => {
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        history.push("/");
-        return;
-      }
-      try {
-        const { displayName, email, uid, photoURL } = user;
-        if (displayName && email && uid && photoURL) {
-          localStorage.setItem("name", displayName);
-          localStorage.setItem("email", email);
-          localStorage.setItem("photoURL", photoURL);
-          localStorage.setItem("uid", uid);
-        }
+    const unregisterAuthObserver = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const { email } = user;
+        if (!email) return;
+
+        localStorage.setItem("email", email);
+        await dispatch(getMe());
         history.push("/room-chat");
-      } catch (error) {
-        console.log("Failed to login ", error);
+        return;
       }
     });
     return () => unregisterAuthObserver();
-  }, [history]);
+  }, [history, dispatch]);
 
   return <div className="content-app">{routes}</div>;
 };

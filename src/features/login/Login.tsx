@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
 import { Form, Formik } from "formik";
-import { default as React, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import {
   auth,
   facebookProvider,
@@ -16,6 +16,7 @@ interface MyFormValues {
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const history = useHistory();
   const initialValues: MyFormValues = {
     email: "",
     password: "",
@@ -27,9 +28,7 @@ const Login = () => {
     });
   };
   const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider).catch(() => {
-      alert("Login unsuccess!");
-    });
+    await signInWithPopup(auth, googleProvider);
   };
 
   return (
@@ -40,9 +39,8 @@ const Login = () => {
         const { email, password } = values;
         if (email && password) {
           signInWithEmailAndPassword(auth, email, password).catch((error) => {
-            if (error) {
-              setErrorMessage("Username or password incorrect!");
-            }
+            history.push("/");
+            setErrorMessage("Username or password incorrect!");
           });
         }
       }}

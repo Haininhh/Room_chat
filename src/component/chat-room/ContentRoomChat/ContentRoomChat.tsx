@@ -1,6 +1,8 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
 import MessageChat from "./MessageChat";
+import { useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/userSlice";
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
 export interface Message {
@@ -20,103 +22,105 @@ const ContentRoomChat = () => {
     e.preventDefault();
     console.log(message);
   };
-  const photoURL = localStorage.getItem("photoURL");
+  const user = useAppSelector(selectUser);
+  const avatar = user.photoURL;
+  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
 
   return (
     <div className="content__roomchat">
       <div className="content__roomchat-message">
         <MessageChat
-          photoURL={photoURL}
+          photoURL={avatar}
           displayName="Ninh"
           createdAt="123425234"
           message="hello"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh123"
           createdAt="78978089546"
           message="agadg"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"
         />
         <MessageChat
-          photoURL={photoURL}
+          photoURL={defaultAvatar}
           displayName="Ninh"
           createdAt="587697809"
           message="ghkfghjyt"

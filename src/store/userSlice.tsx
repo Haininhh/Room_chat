@@ -8,11 +8,11 @@ export interface User {
   uid: string;
   photoURL: string;
 }
-export interface UserState {
-  current?: User;
-}
-const initialState: UserState = {
-  current: undefined,
+const initialState: User = {
+  displayName: "",
+  email: "",
+  uid: "",
+  photoURL: "",
 };
 
 export const getMe = createAsyncThunk("/user/getMe", async () => {
@@ -22,7 +22,7 @@ export const getMe = createAsyncThunk("/user/getMe", async () => {
     uid: currentUser.uid,
     displayName: currentUser.displayName,
     email: currentUser.email,
-    photoUrl: currentUser.photoURL,
+    photoURL: currentUser.photoURL,
   };
 });
 
@@ -31,13 +31,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getMe.fulfilled, (state: UserState, action: any) => {
-      state.current = action.payload;
+    builder.addCase(getMe.fulfilled, (state, action: any) => {
+      state = action.payload;
       return state;
     });
   },
 });
 
-export const selectUser = (state: RootState) => state.user.current;
+export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;

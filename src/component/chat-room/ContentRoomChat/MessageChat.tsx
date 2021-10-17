@@ -8,9 +8,6 @@ const MessageChat = ({
   photoURL,
   displayName,
 }: Message) => {
-  // const displayName = localStorage.getItem("name");
-  // const photoURL = localStorage.getItem("photoURL");
-
   return (
     <div className="message">
       <div className="message__user d-flex">

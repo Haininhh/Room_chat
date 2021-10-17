@@ -7,11 +7,14 @@ import loupe from "../assets/png/loupe.png";
 import more from "../assets/png/more.png";
 import phone from "../assets/png/phone-call.png";
 import { auth } from "../config/FirebaseConfig";
+import { useAppSelector } from "../store/hooks";
+import { selectUser } from "../store/userSlice";
 
 const HeaderRoomChat = () => {
   const history = useHistory();
-  const displayName = localStorage.getItem("name");
-  const photoURL = localStorage.getItem("photoURL");
+  const user = useAppSelector(selectUser);
+  const avatar = user.photoURL;
+  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
 
   return (
     <div className="header__roomchat">
@@ -19,27 +22,41 @@ const HeaderRoomChat = () => {
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
             <div className="avatar__group">
-              <Avatar.Group size="large" maxCount={2}>
-                <Tooltip title="A" className="avatar__group-a">
-                  <Avatar src={photoURL}>A</Avatar>
-                </Tooltip>
-                <Tooltip title="A" className="avatar__group-a">
-                  <Avatar src={photoURL}>B</Avatar>
-                </Tooltip>
-                <Tooltip title="A" className="avatar__group-a">
-                  <Avatar src={photoURL}>C</Avatar>
-                </Tooltip>
-              </Avatar.Group>
+              {avatar ? (
+                <Avatar.Group size="large" maxCount={2}>
+                  <Tooltip title="A" className="avatar__group-a">
+                    <Avatar src={avatar}>A</Avatar>
+                  </Tooltip>
+                  <Tooltip title="A" className="avatar__group-a">
+                    <Avatar src={avatar}>B</Avatar>
+                  </Tooltip>
+                  <Tooltip title="A" className="avatar__group-a">
+                    <Avatar src={avatar}>C</Avatar>
+                  </Tooltip>
+                </Avatar.Group>
+              ) : (
+                <Avatar.Group size="large" maxCount={2}>
+                  <Tooltip title="A" className="avatar__group-a">
+                    <Avatar src={defaultAvatar}>A</Avatar>
+                  </Tooltip>
+                  <Tooltip title="A" className="avatar__group-a">
+                    <Avatar src={defaultAvatar}>B</Avatar>
+                  </Tooltip>
+                  <Tooltip title="A" className="avatar__group-a">
+                    <Avatar src={defaultAvatar}>C</Avatar>
+                  </Tooltip>
+                </Avatar.Group>
+              )}
             </div>
             <div>
-              <h5 className="header__roomchat-name mb-0">{displayName}</h5>
+              <h5 className="header__roomchat-name mb-0">{user.displayName}</h5>
               <h6 className="mb-0">Teneocto Inc.</h6>
             </div>
           </div>
           <button
             onClick={() => {
               signOut(auth).then(() => history.push("/"));
-              localStorage.removeItem("name");
+              localStorage.removeItem("email");
             }}
           >
             Đăng xuất
