@@ -1,9 +1,11 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
+import { ref, set } from "@firebase/database";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   auth,
+  database,
   facebookProvider,
   googleProvider,
 } from "../../config/FirebaseConfig";
@@ -23,12 +25,38 @@ const Login = () => {
   };
 
   const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider).catch(() => {
-      alert("Login unsuccess!");
-    });
+    await signInWithPopup(auth, facebookProvider)
+      .then((result) => {
+        const user = result.user;
+        const { displayName, email, uid, photoURL, providerId } = user;
+        set(ref(database, `users`), {
+          username: displayName,
+          email: email,
+          photoURL: photoURL,
+          uid: uid,
+          providerId: providerId,
+        });
+      })
+      .catch(() => {
+        alert("Login unsuccess!");
+      });
   };
   const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    await signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        const { displayName, email, uid, photoURL, providerId } = user;
+        set(ref(database, `users`), {
+          username: displayName,
+          email: email,
+          photoURL: photoURL,
+          uid: uid,
+          providerId: providerId,
+        });
+      })
+      .catch(() => {
+        alert("Login unsuccess!");
+      });
   };
 
   return (
@@ -38,10 +66,22 @@ const Login = () => {
       onSubmit={(values) => {
         const { email, password } = values;
         if (email && password) {
-          signInWithEmailAndPassword(auth, email, password).catch((error) => {
-            history.push("/");
-            setErrorMessage("Username or password incorrect!");
-          });
+          signInWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+              const { user } = result;
+              const { displayName, email, uid, photoURL, providerId } = user;
+              set(ref(database, `users`), {
+                username: displayName,
+                email: email,
+                photoURL: photoURL,
+                uid: uid,
+                providerId: providerId,
+              });
+            })
+            .catch((error) => {
+              history.push("/");
+              setErrorMessage("Username or password incorrect!");
+            });
         }
       }}
     >

@@ -21,6 +21,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const facebookProvider = new FacebookAuthProvider();
 const googleProvider = new GoogleAuthProvider();
-const db = getDatabase(app);
+const database = getDatabase(app);
 
-export { auth, db, facebookProvider, googleProvider };
+export { auth, database, facebookProvider, googleProvider };

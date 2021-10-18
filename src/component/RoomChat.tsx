@@ -10,26 +10,6 @@ import "./chatRoom.css";
 import HeaderRoomChat from "./HeaderRoomChat";
 
 const RoomChat = () => {
-  // const history = useHistory();
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
-  //     if (!user) {
-  //       console.log("User is not logged in");
-  //       return;
-  //     }
-  //     try {
-  //       await dispatch(getMe());
-  //       history.push("/room-chat");
-  //     } catch (error) {
-  //       console.log("Failed to login ", error);
-  //     }
-  //   });
-
-  //   return () => unregisterAuthObserver();
-  // }, [history, dispatch]);
-
   return (
     <div className="container max-width-100">
       <div className="row">

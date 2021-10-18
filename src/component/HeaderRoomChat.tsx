@@ -13,7 +13,8 @@ import { selectUser } from "../store/userSlice";
 const HeaderRoomChat = () => {
   const history = useHistory();
   const user = useAppSelector(selectUser);
-  const avatar = user.photoURL;
+  const { displayName, email, photoURL } = user;
+  const avatar = photoURL;
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
 
   return (
@@ -22,31 +23,19 @@ const HeaderRoomChat = () => {
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
             <div className="avatar__group">
-              {avatar ? (
-                <Avatar.Group size="large" maxCount={2}>
-                  <Tooltip title="A" className="avatar__group-a">
-                    <Avatar src={avatar}>A</Avatar>
-                  </Tooltip>
-                  <Tooltip title="A" className="avatar__group-a">
-                    <Avatar src={avatar}>B</Avatar>
-                  </Tooltip>
-                  <Tooltip title="A" className="avatar__group-a">
-                    <Avatar src={avatar}>C</Avatar>
-                  </Tooltip>
-                </Avatar.Group>
-              ) : (
-                <Avatar.Group size="large" maxCount={2}>
-                  <Tooltip title="A" className="avatar__group-a">
-                    <Avatar src={defaultAvatar}>A</Avatar>
-                  </Tooltip>
-                  <Tooltip title="A" className="avatar__group-a">
-                    <Avatar src={defaultAvatar}>B</Avatar>
-                  </Tooltip>
-                  <Tooltip title="A" className="avatar__group-a">
-                    <Avatar src={defaultAvatar}>C</Avatar>
-                  </Tooltip>
-                </Avatar.Group>
-              )}
+              <Avatar.Group size="large" maxCount={2}>
+                <Tooltip title="A" className="avatar__group-a">
+                  <Avatar src={avatar ? avatar : defaultAvatar}>
+                    {displayName ? displayName : email.charAt(0).toUpperCase()}
+                  </Avatar>
+                  <Avatar src={avatar ? avatar : defaultAvatar}>
+                    {displayName ? displayName : email.charAt(0).toUpperCase()}
+                  </Avatar>
+                  <Avatar src={avatar ? avatar : defaultAvatar}>
+                    {displayName ? displayName : email.charAt(0).toUpperCase()}
+                  </Avatar>
+                </Tooltip>
+              </Avatar.Group>
             </div>
             <div>
               <h5 className="header__roomchat-name mb-0">{user.displayName}</h5>
