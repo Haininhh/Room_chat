@@ -38,7 +38,7 @@ const ContentRoomChat = () => {
           message={message}
         />
       </div>
-      <InputGroup className="mb-3">
+      <InputGroup>
         <FormControl
           placeholder="Nhập tin nhắn..."
           aria-label="Recipient's username"

@@ -1,35 +1,43 @@
-import { collection, query } from "@firebase/firestore";
-import { getDocs, where } from "firebase/firestore";
-import React, { useEffect } from "react";
+import { getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import add from "../../../assets/png/add.png";
 import downArrow from "../../../assets/png/down-arrow.png";
 import edit from "../../../assets/png/edit.png";
 import loupe from "../../../assets/png/loupe.png";
 import more from "../../../assets/png/more.png";
-import { db } from "../../../config/FirebaseConfig";
+import useFirestore from "../../../config/useFirestore";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
 import AddRoomChat from "./AddRoomChat";
 
+// interface Items {
+//   description: string;
+//   members: string[];
+//   name: string;
+// }
+
 const ListRoomChat = () => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
+  const [data, setData] = useState<any[]>([]);
   const user = useAppSelector(selectUser);
   const { uid } = user;
 
-  // const rooms = useFirestore({
-  //   fieldName: "members",
-  //   opStr: "array-contains",
-  //   value: uid,
-  // });
+  const rooms = useFirestore({
+    fieldName: "members",
+    opStr: "array-contains",
+    value: uid,
+  });
 
   const getRooms = async () => {
-    let collectionRef = query(
-      collection(db, "rooms"),
-      where("description", "==", "Hà Nội")
-    );
+    const collectionRef: any = rooms;
     const querySnapshot = await getDocs(collectionRef);
-    console.log(querySnapshot);
+    const items: any[] = [];
+    querySnapshot.forEach((doc) => {
+      items.push(doc.data());
+    });
+    // setData(items);
+    console.log(items);
   };
   getRooms();
 
@@ -77,9 +85,9 @@ const ListRoomChat = () => {
           <ul className="list__bottom-roomlist__item">
             <li className="roomlist__item-name">#Hà Nội</li>
             <li className="roomlist__item-name">#Hải Phòng</li>
-            {/* {querySnapshot.forEach((room) => (
-              <li className="roomlist__item-name" key={room.id}>
-                {room.name}
+            {/* {querySnapshot.forEach((doc) => (
+              <li className="roomlist__item-name" key={doc.id}>
+                {doc.name}
               </li>
             ))} */}
 

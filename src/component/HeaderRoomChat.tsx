@@ -23,7 +23,7 @@ const HeaderRoomChat = () => {
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
             <div className="avatar__group">
-              <Avatar.Group size="large" maxCount={2}>
+              <Avatar.Group size="small" maxCount={1}>
                 <Tooltip title="A" className="avatar__group-a">
                   <Avatar src={avatar ? avatar : defaultAvatar}>
                     {displayName ? displayName : email.charAt(0).toUpperCase()}
@@ -37,7 +37,7 @@ const HeaderRoomChat = () => {
                 </Tooltip>
               </Avatar.Group>
             </div>
-            <div>
+            <div className="header__user-info">
               <h5 className="header__roomchat-name mb-0">{user.displayName}</h5>
               <h6 className="mb-0">Teneocto Inc.</h6>
             </div>
