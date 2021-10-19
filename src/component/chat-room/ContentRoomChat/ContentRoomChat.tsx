@@ -1,10 +1,8 @@
-import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
-import { InputGroup, FormControl } from "react-bootstrap";
-import MessageChat from "./MessageChat";
+import { ChangeEvent, MouseEvent, useState } from "react";
+import { FormControl, InputGroup } from "react-bootstrap";
 import { useAppSelector } from "../../../store/hooks";
-import { selectUser, User } from "../../../store/userSlice";
-import { database } from "../../../config/FirebaseConfig";
-import { child, get, ref } from "@firebase/database";
+import { selectUser } from "../../../store/userSlice";
+import MessageChat from "./MessageChat";
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
 export interface Message {
@@ -23,29 +21,19 @@ const ContentRoomChat = () => {
   const handleSendMessage = (e: MouseEvent) => {
     e.preventDefault();
   };
-  // const user = useAppSelector(selectUser);
-  // const { displayName, email, photoURL } = user;
-  // const avatar = photoURL;
+  const user = useAppSelector(selectUser);
+  const { displayName, email, photoURL } = user;
+  const avatar = photoURL;
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
-
-  const dbRef = ref(database);
-  useEffect(() => {
-    get(child(dbRef, `users`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
-        console.log(data)
-      }
-    });
-  }, [dbRef]);
 
   return (
     <div className="content__roomchat">
       <div className="content__roomchat-message">
         <MessageChat
-          photoURL=/* {avatar ? avatar : defaultAvatar} */ {defaultAvatar}
-          displayName=/* {
+          photoURL={avatar ? avatar : defaultAvatar}
+          displayName={
             displayName ? displayName : email.charAt(0).toUpperCase()
-          } */ "Ninh"
+          }
           createdAt="123425234"
           message={message}
         />

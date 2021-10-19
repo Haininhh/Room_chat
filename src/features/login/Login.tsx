@@ -1,19 +1,28 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
-import { ref, set } from "@firebase/database";
+import { doc, setDoc } from "@firebase/firestore";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   auth,
-  database,
+  db,
+  docData,
   facebookProvider,
   googleProvider,
 } from "../../config/FirebaseConfig";
+import { addDocument } from "../../config/services";
 import { TextField, validateLogin } from "../signup/TextFieldSignup";
 
 interface MyFormValues {
   email: string;
   password: string;
+}
+export interface UserRef {
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+  uid: string;
+  providerId: string;
 }
 
 const Login = () => {
@@ -27,10 +36,12 @@ const Login = () => {
   const onLoginFacebook = async () => {
     await signInWithPopup(auth, facebookProvider)
       .then((result) => {
-        const user = result.user;
-        const { displayName, email, uid, photoURL, providerId } = user;
-        set(ref(database, `users`), {
-          username: displayName,
+        const { user } = result;
+        const { displayName, email, uid, photoURL } = user;
+        const { providerId } = user.providerData[0];
+        setDoc(doc(db, "users", "new-user-id"), docData);
+        addDocument({
+          displayName: displayName,
           email: email,
           photoURL: photoURL,
           uid: uid,
@@ -41,13 +52,16 @@ const Login = () => {
         alert("Login unsuccess!");
       });
   };
+
   const onLoginGoogle = async () => {
     await signInWithPopup(auth, googleProvider)
       .then((result) => {
-        const user = result.user;
-        const { displayName, email, uid, photoURL, providerId } = user;
-        set(ref(database, `users`), {
-          username: displayName,
+        const { user } = result;
+        const { displayName, email, uid, photoURL } = user;
+        const { providerId } = user.providerData[0];
+        setDoc(doc(db, "users", "new-user-id"), docData);
+        addDocument({
+          displayName: displayName,
           email: email,
           photoURL: photoURL,
           uid: uid,
@@ -69,9 +83,11 @@ const Login = () => {
           signInWithEmailAndPassword(auth, email, password)
             .then((result) => {
               const { user } = result;
-              const { displayName, email, uid, photoURL, providerId } = user;
-              set(ref(database, `users`), {
-                username: displayName,
+              const { displayName, email, uid, photoURL } = user;
+              const { providerId } = user.providerData[0];
+              setDoc(doc(db, "users", "new-user-id"), docData);
+              addDocument({
+                displayName: displayName,
                 email: email,
                 photoURL: photoURL,
                 uid: uid,
