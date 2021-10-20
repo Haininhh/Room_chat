@@ -1,5 +1,5 @@
 import { getDocs, query } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import add from "../../../assets/png/add.png";
 import downArrow from "../../../assets/png/down-arrow.png";
@@ -9,10 +9,16 @@ import more from "../../../assets/png/more.png";
 import useFirestore from "../../../config/useFirestore";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
+import { SelectRoom } from "../../RoomChat";
 import AddRoomChat from "./AddRoomChat";
 
-const ListRoomChat = () => {
+interface Props {
+  getSelectRoom: (param: SelectRoom) => void;
+}
+
+const ListRoomChat = ({ getSelectRoom }: Props) => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
+  const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
   const user = useAppSelector(selectUser);
   const { uid } = user;
@@ -37,7 +43,13 @@ const ListRoomChat = () => {
 
   useEffect(() => {
     getRooms();
-  });
+  }, []);
+
+  const selectedRoom: SelectRoom = useMemo(
+    () => data.find((room) => room.id === selectedRoomId),
+    [data, selectedRoomId]
+  );
+  getSelectRoom(selectedRoom);
 
   return (
     <>
@@ -83,7 +95,11 @@ const ListRoomChat = () => {
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
             {data.map((doc) => (
-              <li className="roomlist__item-name" key={doc.id}>
+              <li
+                className="roomlist__item-name"
+                key={doc.id}
+                onClick={() => setSelectedRoomId(doc.id)}
+              >
                 {doc.name}
               </li>
             ))}

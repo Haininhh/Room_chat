@@ -15,12 +15,15 @@ export interface Message {
 const ContentRoomChat = () => {
   const [message, setMessage] = useState("");
 
-  const handleMessageChange = (e: ChangeEvent<{ value: string }>) => {
+  const handleMessageChange = (
+    e: ChangeEvent<{ value: string; name: string }>
+  ) => {
     setMessage(e.target.value);
   };
   const handleSendMessage = (e: MouseEvent) => {
     e.preventDefault();
   };
+
   const user = useAppSelector(selectUser);
   const { displayName, email, photoURL } = user;
   const avatar = photoURL;
@@ -43,6 +46,8 @@ const ContentRoomChat = () => {
           placeholder="Nhập tin nhắn..."
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
+          name="message"
+          value="message"
           onChange={handleMessageChange}
           // onKeyDown={handleSendMessage}
         />
