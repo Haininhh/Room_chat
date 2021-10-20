@@ -7,11 +7,15 @@ export interface Condition {
   value: string;
 }
 
-const useFirestore = (condition: Condition) => {
-  if (!condition) return;
+const useFirestore = (collections: string, condition: Condition | null) => {
+  if (!condition) {
+    const collectionRef = collection(db, collections);
+    return collectionRef;
+  }
+
   if (!condition.value || !condition.value.length) return;
-  let collectionRef = query(
-    collection(db, "rooms"),
+  const collectionRef = query(
+    collection(db, collections),
     where(condition.fieldName, condition.opStr, condition.value)
   );
   return collectionRef;

@@ -1,4 +1,4 @@
-import { getDocs } from "firebase/firestore";
+import { getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import add from "../../../assets/png/add.png";
@@ -11,35 +11,33 @@ import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
 import AddRoomChat from "./AddRoomChat";
 
-// interface Items {
-//   description: string;
-//   members: string[];
-//   name: string;
-// }
-
 const ListRoomChat = () => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [data, setData] = useState<any[]>([]);
   const user = useAppSelector(selectUser);
   const { uid } = user;
 
-  const rooms = useFirestore({
+  const rooms: any = useFirestore("rooms", {
     fieldName: "members",
     opStr: "array-contains",
     value: uid,
   });
 
   const getRooms = async () => {
-    const collectionRef: any = rooms;
-    const querySnapshot = await getDocs(collectionRef);
     const items: any[] = [];
+    const q = query(rooms);
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      items.push(doc.data());
+      const document: any = doc.data();
+      document.id = doc.id;
+      items.push(document);
     });
-    // setData(items);
-    console.log(items);
+    setData(items);
   };
-  getRooms();
+
+  useEffect(() => {
+    getRooms();
+  });
 
   return (
     <>
@@ -83,13 +81,12 @@ const ListRoomChat = () => {
             </span>
           </h5>
           <ul className="list__bottom-roomlist__item">
-            <li className="roomlist__item-name">#Hà Nội</li>
-            <li className="roomlist__item-name">#Hải Phòng</li>
-            {/* {querySnapshot.forEach((doc) => (
+            {/* Danh sách phòng */}
+            {data.map((doc) => (
               <li className="roomlist__item-name" key={doc.id}>
                 {doc.name}
               </li>
-            ))} */}
+            ))}
 
             <Button
               className="btn btn-primary roomlist__item-add d-flex align-center"

@@ -1,8 +1,3 @@
-// import React, { useEffect } from "react";
-// import { useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
-// import { auth } from "../config/FirebaseConfig";
-// import { getMe } from "../store/userSlice";
 import ContentRoomChat from "./chat-room/ContentRoomChat/ContentRoomChat";
 import InfoRoomChat from "./chat-room/InfoRoomChat/InfoRoomChat";
 import ListRoomChat from "./chat-room/ListRoomChat/ListRoomChat";

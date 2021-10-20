@@ -1,34 +1,41 @@
-import React from "react";
-// import { useDispatch } from "react-redux";
-import { Modal, Button, Form } from "react-bootstrap";
-
-// interface NewRoom {
-//   name: string;
-//   description: string;
-// }
+import { addDoc, collection } from "@firebase/firestore";
+import React, { ChangeEvent, MouseEvent, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
+import { db } from "../../../config/FirebaseConfig";
+import { useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/userSlice";
 
 interface Props {
   onHide: () => void;
   show: Boolean;
 }
 
-const AddRoomChat = (
-  /* { name, description }: NewRoom */ { ...props }: Props
-) => {
-  // const dispatch = useDispatch();
+const AddRoomChat = ({ ...props }: Props) => {
+  const user = useAppSelector(selectUser);
+  const { uid } = user;
+  const [addRoom, setAddRoom] = useState({
+    name: "",
+    description: "",
+  });
 
-  // const handleOk = () => {
-  //   const newRoom = {
-  //     name: name,
-  //     description: description,
-  //   };
-  //   const action = addNewRoomList(newRoom);
-  //   dispatch(action);
-  // };
+  const handleChange = (
+    event: ChangeEvent<{ name: string; value: string }>
+  ) => {
+    setAddRoom({
+      ...addRoom,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const handleOk = async (e: MouseEvent) => {
+    e.preventDefault();
+    await addDoc(collection(db, "rooms"), {
+      name: addRoom.name,
+      description: addRoom.description,
+      members: [uid],
+    });
+    props.onHide();
+  };
 
-  // const handleCancel = () => {
-  //   //reset form value
-  // };
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
@@ -38,7 +45,13 @@ const AddRoomChat = (
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Tên phòng</Form.Label>
-            <Form.Control type="name" placeholder="Nhập tên phòng" />
+            <Form.Control
+              type="name"
+              name="name"
+              placeholder="Nhập tên phòng"
+              value={addRoom.name}
+              onChange={handleChange}
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Mô tả</Form.Label>
@@ -47,12 +60,16 @@ const AddRoomChat = (
               name="description"
               placeholder="Nhập mô tả"
               rows={3}
+              value={addRoom.description}
+              onChange={handleChange}
             />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary">Ok</Button>
+        <Button variant="primary" onClick={handleOk}>
+          Ok
+        </Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
