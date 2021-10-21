@@ -5,7 +5,7 @@ import ListRoomChat from "./chat-room/ListRoomChat/ListRoomChat";
 import "./chatRoom.css";
 import HeaderRoomChat from "./HeaderRoomChat";
 
-export type SelectRoom = {
+export type SelectedRoom = {
   name: string;
   description: string;
   members: string[];
@@ -13,12 +13,10 @@ export type SelectRoom = {
 };
 
 const RoomChat = () => {
-  const [selectedRoom, setSelectedRoom] = useState<SelectRoom>({
-    name: "",
-    description: "",
-    members: [],
-    id: "",
-  });
+  const [selectedRoom, setSelectedRoom] = useState<SelectedRoom | undefined>(
+    undefined
+  );
+
   return (
     <div className="container max-width-100">
       <div className="row">
@@ -26,7 +24,7 @@ const RoomChat = () => {
           <ListRoomChat getSelectRoom={setSelectedRoom} />
         </div>
         <div className="col-9 p-0 height-100vh">
-          <HeaderRoomChat />
+          <HeaderRoomChat selectedRoom={selectedRoom} />
           <div className="content__roomchat-container d-flex ">
             <div className="w-70">
               <ContentRoomChat />

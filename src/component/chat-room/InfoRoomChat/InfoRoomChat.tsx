@@ -1,16 +1,18 @@
 import React from "react";
-import { SelectRoom } from "../../RoomChat";
 
-const InfoRoomChat = (selectedRoom: SelectRoom) => {
-  console.log(selectedRoom.description);
+const InfoRoomChat = (selectedRoom: any) => {
   return (
     <div className="room__info">
-      <h5 className="room__info-about">Thông tin</h5>
+      <h5 className="room__info-about color-grey">Thông tin</h5>
       <div className="room__info-description">
-        <h6>Mô tả</h6>
-        {/* <p className="mb-0" key={selectedRoom.selectedRoom.id}>
-          {selectedRoom.selectedRoom.description}
-        </p> */}
+        <h6 className="color-grey">Mô tả</h6>
+        {selectedRoom.selectedRoom ? (
+          <p className="mb-0" key={selectedRoom.selectedRoom.id}>
+            {selectedRoom.selectedRoom.description}
+          </p>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

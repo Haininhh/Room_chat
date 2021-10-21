@@ -10,16 +10,22 @@ const MessageChat = ({
 }: Message) => {
   return (
     <div className="message">
-      <div className="message__user d-flex">
+      <div className="d-flex align-center">
+        <Typography.Text className="message__author">
+          {displayName}
+        </Typography.Text>
+        <Typography.Text className="message__date">{createdAt}</Typography.Text>
+      </div>
+      <div className="message__user d-flex align-center">
         <div className="message__avatar">
           <Avatar size="small" src={photoURL}>
             {photoURL ? "" : displayName?.charAt(0)?.toUpperCase()}
           </Avatar>
         </div>
-        <Typography.Text className="author">{displayName}</Typography.Text>
-        <Typography.Text className="date">{createdAt}</Typography.Text>
+        <Typography.Text className="message__content">
+          {message}
+        </Typography.Text>
       </div>
-      <Typography.Text className="message__content">{message}</Typography.Text>
     </div>
   );
 };

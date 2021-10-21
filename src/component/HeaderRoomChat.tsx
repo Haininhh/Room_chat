@@ -10,7 +10,7 @@ import { auth } from "../config/FirebaseConfig";
 import { useAppSelector } from "../store/hooks";
 import { selectUser } from "../store/userSlice";
 
-const HeaderRoomChat = () => {
+const HeaderRoomChat = (selectedRoom: any) => {
   const history = useHistory();
   const user = useAppSelector(selectUser);
   const { displayName, email, photoURL } = user;
@@ -23,23 +23,30 @@ const HeaderRoomChat = () => {
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
             <div className="avatar__group">
-              <Avatar.Group size="small" maxCount={1}>
+              <Avatar.Group size="small" maxCount={2}>
+                {/* {selectedRoom.selectedRoom.members.map((member) => ( */}
+
                 <Tooltip title="A" className="avatar__group-a">
                   <Avatar src={avatar ? avatar : defaultAvatar}>
                     {displayName ? displayName : email.charAt(0).toUpperCase()}
                   </Avatar>
-                  <Avatar src={avatar ? avatar : defaultAvatar}>
-                    {displayName ? displayName : email.charAt(0).toUpperCase()}
-                  </Avatar>
-                  <Avatar src={avatar ? avatar : defaultAvatar}>
-                    {displayName ? displayName : email.charAt(0).toUpperCase()}
-                  </Avatar>
                 </Tooltip>
+                {/* ))} */}
               </Avatar.Group>
             </div>
             <div className="header__user-info">
-              <h5 className="header__roomchat-name mb-0">{user.displayName}</h5>
-              <h6 className="mb-0">Teneocto Inc.</h6>
+              {selectedRoom.selectedRoom ? (
+                <>
+                  <h6 className="mb-0" key={selectedRoom.selectedRoom.id}>
+                    {selectedRoom.selectedRoom.name}
+                  </h6>
+                  <p className="header__roomchat-name mb-0">
+                    Members: {selectedRoom.selectedRoom.members.length}
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <button

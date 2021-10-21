@@ -1,4 +1,4 @@
-import { addDoc, collection } from "@firebase/firestore";
+import { collection, doc, setDoc } from "@firebase/firestore";
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { db } from "../../../config/FirebaseConfig";
@@ -8,15 +8,17 @@ import { selectUser } from "../../../store/userSlice";
 interface Props {
   onHide: () => void;
   show: Boolean;
+  setData: (param: any[]) => void;
 }
 
-const AddRoomChat = ({ ...props }: Props) => {
+const AddRoomChat = ({ setData, ...props }: Props) => {
   const user = useAppSelector(selectUser);
   const { uid } = user;
   const [addRoom, setAddRoom] = useState({
     name: "",
     description: "",
   });
+  // const [form] = Form.useForm();
 
   const handleChange = (
     event: ChangeEvent<{ name: string; value: string }>
@@ -28,11 +30,13 @@ const AddRoomChat = ({ ...props }: Props) => {
   };
   const handleOk = async (e: MouseEvent) => {
     e.preventDefault();
-    await addDoc(collection(db, "rooms"), {
+    const newRoomRef = doc(collection(db, "rooms"));
+    await setDoc(newRoomRef, {
       name: addRoom.name,
       description: addRoom.description,
       members: [uid],
     });
+
     props.onHide();
   };
 
