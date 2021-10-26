@@ -4,7 +4,6 @@ import {
   query,
   where,
   WhereFilterOp,
-  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -21,7 +20,6 @@ import AddRoomChat from "./AddRoomChat";
 
 export interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
-  getMembers: (param: any) => void;
 }
 interface Condition {
   fieldName: string;
@@ -34,11 +32,10 @@ interface UserCondition {
   value: string[];
 }
 
-const ListRoomChat = ({ getSelectRoom, getMembers }: Props) => {
+const ListRoomChat = ({ getSelectRoom }: Props) => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
-
   const user = useAppSelector(selectUser);
   const { uid } = user;
 
@@ -100,15 +97,20 @@ const ListRoomChat = ({ getSelectRoom, getMembers }: Props) => {
         collection(db, "users"),
         where("uid", usersCondition.opStr, usersCondition.value)
       );
-      const querySnapshot = await getDocs(q);
-      const items: any[] = [];
-      querySnapshot.forEach((doc) => {
-        items.push(doc.data());
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const members: any[] = [];
+        querySnapshot.forEach((doc) => {
+          members.push(doc.data());
+        });
+        // localStorage.setItem("members", members);
+        console.log(members);
       });
-      getMembers(items);
+      return () => {
+        unsubscribe();
+      };
     };
     getRooms(usersCondition);
-  }, [usersCondition, getMembers]);
+  }, [usersCondition]);
 
   return (
     <>

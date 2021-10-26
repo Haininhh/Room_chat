@@ -16,17 +16,14 @@ const RoomChat = () => {
   const [selectedRoom, setSelectedRoom] = useState<SelectedRoom | undefined>(
     undefined
   );
-  const [members, setMembers] = useState<any[] | undefined>(undefined);
-  console.log(members);
+  // const [members, setMembers] = useState<any[]>([]);
+  // console.log(members);
 
   return (
     <div className="container max-width-100">
       <div className="row">
         <div className="col-3 p-0 list-room-chat">
-          <ListRoomChat
-            getSelectRoom={setSelectedRoom}
-            getMembers={setMembers}
-          />
+          <ListRoomChat getSelectRoom={setSelectedRoom} />
         </div>
         <div className="col-9 p-0 height-100vh">
           <HeaderRoomChat selectedRoom={selectedRoom} />
@@ -35,7 +32,7 @@ const RoomChat = () => {
               <ContentRoomChat />
             </div>
             <div className="w-30">
-              <InfoRoomChat selectedRoom={selectedRoom} members={members} />
+              <InfoRoomChat selectedRoom={selectedRoom} />
             </div>
           </div>
         </div>

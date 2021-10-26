@@ -10,9 +10,7 @@ import { auth } from "../config/FirebaseConfig";
 import { useAppSelector } from "../store/hooks";
 import { selectUser } from "../store/userSlice";
 
-const HeaderRoomChat = (selectedRoom: any, members: any[]) => {
-  console.log(members);
-
+const HeaderRoomChat = (selectedRoom: any) => {
   const history = useHistory();
   const user = useAppSelector(selectUser);
   const { displayName, email, photoURL } = user;
