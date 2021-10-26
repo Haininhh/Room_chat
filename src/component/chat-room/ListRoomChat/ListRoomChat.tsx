@@ -4,6 +4,7 @@ import {
   query,
   where,
   WhereFilterOp,
+  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -20,6 +21,7 @@ import AddRoomChat from "./AddRoomChat";
 
 export interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
+  getMembers: (param: any) => void;
 }
 interface Condition {
   fieldName: string;
@@ -29,10 +31,10 @@ interface Condition {
 interface UserCondition {
   fieldName: string;
   opStr: WhereFilterOp;
-  value: string[] | null;
+  value: string[];
 }
 
-const ListRoomChat = ({ getSelectRoom }: Props) => {
+const ListRoomChat = ({ getSelectRoom, getMembers }: Props) => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
@@ -76,40 +78,37 @@ const ListRoomChat = ({ getSelectRoom }: Props) => {
     () => data.find((room) => room.id === selectedRoomId),
     [data, selectedRoomId]
   );
-  console.log(uid, selectedRoom?.members);
 
   useEffect(() => {
     getSelectRoom(selectedRoom);
   });
 
-  const usersCondition: UserCondition = useMemo(() => {
+  // get members from users database;
+  const usersCondition: UserCondition | undefined = useMemo(() => {
     if (!selectedRoom) return;
     return {
       fieldName: uid,
       opStr: "in",
-      value: selectedRoom?.members,
+      value: selectedRoom.members,
     };
-  }, []);
+  }, [uid, selectedRoom]);
 
-  // useEffect(() => {
-  //   if (!usersCondition) return;
-  //   const getRooms = async (condition: UserCondition) => {
-  //     const collectionRef = query(
-  //       collection(db, "users"),
-  //       where(condition.fieldName, condition.opStr, condition.value)
-  //     );
-  //     const q = query(collectionRef);
-  //     const unsubcribe = onSnapshot(q, (querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         console.log(doc);
-  //       });
-  //     });
-  //     return () => {
-  //       unsubcribe();
-  //     };
-  //   };
-  //   getRooms(usersCondition);
-  // }, [usersCondition]);
+  useEffect(() => {
+    if (!usersCondition) return;
+    const getRooms = async (usersCondition: UserCondition) => {
+      const q = query(
+        collection(db, "users"),
+        where("uid", usersCondition.opStr, usersCondition.value)
+      );
+      const querySnapshot = await getDocs(q);
+      const items: any[] = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      getMembers(items);
+    };
+    getRooms(usersCondition);
+  }, [usersCondition, getMembers]);
 
   return (
     <>

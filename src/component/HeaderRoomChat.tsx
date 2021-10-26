@@ -10,7 +10,9 @@ import { auth } from "../config/FirebaseConfig";
 import { useAppSelector } from "../store/hooks";
 import { selectUser } from "../store/userSlice";
 
-const HeaderRoomChat = (selectedRoom: any) => {
+const HeaderRoomChat = (selectedRoom: any, members: any[]) => {
+  console.log(members);
+
   const history = useHistory();
   const user = useAppSelector(selectUser);
   const { displayName, email, photoURL } = user;
@@ -24,14 +26,13 @@ const HeaderRoomChat = (selectedRoom: any) => {
           <div className="header__roomchat-user-info d-flex align-center">
             <div className="avatar__group">
               <Avatar.Group size="small" maxCount={2}>
-                {/* {selectedRoom.selectedRoom.members.map((member) => ( */}
-
+                {/* {members.map((member) => ( */}
                 <Tooltip title="A" className="avatar__group-a">
                   <Avatar src={avatar ? avatar : defaultAvatar}>
                     {displayName ? displayName : email.charAt(0).toUpperCase()}
                   </Avatar>
                 </Tooltip>
-                {/* ))} */}
+                {/* ))}  */}
               </Avatar.Group>
             </div>
             <div className="header__user-info">
