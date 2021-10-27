@@ -170,7 +170,7 @@ span.roomlist__item-add-btn {
   margin-right: -10px;
 }
 .header__user-info {
-  margin-left: 32px;
+  margin-left: 8px;
 }
 .header__roomchat-user-info span img {
   width: 36px;
@@ -213,4 +213,10 @@ span.ant-avatar.ant-avatar-lg.ant-avatar-circle.ant-avatar-image.avatar__group-a
 .message__date {
   font-size: 12px !important;
   margin: 0 auto;
+}
+.w-69px {
+  width: 69px;
+}
+.w-36px {
+  width: 36px;
 }

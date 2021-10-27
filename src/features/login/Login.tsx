@@ -35,18 +35,23 @@ const Login = () => {
 
   const onLoginFacebook = async () => {
     await signInWithPopup(auth, facebookProvider)
-      .then((result) => {
-        const { user } = result;
+      .then((userCredential) => {
+        const { user } = userCredential;
         const { displayName, email, uid, photoURL } = user;
         const { providerId } = user.providerData[0];
+        const {
+          user: { metadata },
+        } = userCredential;
         setDoc(doc(db, "users", "new-user-id"), docData);
-        addDocument({
-          displayName: displayName,
-          email: email,
-          photoURL: photoURL,
-          uid: uid,
-          providerId: providerId,
-        });
+        if (metadata.creationTime === metadata.lastSignInTime) {
+          addDocument({
+            displayName: displayName,
+            email: email,
+            photoURL: photoURL,
+            uid: uid,
+            providerId: providerId,
+          });
+        }
       })
       .catch(() => {
         alert("Login unsuccess!");
@@ -55,18 +60,23 @@ const Login = () => {
 
   const onLoginGoogle = async () => {
     await signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const { user } = result;
+      .then((userCredential) => {
+        const { user } = userCredential;
         const { displayName, email, uid, photoURL } = user;
         const { providerId } = user.providerData[0];
+        const {
+          user: { metadata },
+        } = userCredential;
         setDoc(doc(db, "users", "new-user-id"), docData);
-        addDocument({
-          displayName: displayName,
-          email: email,
-          photoURL: photoURL,
-          uid: uid,
-          providerId: providerId,
-        });
+        if (metadata.creationTime === metadata.lastSignInTime) {
+          addDocument({
+            displayName: displayName,
+            email: email,
+            photoURL: photoURL,
+            uid: uid,
+            providerId: providerId,
+          });
+        }
       })
       .catch(() => {
         alert("Login unsuccess!");
@@ -81,18 +91,23 @@ const Login = () => {
         const { email, password } = values;
         if (email && password) {
           signInWithEmailAndPassword(auth, email, password)
-            .then((result) => {
-              const { user } = result;
+            .then((userCredential) => {
+              const { user } = userCredential;
               const { displayName, email, uid, photoURL } = user;
               const { providerId } = user.providerData[0];
+              const {
+                user: { metadata },
+              } = userCredential;
               setDoc(doc(db, "users", "new-user-id"), docData);
-              addDocument({
-                displayName: displayName,
-                email: email,
-                photoURL: photoURL,
-                uid: uid,
-                providerId: providerId,
-              });
+              if (metadata.creationTime === metadata.lastSignInTime) {
+                addDocument({
+                  displayName: displayName,
+                  email: email,
+                  photoURL: photoURL,
+                  uid: uid,
+                  providerId: providerId,
+                });
+              }
             })
             .catch((error) => {
               history.push("/");

@@ -7,14 +7,14 @@ import loupe from "../assets/png/loupe.png";
 import more from "../assets/png/more.png";
 import phone from "../assets/png/phone-call.png";
 import { auth } from "../config/FirebaseConfig";
-import { useAppSelector } from "../store/hooks";
-import { selectUser } from "../store/userSlice";
 
-const HeaderRoomChat = (selectedRoom: any) => {
+interface Props {
+  members: any[] | undefined;
+  selectedRoom: any | undefined;
+}
+
+const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
   const history = useHistory();
-  const user = useAppSelector(selectUser);
-  const { displayName, email, photoURL } = user;
-  const avatar = photoURL;
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
 
   return (
@@ -22,25 +22,67 @@ const HeaderRoomChat = (selectedRoom: any) => {
       <div className="header__roomchat-container">
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
-            <div className="avatar__group">
-              <Avatar.Group size="small" maxCount={2}>
-                {/* {members.map((member) => ( */}
-                <Tooltip title="A" className="avatar__group-a">
-                  <Avatar src={avatar ? avatar : defaultAvatar}>
-                    {displayName ? displayName : email.charAt(0).toUpperCase()}
-                  </Avatar>
-                </Tooltip>
-                {/* ))}  */}
-              </Avatar.Group>
-            </div>
+            {members && members.length >= 2 ? (
+              <div className="avatar__group d-inline-block w-69px">
+                <Avatar.Group size="small" maxCount={2}>
+                  {members ? (
+                    members.map((member) => (
+                      <Tooltip
+                        title="A"
+                        className="avatar__group-a"
+                        key={member.uid}
+                      >
+                        <Avatar
+                          src={
+                            member.photoURL ? member.photoURL : defaultAvatar
+                          }
+                        >
+                          {member.displayName
+                            ? member.displayName
+                            : member.email.charAt(0).toUpperCase()}
+                        </Avatar>
+                      </Tooltip>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </Avatar.Group>
+              </div>
+            ) : (
+              <div className="avatar__group d-inline-block w-36px">
+                <Avatar.Group size="small" maxCount={2}>
+                  {members ? (
+                    members.map((member) => (
+                      <Tooltip
+                        title="A"
+                        className="avatar__group-a"
+                        key={member.uid}
+                      >
+                        <Avatar
+                          src={
+                            member.photoURL ? member.photoURL : defaultAvatar
+                          }
+                        >
+                          {member.displayName
+                            ? member.displayName
+                            : member.email.charAt(0).toUpperCase()}
+                        </Avatar>
+                      </Tooltip>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </Avatar.Group>
+              </div>
+            )}
             <div className="header__user-info">
-              {selectedRoom.selectedRoom ? (
+              {selectedRoom ? (
                 <>
-                  <h6 className="mb-0" key={selectedRoom.selectedRoom.id}>
-                    {selectedRoom.selectedRoom.name}
+                  <h6 className="mb-0" key={selectedRoom.id}>
+                    {selectedRoom.name}
                   </h6>
                   <p className="header__roomchat-name mb-0">
-                    Members: {selectedRoom.selectedRoom.members.length}
+                    Members: {selectedRoom.members.length}
                   </p>
                 </>
               ) : (

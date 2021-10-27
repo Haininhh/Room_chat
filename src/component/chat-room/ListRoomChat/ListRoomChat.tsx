@@ -20,6 +20,7 @@ import AddRoomChat from "./AddRoomChat";
 
 export interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
+  setMembers: (param: any) => void;
 }
 interface Condition {
   fieldName: string;
@@ -32,7 +33,7 @@ interface UserCondition {
   value: string[];
 }
 
-const ListRoomChat = ({ getSelectRoom }: Props) => {
+const ListRoomChat = ({ getSelectRoom, setMembers }: Props) => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
@@ -102,15 +103,14 @@ const ListRoomChat = ({ getSelectRoom }: Props) => {
         querySnapshot.forEach((doc) => {
           members.push(doc.data());
         });
-        // localStorage.setItem("members", members);
-        console.log(members);
+        setMembers(members);
       });
       return () => {
         unsubscribe();
       };
     };
     getRooms(usersCondition);
-  }, [usersCondition]);
+  }, [usersCondition, setMembers]);
 
   return (
     <>
