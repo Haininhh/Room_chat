@@ -31,7 +31,7 @@ const RoomChat = () => {
           <HeaderRoomChat selectedRoom={selectedRoom} members={members} />
           <div className="content__roomchat-container d-flex ">
             <div className="w-70">
-              <ContentRoomChat />
+              <ContentRoomChat selectedRoom={selectedRoom} />
             </div>
             <div className="w-30">
               <InfoRoomChat selectedRoom={selectedRoom} members={members} />

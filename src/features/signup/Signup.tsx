@@ -46,7 +46,7 @@ const Signup = () => {
       onSubmit={(values) => {
         const { email, password } = values;
         createUserWithEmailAndPassword(auth, email, password)
-          .then(() => {
+          .then((user) => {
             history.push("/signup-success");
           })
           .catch(() => {

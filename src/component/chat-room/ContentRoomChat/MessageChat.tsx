@@ -3,10 +3,11 @@ import React from "react";
 import { Message } from "./ContentRoomChat";
 
 const MessageChat = ({
-  message,
+  text,
   createdAt,
   photoURL,
   displayName,
+  roomId,
 }: Message) => {
   return (
     <div className="message">
@@ -22,9 +23,7 @@ const MessageChat = ({
             {photoURL ? "" : displayName?.charAt(0)?.toUpperCase()}
           </Avatar>
         </div>
-        <Typography.Text className="message__content">
-          {message}
-        </Typography.Text>
+        <Typography.Text className="message__content">{text}</Typography.Text>
       </div>
     </div>
   );

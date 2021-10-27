@@ -18,7 +18,6 @@ const AddRoomChat = ({ setData, ...props }: Props) => {
     name: "",
     description: "",
   });
-  // const [form] = Form.useForm();
 
   const handleChange = (
     event: ChangeEvent<{ name: string; value: string }>
