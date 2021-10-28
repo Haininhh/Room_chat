@@ -16,6 +16,9 @@ const App = () => {
       if (!user) {
         return history.push("/");
       }
+      const { email } = user;
+      if (!email) return;
+      localStorage.setItem("email", email);
       await dispatch(getMe());
       history.push("/room-chat");
       return;

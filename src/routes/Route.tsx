@@ -13,8 +13,8 @@ const routes = (
       <Route exact path="/" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/forgot-psrd" component={ForgotPassword} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/room-chat" component={RoomChat} />
+      <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute path="/room-chat" component={RoomChat} />
       <Route path="/signup-success" component={SignupSuccess} />
     </Switch>
   </div>

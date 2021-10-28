@@ -5,6 +5,8 @@ import {
   getAuth,
   GoogleAuthProvider,
 } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD00GL6Rsapr9MwdGk1i-KsOhxkrRRGUOw",
@@ -36,5 +38,5 @@ const docData = {
     },
   },
 };
-
+export const serverStamp = firebase.firestore.Timestamp;
 export { auth, docData, db, facebookProvider, googleProvider };

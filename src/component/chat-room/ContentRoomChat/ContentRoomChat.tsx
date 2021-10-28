@@ -1,15 +1,15 @@
 import {
   collection,
+  doc,
   onSnapshot,
   query,
+  setDoc,
   where,
   WhereFilterOp,
-  setDoc,
-  doc,
 } from "firebase/firestore";
 import { ChangeEvent, MouseEvent, useEffect, useMemo, useState } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
-import { db } from "../../../config/FirebaseConfig";
+import { db, serverStamp } from "../../../config/FirebaseConfig";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
 import MessageChat from "./MessageChat";
@@ -17,10 +17,10 @@ import MessageChat from "./MessageChat";
 
 export interface Message {
   text: string;
-  createdAt: string;
   displayName: string;
   photoURL: string | null;
   roomId: string;
+  createdAt: any;
 }
 interface Props {
   selectedRoom: any | undefined;
@@ -33,29 +33,29 @@ interface Condition {
 
 const ContentRoomChat = ({ selectedRoom }: Props) => {
   const [text, setText] = useState("");
-  const [message, setMessage] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const roomId = selectedRoom?.id;
   const user = useAppSelector(selectUser);
-  const { displayName, email, photoURL } = user;
-  const avatar = photoURL;
+  const { displayName, photoURL, uid, email } = user;
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
+  const createdAt = serverStamp.now().toDate().toDateString();
 
-  const handleMessageChange = (
-    e: ChangeEvent<{ value: string; name: string }>
-  ) => {
+  const handleMessageChange = (e: ChangeEvent<{ value: string }>) => {
     setText(e.target.value);
   };
   const handleSendMessage = async (e: MouseEvent) => {
     e.preventDefault();
     const messagesRef = doc(collection(db, "messages"));
     await setDoc(messagesRef, {
-      photoURL: avatar,
+      photoURL: photoURL,
+      email: email,
       displayName: displayName,
-      createdAt: "123456",
+      createdAt: createdAt,
       text: text,
       roomId: roomId,
+      uid: uid,
     });
-    console.log(avatar, displayName);
+    setText("");
   };
   const condition: Condition | undefined = useMemo(() => {
     if (!selectedRoom) return;
@@ -76,9 +76,11 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const items: any[] = [];
         querySnapshot.forEach((doc) => {
-          items.push(doc.data());
+          const document: any = doc.data();
+          document.id = doc.id;
+          items.push(document);
         });
-        setMessage(items);
+        setMessages(items);
       });
       return () => {
         unsubscribe();
@@ -87,30 +89,31 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
     getRooms(condition);
   }, [condition]);
 
-  console.log(message);
-
   return (
     <div className="content__roomchat">
       <div className="content__roomchat-message">
-        <MessageChat
-          photoURL={avatar ? avatar : defaultAvatar}
-          displayName={
-            displayName ? displayName : email.charAt(0).toUpperCase()
-          }
-          createdAt="123456"
-          text={text}
-          roomId={roomId ? roomId : undefined}
-        />
+        {messages.map((mes) => (
+          <MessageChat
+            key={mes.id}
+            photoURL={mes.photoURL ? mes.photoURL : defaultAvatar}
+            displayName={
+              mes.displayName
+                ? mes.displayName
+                : mes.email?.charAt(0)?.toUpperCase()
+            }
+            createdAt={createdAt}
+            text={mes.text}
+            roomId={mes.roomId ? mes.roomId : undefined}
+          />
+        ))}
       </div>
       <InputGroup>
         <FormControl
           placeholder="Nhập tin nhắn..."
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
-          name="message"
-          value="message"
+          value={text}
           onChange={handleMessageChange}
-          // onKeyDown={handleSendMessage}
         />
         <button
           id="button-addon2"

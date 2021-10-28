@@ -2,6 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth } from "../config/FirebaseConfig";
 import { RootState } from "./store";
 
+export interface Timestamp {
+  nanoseconds: number;
+  seconds: number;
+}
+
 export interface User {
   displayName: string;
   email: string;
