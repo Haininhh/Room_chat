@@ -1,4 +1,5 @@
 import { Avatar, Typography } from "antd";
+import dateFormat from "dateformat";
 import React from "react";
 import { Message } from "./ContentRoomChat";
 
@@ -9,13 +10,21 @@ const MessageChat = ({
   displayName,
   roomId,
 }: Message) => {
+  const formatDate = (createdAt: any) => {
+    const formatDate = createdAt.toDate();
+    const formattedDate = dateFormat(formatDate, "ddd, h:MM TT");
+    return formattedDate;
+  };
+
   return (
     <div className="message">
-      <div className="d-flex align-center">
+      <div className="message__text d-flex align-center">
         <Typography.Text className="message__author">
           {displayName}
         </Typography.Text>
-        <Typography.Text className="message__date">{createdAt}</Typography.Text>
+        <Typography.Text className="message__date">
+          {formatDate(createdAt)}
+        </Typography.Text>
       </div>
       <div className="message__user d-flex align-center">
         <div className="message__avatar">

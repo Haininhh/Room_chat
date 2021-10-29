@@ -1,15 +1,26 @@
+import dateFormat from "dateformat";
 import {
   collection,
   doc,
   onSnapshot,
   query,
   setDoc,
+  Timestamp,
   where,
   WhereFilterOp,
+  orderBy,
 } from "firebase/firestore";
-import { ChangeEvent, MouseEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  EventHandler,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
-import { db, serverStamp } from "../../../config/FirebaseConfig";
+import { db } from "../../../config/FirebaseConfig";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
 import MessageChat from "./MessageChat";
@@ -20,7 +31,7 @@ export interface Message {
   displayName: string;
   photoURL: string | null;
   roomId: string;
-  createdAt: any;
+  createdAt: Timestamp;
 }
 interface Props {
   selectedRoom: any | undefined;
@@ -38,11 +49,18 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
   const user = useAppSelector(selectUser);
   const { displayName, photoURL, uid, email } = user;
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
-  const createdAt = serverStamp.now().toDate().toDateString();
+  const createdAt = Timestamp.fromDate(new Date());
 
-  const handleMessageChange = (e: ChangeEvent<{ value: string }>) => {
-    setText(e.target.value);
+  // const handleMessageChange = (e: React.KeyboardEvent<{ value: string }>) => {
+  const handleMessageChange: EventHandler<KeyboardEvent<HTMLInputElement>> = (
+    e
+  ) => {
+    if (e.key === "Enter") {
+      setText(text);
+      setText("");
+    }
   };
+
   const handleSendMessage = async (e: MouseEvent) => {
     e.preventDefault();
     const messagesRef = doc(collection(db, "messages"));
@@ -72,6 +90,7 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
       const q = query(
         collection(db, "messages"),
         where(condition.fieldName, condition.opStr, condition.value)
+        // orderBy("createdAt")
       );
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const items: any[] = [];
@@ -101,7 +120,7 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
                 ? mes.displayName
                 : mes.email?.charAt(0)?.toUpperCase()
             }
-            createdAt={createdAt}
+            createdAt={mes.createdAt}
             text={mes.text}
             roomId={mes.roomId ? mes.roomId : undefined}
           />
@@ -113,7 +132,10 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
           value={text}
-          onChange={handleMessageChange}
+          onChange={(e: ChangeEvent<{ value: string }>) =>
+            setText(e.target.value)
+          }
+          onKeyPress={handleMessageChange}
         />
         <button
           id="button-addon2"

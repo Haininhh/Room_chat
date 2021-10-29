@@ -27,8 +27,8 @@ const InfoRoomChat = ({ selectedRoom, members }: Props) => {
         {members ? (
           members.map((member) => (
             <div key={member.uid}>
-              <div className="message__user mb-10px d-flex align-center">
-                <div className="message__avatar">
+              <div className="message__user-info mb-10px d-flex align-center">
+                <div className="message__avatar avatar__info">
                   <Avatar
                     size="small"
                     src={member.photoURL ? member.photoURL : defaultAvatar}
