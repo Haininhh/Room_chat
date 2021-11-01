@@ -183,20 +183,32 @@ span.roomlist__item-add-btn {
 .message {
   padding: 10px 0;
 }
-.message__user {
+.message__user-left {
+  padding: 0;
+  justify-content: left;
+}
+.message__user-right {
   padding: 0;
   justify-content: right;
   flex-direction: row-reverse;
 }
-.message__text {
+.message__text-right {
   justify-content: right;
   flex-direction: row-reverse;
+  position: relative;
+}
+.message__text-left {
+  justify-content: left;
+  position: relative;
 }
 .message__avatar span img {
   width: 30px;
   border-radius: 50%;
 }
-.message__avatar {
+.message__avatar-left {
+  margin-right: 8px;
+}
+.message__avatar-right {
   margin-left: 8px;
 }
 .avatar__info {
@@ -214,14 +226,22 @@ span.ant-avatar.ant-avatar-lg.ant-avatar-circle.ant-avatar-image.avatar__group-a
 .mb-10px {
   margin-bottom: 10px;
 }
-.message__author {
+.message__author-right {
   margin-right: 50px;
   font-size: 12px !important;
   font-weight: normal;
 }
-.message__date {
+.message__author-left {
+  margin-left: 50px;
   font-size: 12px !important;
+  font-weight: normal;
+}
+.message__date {
+  font-size: 10px !important;
   margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .w-69px {
   width: 69px;

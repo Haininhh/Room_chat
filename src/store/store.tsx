@@ -11,7 +11,6 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import authReducer from "../auth/authSlice";
 import userReducer from "./userSlice";
 
 const persistConfig = {
@@ -23,7 +22,6 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
   user: userReducer,
-  auth: authReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

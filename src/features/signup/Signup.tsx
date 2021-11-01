@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "@firebase/auth";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
@@ -10,6 +11,7 @@ import {
   facebookProvider,
   googleProvider,
 } from "../../config/FirebaseConfig";
+import { addDocument } from "../../config/services";
 import { TextField, validateSignup } from "./TextFieldSignup";
 
 interface MyFormValues {
@@ -28,15 +30,28 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   };
-  const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider).catch((err) => {
-      alert("Login unsuccess!");
-    });
-  };
-  const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider).catch((err) => {
-      alert("Login unsuccess!");
-    });
+  const handleSignup = async (provider: any) => {
+    await signInWithPopup(auth, provider)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        const { displayName, email, uid, photoURL } = user;
+        const { providerId } = user.providerData[0];
+        const {
+          user: { metadata },
+        } = userCredential;
+        if (metadata.creationTime === metadata.lastSignInTime) {
+          addDocument({
+            displayName: displayName,
+            email: email,
+            photoURL: photoURL,
+            uid: uid,
+            providerId: providerId,
+          });
+        }
+      })
+      .catch(() => {
+        alert("Login unsuccess!");
+      });
   };
 
   return (
@@ -47,7 +62,9 @@ const Signup = () => {
         const { email, password } = values;
         createUserWithEmailAndPassword(auth, email, password)
           .then((user) => {
-            history.push("/signup-success");
+            signOut(auth).then(() => {
+              history.push("/signup-success");
+            });
           })
           .catch(() => {
             setErrorMessage("Email already existed! Please try again.");
@@ -66,7 +83,7 @@ const Signup = () => {
                 className="btn facebook-btn social-btn"
                 type="button"
                 id="facebooklogin"
-                onClick={() => onLoginFacebook()}
+                onClick={() => handleSignup(facebookProvider)}
               >
                 <span>
                   <i className="fab fa-facebook-f"></i> Sign in with Facebook
@@ -76,7 +93,7 @@ const Signup = () => {
                 className="btn google-btn social-btn"
                 type="button"
                 id="googleLogin"
-                onClick={() => onLoginGoogle()}
+                onClick={() => handleSignup(googleProvider)}
               >
                 <span>
                   <i className="fab fa-google-plus-g"></i> Sign in with Google+

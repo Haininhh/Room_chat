@@ -1,14 +1,13 @@
-import dateFormat from "dateformat";
 import {
   collection,
   doc,
   onSnapshot,
+  orderBy,
   query,
   setDoc,
   Timestamp,
   where,
   WhereFilterOp,
-  orderBy,
 } from "firebase/firestore";
 import {
   ChangeEvent,
@@ -32,6 +31,7 @@ export interface Message {
   photoURL: string | null;
   roomId: string;
   createdAt: Timestamp;
+  uid: string;
 }
 interface Props {
   selectedRoom: any | undefined;
@@ -50,29 +50,28 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
   const { displayName, photoURL, uid, email } = user;
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const createdAt = Timestamp.fromDate(new Date());
-
-  // const handleMessageChange = (e: React.KeyboardEvent<{ value: string }>) => {
-  const handleMessageChange: EventHandler<KeyboardEvent<HTMLInputElement>> = (
-    e
-  ) => {
-    if (e.key === "Enter") {
-      setText(text);
-      setText("");
-    }
+  const messagesRef = doc(collection(db, "messages"));
+  const data = {
+    photoURL: photoURL,
+    email: email,
+    displayName: displayName,
+    createdAt: createdAt,
+    text: text,
+    roomId: roomId,
+    uid: uid,
   };
+
+  const handleMessageChange: EventHandler<KeyboardEvent<HTMLInputElement>> =
+    async (e) => {
+      if (e.key === "Enter") {
+        await setDoc(messagesRef, data);
+        setText("");
+      }
+    };
 
   const handleSendMessage = async (e: MouseEvent) => {
     e.preventDefault();
-    const messagesRef = doc(collection(db, "messages"));
-    await setDoc(messagesRef, {
-      photoURL: photoURL,
-      email: email,
-      displayName: displayName,
-      createdAt: createdAt,
-      text: text,
-      roomId: roomId,
-      uid: uid,
-    });
+    await setDoc(messagesRef, data);
     setText("");
   };
   const condition: Condition | undefined = useMemo(() => {
@@ -89,8 +88,8 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
     const getRooms = async (condition: Condition) => {
       const q = query(
         collection(db, "messages"),
-        where(condition.fieldName, condition.opStr, condition.value)
-        // orderBy("createdAt")
+        where(condition.fieldName, condition.opStr, condition.value),
+        orderBy("createdAt", "asc")
       );
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const items: any[] = [];
@@ -123,6 +122,7 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
             createdAt={mes.createdAt}
             text={mes.text}
             roomId={mes.roomId ? mes.roomId : undefined}
+            uid={mes.uid}
           />
         ))}
       </div>

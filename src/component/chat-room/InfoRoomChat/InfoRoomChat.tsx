@@ -13,11 +13,11 @@ const InfoRoomChat = ({ selectedRoom, members }: Props) => {
     <div className="room__info">
       <h5 className="room__info-about color-grey">Thông tin</h5>
       <div className="room__info-description">
-        <h6 className="color-grey">Mô tả</h6>
+        <h6 className="color-grey mb-0">Mô tả</h6>
         {selectedRoom ? (
           <>
             <p key={selectedRoom.id}>{selectedRoom.description}</p>
-            <p className="header__roomchat-name">
+            <p className="header__roomchat-name mb-10px">
               Members ({selectedRoom.members.length})
             </p>
           </>

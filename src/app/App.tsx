@@ -13,14 +13,10 @@ const App = () => {
 
   useEffect(() => {
     const unregisterAuthObserver = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        return history.push("/");
-      }
-      const { email } = user;
-      if (!email) return;
-      localStorage.setItem("email", email);
       await dispatch(getMe());
-      history.push("/room-chat");
+      if (auth.currentUser) {
+        history.push("/room-chat");
+      }
       return;
     });
     return () => unregisterAuthObserver();

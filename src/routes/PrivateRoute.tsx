@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect, RouteProps, Route } from "react-router-dom";
+import { useAppSelector } from "../store/hooks";
+import { selectUser } from "../store/userSlice";
 
 const PrivateRoute = (props: RouteProps) => {
-  const isLoggedIn = Boolean(localStorage.getItem("email"));
-  if (!isLoggedIn) {
-    localStorage.removeItem("email");
+  const user = useAppSelector(selectUser);
+  if (!user) {
     return <Redirect to="/" />;
   }
   return <Route {...props} />;

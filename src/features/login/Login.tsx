@@ -1,12 +1,9 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
-import { doc, setDoc } from "@firebase/firestore";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   auth,
-  db,
-  docData,
   facebookProvider,
   googleProvider,
 } from "../../config/FirebaseConfig";
@@ -33,41 +30,17 @@ const Login = () => {
     password: "",
   };
 
-  const onLoginFacebook = async () => {
-    await signInWithPopup(auth, facebookProvider)
+  const handleLogin = async (provider: any) => {
+    await signInWithPopup(auth, provider)
       .then((userCredential) => {
         const { user } = userCredential;
-        const { displayName, email, uid, photoURL } = user;
-        const { providerId } = user.providerData[0];
-        const {
-          user: { metadata },
-        } = userCredential;
-        setDoc(doc(db, "users", "new-user-id"), docData);
-        if (metadata.creationTime === metadata.lastSignInTime) {
-          addDocument({
-            displayName: displayName,
-            email: email,
-            photoURL: photoURL,
-            uid: uid,
-            providerId: providerId,
-          });
-        }
-      })
-      .catch(() => {
-        alert("Login unsuccess!");
-      });
-  };
+        console.log(user);
 
-  const onLoginGoogle = async () => {
-    await signInWithPopup(auth, googleProvider)
-      .then((userCredential) => {
-        const { user } = userCredential;
         const { displayName, email, uid, photoURL } = user;
         const { providerId } = user.providerData[0];
         const {
           user: { metadata },
         } = userCredential;
-        setDoc(doc(db, "users", "new-user-id"), docData);
         if (metadata.creationTime === metadata.lastSignInTime) {
           addDocument({
             displayName: displayName,
@@ -98,7 +71,6 @@ const Login = () => {
               const {
                 user: { metadata },
               } = userCredential;
-              setDoc(doc(db, "users", "new-user-id"), docData);
               if (metadata.creationTime === metadata.lastSignInTime) {
                 addDocument({
                   displayName: displayName,
@@ -128,7 +100,7 @@ const Login = () => {
                 className="btn facebook-btn social-btn"
                 type="button"
                 id="facebooklogin"
-                onClick={() => onLoginFacebook()}
+                onClick={() => handleLogin(facebookProvider)}
               >
                 <span>
                   <i className="fab fa-facebook-f"></i> Sign in with Facebook
@@ -138,7 +110,7 @@ const Login = () => {
                 className="btn google-btn social-btn"
                 type="button"
                 id="googleLogin"
-                onClick={() => onLoginGoogle()}
+                onClick={() => handleLogin(googleProvider)}
               >
                 <span>
                   <i className="fab fa-google-plus-g"></i> Sign in with Google+

@@ -93,7 +93,6 @@ const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
           <button
             onClick={() => {
               signOut(auth).then(() => history.push("/"));
-              localStorage.removeItem("email");
             }}
           >
             Đăng xuất
