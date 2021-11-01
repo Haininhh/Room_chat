@@ -32,6 +32,7 @@ export interface Message {
   roomId: string;
   createdAt: Timestamp;
   uid: string;
+  email: string;
 }
 interface Props {
   selectedRoom: any | undefined;
@@ -48,7 +49,6 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
   const roomId = selectedRoom?.id;
   const user = useAppSelector(selectUser);
   const { displayName, photoURL, uid, email } = user;
-  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const createdAt = Timestamp.fromDate(new Date());
   const messagesRef = doc(collection(db, "messages"));
   const data = {
@@ -113,16 +113,15 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
         {messages.map((mes) => (
           <MessageChat
             key={mes.id}
-            photoURL={mes.photoURL ? mes.photoURL : defaultAvatar}
+            photoURL={mes.photoURL}
             displayName={
               mes.displayName
-                ? mes.displayName
-                : mes.email?.charAt(0)?.toUpperCase()
             }
             createdAt={mes.createdAt}
             text={mes.text}
             roomId={mes.roomId ? mes.roomId : undefined}
             uid={mes.uid}
+            email={mes.email}
           />
         ))}
       </div>

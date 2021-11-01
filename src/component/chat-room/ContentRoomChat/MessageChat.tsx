@@ -11,7 +11,9 @@ const MessageChat = ({
   photoURL,
   displayName,
   uid,
+  email
 }: Message) => {
+  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const formatDate = (createdAt: any) => {
     const formatDate = createdAt.toDate();
     const formattedDate = dateFormat(formatDate, "ddd, h:MM TT");
@@ -25,7 +27,7 @@ const MessageChat = ({
         <>
           <div className="message__text-right d-flex align-center">
             <Typography.Text className="message__author-right">
-              {displayName}
+              {displayName? displayName: email?.charAt(0)?.toUpperCase()}
             </Typography.Text>
             <Typography.Text className="message__date">
               {formatDate(createdAt)}
@@ -33,7 +35,7 @@ const MessageChat = ({
           </div>
           <div className="message__user-right d-flex align-center">
             <div className="message__avatar message__avatar-right">
-              <Avatar size="small" src={photoURL}>
+              <Avatar size="small" src={photoURL ? photoURL : defaultAvatar}>
                 {photoURL ? "" : displayName?.charAt(0)?.toUpperCase()}
               </Avatar>
             </div>

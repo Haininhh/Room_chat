@@ -1,15 +1,14 @@
 import {
   createUserWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
+  signInWithPopup
 } from "@firebase/auth";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   auth,
   facebookProvider,
-  googleProvider,
+  googleProvider
 } from "../../config/FirebaseConfig";
 import { addDocument } from "../../config/services";
 import { TextField, validateSignup } from "./TextFieldSignup";
@@ -22,7 +21,6 @@ interface MyFormValues {
 }
 
 const Signup = () => {
-  const history = useHistory();
   const [errorMessage, setErrorMessage] = useState("");
   const initialValues: MyFormValues = {
     fullname: "",
@@ -61,11 +59,23 @@ const Signup = () => {
       onSubmit={(values) => {
         const { email, password } = values;
         createUserWithEmailAndPassword(auth, email, password)
-          .then((user) => {
-            signOut(auth).then(() => {
-              history.push("/signup-success");
+        .then((userCredential) => {
+          const { user } = userCredential;
+          const { displayName, email, uid, photoURL } = user;
+          const { providerId } = user.providerData[0];
+          const {
+            user: { metadata },
+          } = userCredential;
+          if (metadata.creationTime === metadata.lastSignInTime) {
+            addDocument({
+              displayName: displayName,
+              email: email,
+              photoURL: photoURL,
+              uid: uid,
+              providerId: providerId,
             });
-          })
+          }
+        })
           .catch(() => {
             setErrorMessage("Email already existed! Please try again.");
           });

@@ -24,7 +24,7 @@ const ForgotPassword = () => {
       })
       .catch((error) => {
         if (error) {
-          setError("Email already existed! Please try again.");
+          setError("Email not found! Please try again.");
         }
       });
   };

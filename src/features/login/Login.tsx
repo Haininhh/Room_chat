@@ -34,8 +34,6 @@ const Login = () => {
     await signInWithPopup(auth, provider)
       .then((userCredential) => {
         const { user } = userCredential;
-        console.log(user);
-
         const { displayName, email, uid, photoURL } = user;
         const { providerId } = user.providerData[0];
         const {
