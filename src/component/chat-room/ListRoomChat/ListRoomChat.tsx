@@ -3,7 +3,7 @@ import {
   onSnapshot,
   query,
   where,
-  WhereFilterOp,
+  WhereFilterOp
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -18,9 +18,10 @@ import { selectUser } from "../../../store/userSlice";
 import { SelectedRoom } from "../../RoomChat";
 import AddRoomChat from "./AddRoomChat";
 
-export interface Props {
+interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
   setMembers: (param: any) => void;
+  setShowRoomChat: (param: boolean) => void;
 }
 interface Condition {
   fieldName: string;
@@ -33,7 +34,7 @@ interface UserCondition {
   value: string[];
 }
 
-const ListRoomChat = ({ getSelectRoom, setMembers }: Props) => {
+const ListRoomChat = ({ getSelectRoom, setMembers, setShowRoomChat, }: Props) => {
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
@@ -147,19 +148,22 @@ const ListRoomChat = ({ getSelectRoom, setMembers }: Props) => {
       </div>
       <div className="list__bottom">
         <div className="list__bottom-container">
-          <h5 className="list__bottom-roomlist">
+          <p className="list__bottom-roomlist">
             Danh sách các phòng{" "}
             <span>
               <img src={downArrow} alt="downArrow" />
             </span>
-          </h5>
+          </p>
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
             {data.map((doc) => (
               <li
                 className="roomlist__item-name"
                 key={doc.id}
-                onClick={() => setSelectedRoomId(doc.id)}
+                onClick={() => {
+                  setSelectedRoomId(doc.id);
+                  setShowRoomChat(true);
+                }}
               >
                 {doc.name}
               </li>

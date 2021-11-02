@@ -189,3 +189,30 @@
 .d-inline-block {
   display: inline-block;
 }
+
+/* ---------------------------------------- */
+
+@media (max-width: 991.98px) {
+  .list__top-nav {
+    display: none !important;
+  }
+  .list__bottom-roomlist {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  .list__bottom-roomlist__item{
+    padding-left: 12px;
+  }
+
+}
+@media (max-width: 767.98px) {
+  .list__bottom-roomlist {
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: none;
+  }
+  .list__bottom-roomlist__item{
+    padding-left: 8px;
+  }
+}
+@media (max-width: 575.98px) {}
