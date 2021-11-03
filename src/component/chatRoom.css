@@ -114,6 +114,7 @@
   width: 30%;
 }
 .content__roomchat-container {
+  flex-grow: 1;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   height: calc(100% - 129px);
@@ -204,7 +205,8 @@ span.roomlist__item-add-btn {
   width: 30px;
   border-radius: 50%;
 }
-.message__avatar-left {
+.message__avatar-left,
+.list__top-title__avatar {
   margin-right: 8px;
 }
 .message__avatar-right {
@@ -248,5 +250,9 @@ span.ant-avatar.ant-avatar-lg.ant-avatar-circle.ant-avatar-image.avatar__group-a
 .w-36px {
   width: 36px;
 }
-
-
+.list__top-title__avatar {
+  display: none;
+}
+.header__roomchat-user-info #cancel_reset {
+  display: none;
+}

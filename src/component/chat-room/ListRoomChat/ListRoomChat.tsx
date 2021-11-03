@@ -3,7 +3,7 @@ import {
   onSnapshot,
   query,
   where,
-  WhereFilterOp
+  WhereFilterOp,
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -34,12 +34,17 @@ interface UserCondition {
   value: string[];
 }
 
-const ListRoomChat = ({ getSelectRoom, setMembers, setShowRoomChat, }: Props) => {
+const ListRoomChat = ({
+  getSelectRoom,
+  setMembers,
+  setShowRoomChat,
+}: Props) => {
+  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
   const user = useAppSelector(selectUser);
-  const { uid } = user;
+  const { uid, photoURL } = user;
 
   const conditionRef: Condition | null = useMemo(() => {
     return {
@@ -118,10 +123,21 @@ const ListRoomChat = ({ getSelectRoom, setMembers, setShowRoomChat, }: Props) =>
       <div className="list__top">
         <div className="list__top-container">
           <div className="list__top-title d-flex justify-between align-center">
-            <h3 className="font-weight-bold mb-0">Chat</h3>
-            <button className="list__top-title__btn w-h-36px">
+            <div className="d-flex align-center">
+              <span className="list__top-title__avatar">
+                <img src={photoURL ? photoURL : defaultAvatar} alt="" />
+              </span>
+              <h3 className="list__top-title__name font-weight-bold mb-0">
+                Chat
+              </h3>
+            </div>
+            <button className="list__top-title__btn w-h-36px w-h-32px w-h-28px">
               <span>
-                <img className="list__top-edit" src={edit} alt="edit" />
+                <img
+                  className="list__top-edit w-20px w-16px "
+                  src={edit}
+                  alt="edit"
+                />
               </span>
             </button>
           </div>

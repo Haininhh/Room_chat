@@ -200,19 +200,114 @@
     font-size: 16px;
     margin-bottom: 12px;
   }
-  .list__bottom-roomlist__item{
+  .list__bottom-roomlist__item {
     padding-left: 12px;
   }
-
 }
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
+  .list__top-title__name {
+    font-size: 20px;
+  }
+  .list__top-title__btn span {
+    top: 2px;
+    right: 5px;
+  }
+  .w-16px {
+    width: 16px;
+  }
+  .w-h-28px {
+    width: 28px;
+    height: 28px;
+  }
+  .list__bottom {
+    padding: 0 8px;
+  }
   .list__bottom-roomlist {
     font-size: 14px;
     margin-bottom: 10px;
     display: none;
   }
-  .list__bottom-roomlist__item{
+  .list__bottom-roomlist__item {
     padding-left: 8px;
   }
+  .roomlist__item-add {
+    padding-left: 0;
+    font-size: 14px;
+  }
 }
-@media (max-width: 575.98px) {}
+@media (max-width: 575.98px) {
+  .col-xs-12 {
+    width: 100%;
+  }
+  .w-30 {
+    display: none;
+  }
+  .list__top-title__avatar {
+    display: block;
+  }
+  .list__top-title__avatar img {
+    width: 32px;
+    border-radius: 50%;
+  }
+  .list__top-title__name {
+    font-size: 24px;
+  }
+  .list__top-title__btn span {
+    top: 4px;
+    right: 6px;
+  }
+  .list-room-chat {
+    width: 100%;
+  }
+  .w-20px {
+    width: 20px;
+  }
+  .w-h-32px {
+    width: 32px;
+    height: 32px;
+  }
+  .list-room-chat {
+    display: none;
+  }
+  .content__roomchat-container {
+    display: block;
+  }
+  .list__bottom {
+    padding: 0 8px;
+  }
+
+  /* Header roomchat */
+  .header__roomchat-user__btn-logout,
+  .header__roomchat-btn-user,
+  .btn-user__bell,
+  .header__roomchat-search {
+    display: none;
+  }
+  .content__roomchat-container {
+    height: calc(100% - 80px);
+  }
+  .header__user-info {
+    margin-left: 0;
+  }
+  .header__roomchat-feature > button {
+    background-color: #17191a;
+    /* border-radius: 6px; */
+    border: none;
+    margin-left: 0;
+    color: #fff;
+  }
+  .pd-feature-btn {
+    padding: 10px 10px;
+  }
+  .pd-feature-btn img {
+    width: 20px;
+  }
+  .header__roomchat-user-info #cancel_reset {
+    display: block;
+    margin-right: 6px;
+  }
+  .header__roomchat-user-info #cancel_reset img {
+    width: 16px;
+    color: #fff;
+  }
+}
