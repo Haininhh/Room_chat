@@ -1,13 +1,13 @@
 import { Avatar, Tooltip } from "antd";
 import { signOut } from "firebase/auth";
-import { useHistory } from "react-router-dom";
-import bell from "../assets/png/bell.png";
-import facetime from "../assets/png/facetime-button.png";
-import loupe from "../assets/png/loupe.png";
-import more from "../assets/png/more.png";
-import phone from "../assets/png/phone-call.png";
-import { auth } from "../config/FirebaseConfig";
-import backarrow from "../assets/png/back-arrow.png";
+import { Link, useHistory } from "react-router-dom";
+import { auth } from "../../../config/FirebaseConfig";
+import backarrow from "../../../assets/png/back-arrow.png";
+import bell from "../../../assets/png//bell.png";
+import facetime from "../../../assets/png//facetime-button.png";
+import loupe from "../../../assets/png//loupe.png";
+import more from "../../../assets/png//more.png";
+import phone from "../../../assets/png//phone-call.png";
 
 interface Props {
   members: any[] | undefined;
@@ -22,9 +22,11 @@ const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
       <div className="header__roomchat-container">
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
-            <span id="cancel_reset">
-              <img src={backarrow} alt="back-arrow" />
-            </span>
+            <Link to="/list-room">
+              <span id="cancel_reset">
+                <img src={backarrow} alt="back-arrow" />
+              </span>
+            </Link>
             {members && members.length >= 2 ? (
               <div className="avatar__group d-inline-block w-69px">
                 <Avatar.Group size="small" maxCount={2}>

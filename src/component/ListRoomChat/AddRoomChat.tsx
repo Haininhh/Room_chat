@@ -1,9 +1,9 @@
 import { collection, doc, setDoc } from "@firebase/firestore";
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { db } from "../../../config/FirebaseConfig";
-import { useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/userSlice";
+import { db } from "../../config/FirebaseConfig";
+import { useAppSelector } from "../../store/hooks";
+import { selectUser } from "../../store/userSlice";
 
 interface Props {
   onHide: () => void;

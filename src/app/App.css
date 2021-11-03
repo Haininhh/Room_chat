@@ -266,9 +266,9 @@
     width: 32px;
     height: 32px;
   }
-  .list-room-chat {
+  /* .list-room-chat {
     display: none;
-  }
+  } */
   .content__roomchat-container {
     display: block;
   }
