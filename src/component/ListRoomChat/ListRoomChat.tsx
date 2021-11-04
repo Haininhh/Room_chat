@@ -1,3 +1,4 @@
+import { signOut } from "@firebase/auth";
 import {
   collection,
   onSnapshot,
@@ -7,13 +8,13 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import add from "../../assets/png/add.png";
 import downArrow from "../../assets/png/down-arrow.png";
 import edit from "../../assets/png/edit.png";
 import loupe from "../../assets/png/loupe.png";
 import more from "../../assets/png/more.png";
-import { db } from "../../config/FirebaseConfig";
+import { auth, db } from "../../config/FirebaseConfig";
 import { useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/userSlice";
 import { SelectedRoom } from "../RoomChat";
@@ -40,6 +41,7 @@ const ListRoomChat = ({
   setMembers,
   setShowRoomChat,
 }: Props) => {
+  const history = useHistory();
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
@@ -207,6 +209,14 @@ const ListRoomChat = ({
           </ul>
         </div>
       </div>
+      <button
+        className="header__roomchat-user__btn-logout"
+        onClick={() => {
+          signOut(auth).then(() => history.push("/"));
+        }}
+      >
+        Đăng xuất
+      </button>
     </>
   );
 };

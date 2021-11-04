@@ -22,6 +22,7 @@ import { FormControl, InputGroup } from "react-bootstrap";
 import { db } from "../../../config/FirebaseConfig";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
+import { SelectedRoom } from "../../RoomChat";
 import MessageChat from "./MessageChat";
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
@@ -35,7 +36,7 @@ export interface Message {
   email: string;
 }
 interface Props {
-  selectedRoom: any | undefined;
+  selectedRoom: SelectedRoom | undefined;
 }
 interface Condition {
   fieldName: string;
@@ -114,9 +115,7 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
           <MessageChat
             key={mes.id}
             photoURL={mes.photoURL}
-            displayName={
-              mes.displayName
-            }
+            displayName={mes.displayName}
             createdAt={mes.createdAt}
             text={mes.text}
             roomId={mes.roomId ? mes.roomId : undefined}
@@ -125,7 +124,7 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
           />
         ))}
       </div>
-      <InputGroup>
+      <InputGroup className="content__roomchat-input-group">
         <FormControl
           placeholder="Nhập tin nhắn..."
           aria-label="Recipient's username"

@@ -1,7 +1,5 @@
 import { useState } from "react";
-import {
-  Route, Switch
-} from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import ContainerRoomChat from "./chat-room/ContainerRoomChat";
 import "./chatRoom.css";
 import ListRoomChat from "./ListRoomChat/ListRoomChat";
@@ -14,6 +12,10 @@ export type SelectedRoom = {
 };
 
 const RoomChat = () => {
+  const { path, url } = useRouteMatch();
+
+  console.log(path, url);
+
   const [showRoomChat, setShowRoomChat] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<SelectedRoom | undefined>(
     undefined
@@ -30,16 +32,15 @@ const RoomChat = () => {
             setShowRoomChat={setShowRoomChat}
           />
         </div>
-        <div className="col-xs-12 col-9 p-v0 height-100h">
-          <ContainerRoomChat selectedRoom={selectedRoom} members={members} showRoomChat={showRoomChat}/>
+        <div className="col-xs-12 col-9 p-0">
+          <ContainerRoomChat
+            selectedRoom={selectedRoom}
+            members={members}
+            showRoomChat={showRoomChat}
+          />
         </div>
       </div>
-      <Switch>
-        <Route path="/list-room" component={ListRoomChat}></Route>
-        {/* <Route path="/ha-noi" component={ContainerRoomChat}></Route> */}
-      </Switch>
     </div>
-
   );
 };
 

@@ -1,9 +1,10 @@
 import { Avatar } from "antd";
 import React from "react";
+import { SelectedRoom } from "../../RoomChat";
 
 interface Props {
   members: any[] | undefined;
-  selectedRoom: any | undefined;
+  selectedRoom: SelectedRoom | undefined;
 }
 
 const InfoRoomChat = ({ selectedRoom, members }: Props) => {

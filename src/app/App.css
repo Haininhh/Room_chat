@@ -193,6 +193,12 @@
 /* ---------------------------------------- */
 
 @media (max-width: 991.98px) {
+  .col-lg-12 {
+    width: 100%;
+  }
+  .w-30 {
+    display: none;
+  }
   .list__top-nav {
     display: none !important;
   }
@@ -234,6 +240,9 @@
     padding-left: 0;
     font-size: 14px;
   }
+  .header__roomchat-btn-user {
+    display: none;
+  }
 }
 @media (max-width: 575.98px) {
   .col-xs-12 {
@@ -266,28 +275,25 @@
     width: 32px;
     height: 32px;
   }
-  /* .list-room-chat {
+  .list-room-chat {
     display: none;
-  } */
+  }
   .content__roomchat-container {
     display: block;
+    height: calc(100% - 70px);
   }
   .list__bottom {
     padding: 0 8px;
   }
 
   /* Header roomchat */
-  .header__roomchat-user__btn-logout,
   .header__roomchat-btn-user,
   .btn-user__bell,
   .header__roomchat-search {
     display: none;
   }
-  .content__roomchat-container {
-    height: calc(100% - 80px);
-  }
   .header__user-info {
-    margin-left: 0;
+    margin-left: 4px;
   }
   .header__roomchat-feature > button {
     background-color: #17191a;

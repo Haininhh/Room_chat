@@ -1,22 +1,21 @@
 import { Avatar, Tooltip } from "antd";
-import { signOut } from "firebase/auth";
-import { Link, useHistory } from "react-router-dom";
-import { auth } from "../../../config/FirebaseConfig";
-import backarrow from "../../../assets/png/back-arrow.png";
+import { Link } from "react-router-dom";
 import bell from "../../../assets/png//bell.png";
 import facetime from "../../../assets/png//facetime-button.png";
 import loupe from "../../../assets/png//loupe.png";
 import more from "../../../assets/png//more.png";
 import phone from "../../../assets/png//phone-call.png";
+import backarrow from "../../../assets/png/back-arrow.png";
+import { SelectedRoom } from "../../RoomChat";
 
 interface Props {
   members: any[] | undefined;
-  selectedRoom: any | undefined;
+  selectedRoom: SelectedRoom | undefined;
 }
 
 const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
-  const history = useHistory();
   const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
+
   return (
     <div className="header__roomchat">
       <div className="header__roomchat-container">
@@ -95,14 +94,6 @@ const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
               )}
             </div>
           </div>
-          <button
-            className="header__roomchat-user__btn-logout"
-            onClick={() => {
-              signOut(auth).then(() => history.push("/"));
-            }}
-          >
-            Đăng xuất
-          </button>
           <div className="header__roomchat-feature d-flex">
             <button className="color-grey header__roomchat-btn-user">
               <i className="fas fa-user-plus color-grey"></i>Thêm người
