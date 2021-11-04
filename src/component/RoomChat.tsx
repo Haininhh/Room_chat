@@ -25,14 +25,14 @@ const RoomChat = () => {
   return (
     <div className="container max-width-100">
       <div className="row">
-        <div className="col-3 p-0 list-room-chat">
+        <div className="col-3 w-30-lg p-0 list-room-chat">
           <ListRoomChat
             getSelectRoom={setSelectedRoom}
             setMembers={setMembers}
             setShowRoomChat={setShowRoomChat}
           />
         </div>
-        <div className="col-xs-12 col-9 p-0">
+        <div className="w-70-lg col-xs-12 col-9 p-0">
           <ContainerRoomChat
             selectedRoom={selectedRoom}
             members={members}

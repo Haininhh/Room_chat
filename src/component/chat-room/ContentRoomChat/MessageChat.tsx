@@ -56,7 +56,7 @@ const MessageChat = ({
           </div>
           <div className="message__user-left d-flex align-center">
             <div className="message__avatar message__avatar-left">
-              <Avatar size="small" src={photoURL}>
+              <Avatar size="small" src={photoURL ? photoURL : defaultAvatar}>
                 {photoURL ? "" : displayName?.charAt(0)?.toUpperCase()}
               </Avatar>
             </div>

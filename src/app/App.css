@@ -196,6 +196,12 @@
   .col-lg-12 {
     width: 100%;
   }
+  .w-70-lg {
+    width: 70%;
+  }
+  .w-30-lg {
+    width: 30%;
+  }
   .w-30 {
     display: none;
   }

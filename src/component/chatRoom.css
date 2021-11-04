@@ -130,7 +130,7 @@
   padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
 .room__info {
-  height: 102%;
+  height: 100%;
   border-left: 2px solid #333;
   padding-top: 10px;
   padding-left: calc(var(--bs-gutter-x) * 0.5);
