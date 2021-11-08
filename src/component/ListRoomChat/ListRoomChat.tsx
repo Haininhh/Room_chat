@@ -8,7 +8,13 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Link,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 import add from "../../assets/png/add.png";
 import downArrow from "../../assets/png/down-arrow.png";
 import edit from "../../assets/png/edit.png";
@@ -19,11 +25,15 @@ import { useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/userSlice";
 import { SelectedRoom } from "../RoomChat";
 import AddRoomChat from "./AddRoomChat";
+import userAvatar from "../../assets/png/image-avatar.png";
+import ContainerRoomChat from "../chat-room/ContainerRoomChat";
 
 interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
   setMembers: (param: any) => void;
   setShowRoomChat: (param: boolean) => void;
+  members: any[] | undefined;
+  showRoomChat: boolean;
 }
 interface Condition {
   fieldName: string;
@@ -40,9 +50,10 @@ const ListRoomChat = ({
   getSelectRoom,
   setMembers,
   setShowRoomChat,
+  members,
+  showRoomChat,
 }: Props) => {
   const history = useHistory();
-  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
   const [data, setData] = useState<any[]>([]);
@@ -128,7 +139,7 @@ const ListRoomChat = ({
           <div className="list__top-title d-flex justify-between align-center">
             <div className="d-flex align-center">
               <span className="list__top-title__avatar">
-                <img src={photoURL ? photoURL : defaultAvatar} alt="" />
+                <img src={photoURL ? photoURL : userAvatar} alt="" />
               </span>
               <h3 className="list__top-title__name font-weight-bold mb-0">
                 Chat
@@ -175,7 +186,6 @@ const ListRoomChat = ({
           </p>
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
-            {/* <Link to="/ha-noi"> */}
             {data.map((doc) => (
               <li
                 className="roomlist__item-name"
@@ -185,10 +195,9 @@ const ListRoomChat = ({
                   setShowRoomChat(true);
                 }}
               >
-                {doc.name}
+                <Link to={`/room-chat/${doc.name}`}>{doc.name}</Link>
               </li>
             ))}
-            {/* </Link> */}
 
             <Button
               className="btn btn-primary roomlist__item-add d-flex align-center"
@@ -217,6 +226,18 @@ const ListRoomChat = ({
       >
         Đăng xuất
       </button>
+      {/* <Switch>
+        <Route
+          path="/:id"
+          children={
+            <ContainerRoomChat
+              selectedRoom={selectedRoom}
+              members={members}
+              showRoomChat={showRoomChat}
+            />
+          }
+        />
+      </Switch> */}
     </>
   );
 };

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouteMatch } from "react-router-dom";
 import ContainerRoomChat from "./chat-room/ContainerRoomChat";
 import "./chatRoom.css";
 import ListRoomChat from "./ListRoomChat/ListRoomChat";
@@ -12,10 +11,6 @@ export type SelectedRoom = {
 };
 
 const RoomChat = () => {
-  const { path, url } = useRouteMatch();
-
-  console.log(path, url);
-
   const [showRoomChat, setShowRoomChat] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<SelectedRoom | undefined>(
     undefined
@@ -30,6 +25,8 @@ const RoomChat = () => {
             getSelectRoom={setSelectedRoom}
             setMembers={setMembers}
             setShowRoomChat={setShowRoomChat}
+            members={members} //CHANGE
+            showRoomChat={showRoomChat} // CHANGE
           />
         </div>
         <div className="w-70-lg col-xs-12 col-9 p-0">

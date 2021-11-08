@@ -6,6 +6,7 @@ import loupe from "../../../assets/png//loupe.png";
 import more from "../../../assets/png//more.png";
 import phone from "../../../assets/png//phone-call.png";
 import backarrow from "../../../assets/png/back-arrow.png";
+import userAvatar from "../../../assets/png/image-avatar.png";
 import { SelectedRoom } from "../../RoomChat";
 
 interface Props {
@@ -14,14 +15,12 @@ interface Props {
 }
 
 const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
-  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
-
   return (
     <div className="header__roomchat">
       <div className="header__roomchat-container">
         <div className="header__roomchat-user d-flex justify-between align-center">
           <div className="header__roomchat-user-info d-flex align-center">
-            <Link to="/list-room">
+            <Link to="/room-chat">
               <span id="cancel_reset">
                 <img src={backarrow} alt="back-arrow" />
               </span>
@@ -37,9 +36,7 @@ const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
                         key={member.uid}
                       >
                         <Avatar
-                          src={
-                            member.photoURL ? member.photoURL : defaultAvatar
-                          }
+                          src={member.photoURL ? member.photoURL : userAvatar}
                         >
                           {member.displayName
                             ? member.displayName
@@ -63,9 +60,7 @@ const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
                         key={member.uid}
                       >
                         <Avatar
-                          src={
-                            member.photoURL ? member.photoURL : defaultAvatar
-                          }
+                          src={member.photoURL ? member.photoURL : userAvatar}
                         >
                           {member.displayName
                             ? member.displayName

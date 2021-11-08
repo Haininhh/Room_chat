@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import ContainerRoomChat from "./chat-room/ContainerRoomChat";
 import "./chatRoom.css";
 import ListRoomChat from "./ListRoomChat/ListRoomChat";
@@ -11,23 +11,16 @@ const RoomChatMobile = () => {
     undefined
   );
   const [members, setMembers] = useState<any[]>([]);
-
   return (
-    <>
+    <div>
       <ListRoomChat
         getSelectRoom={setSelectedRoom}
         setMembers={setMembers}
         setShowRoomChat={setShowRoomChat}
-      />
-      <ContainerRoomChat
-        selectedRoom={selectedRoom}
         members={members}
         showRoomChat={showRoomChat}
       />
-      <Switch>
-        <Route path="/:room" component={ContainerRoomChat} />
-      </Switch>
-    </>
+    </div>
   );
 };
 

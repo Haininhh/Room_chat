@@ -1,6 +1,7 @@
 import { Avatar } from "antd";
 import React from "react";
 import { SelectedRoom } from "../../RoomChat";
+import userAvatar from "../../../assets/png/image-avatar.png";
 
 interface Props {
   members: any[] | undefined;
@@ -8,8 +9,6 @@ interface Props {
 }
 
 const InfoRoomChat = ({ selectedRoom, members }: Props) => {
-  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
-
   return (
     <div className="room__info">
       <h5 className="room__info-about color-grey">Thông tin</h5>
@@ -32,9 +31,9 @@ const InfoRoomChat = ({ selectedRoom, members }: Props) => {
                 <div className="message__avatar avatar__info">
                   <Avatar
                     size="small"
-                    src={member.photoURL ? member.photoURL : defaultAvatar}
+                    src={member.photoURL ? member.photoURL : userAvatar}
                   >
-                    {member.photoURL ? member.photoURL : defaultAvatar}
+                    {member.photoURL ? member.photoURL : userAvatar}
                   </Avatar>
                 </div>
                 <div className="member__name">

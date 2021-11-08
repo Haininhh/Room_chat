@@ -1,6 +1,7 @@
 import { Avatar, Typography } from "antd";
 import dateFormat from "dateformat";
 import React from "react";
+import userAvatar from "../../../assets/png/image-avatar.png";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
 import { Message } from "./ContentRoomChat";
@@ -11,9 +12,8 @@ const MessageChat = ({
   photoURL,
   displayName,
   uid,
-  email
+  email,
 }: Message) => {
-  const defaultAvatar = "https://graph.facebook.com/403982431236568/picture";
   const formatDate = (createdAt: any) => {
     const formatDate = createdAt.toDate();
     const formattedDate = dateFormat(formatDate, "ddd, h:MM TT");
@@ -27,7 +27,7 @@ const MessageChat = ({
         <>
           <div className="message__text-right d-flex align-center">
             <Typography.Text className="message__author-right">
-              {displayName? displayName: email?.charAt(0)?.toUpperCase()}
+              {displayName ? displayName : email?.charAt(0)?.toUpperCase()}
             </Typography.Text>
             <Typography.Text className="message__date">
               {formatDate(createdAt)}
@@ -35,7 +35,7 @@ const MessageChat = ({
           </div>
           <div className="message__user-right d-flex align-center">
             <div className="message__avatar message__avatar-right">
-              <Avatar size="small" src={photoURL ? photoURL : defaultAvatar}>
+              <Avatar size="small" src={photoURL ? photoURL : userAvatar}>
                 {photoURL ? "" : displayName?.charAt(0)?.toUpperCase()}
               </Avatar>
             </div>
@@ -48,7 +48,7 @@ const MessageChat = ({
         <>
           <div className="message__text-left d-flex align-center">
             <Typography.Text className="message__author-left">
-              {displayName}
+              {displayName ? displayName : email?.charAt(0)?.toUpperCase()}
             </Typography.Text>
             <Typography.Text className="message__date">
               {formatDate(createdAt)}
@@ -56,7 +56,7 @@ const MessageChat = ({
           </div>
           <div className="message__user-left d-flex align-center">
             <div className="message__avatar message__avatar-left">
-              <Avatar size="small" src={photoURL ? photoURL : defaultAvatar}>
+              <Avatar size="small" src={photoURL ? photoURL : userAvatar}>
                 {photoURL ? "" : displayName?.charAt(0)?.toUpperCase()}
               </Avatar>
             </div>
