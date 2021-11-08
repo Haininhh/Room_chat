@@ -25,8 +25,6 @@ const RoomChat = () => {
             getSelectRoom={setSelectedRoom}
             setMembers={setMembers}
             setShowRoomChat={setShowRoomChat}
-            members={members} //CHANGE
-            showRoomChat={showRoomChat} // CHANGE
           />
         </div>
         <div className="w-70-lg col-xs-12 col-9 p-0">

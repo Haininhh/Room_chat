@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { SelectedRoom } from "../RoomChat";
 import ContentRoomChat from "./ContentRoomChat/ContentRoomChat";
 import HeaderRoomChat from "./HeaderRoomChat/HeaderRoomChat";
@@ -8,12 +9,23 @@ interface Props {
   showRoomChat: boolean;
   selectedRoom: SelectedRoom | undefined;
   members: any[] | undefined;
+  listRoom: any[];
 }
 
-const ContainerRoomChat = ({ showRoomChat, selectedRoom, members }: Props) => {
+const ContainerRoomChat = ({
+  showRoomChat,
+  selectedRoom,
+  members,
+  listRoom,
+}: Props) => {
+  let { id }: any = useParams();
+
+  const room: any = listRoom[parseInt(id, 10)];
+  if (!room) return <div>Bạn chưa chọn phòng</div>;
+
   return (
     <div className="height-100vh">
-      {showRoomChat ? (
+      {showRoomChat && room ? (
         <>
           <HeaderRoomChat selectedRoom={selectedRoom} members={members} />
           <div className="content__roomchat-container d-flex">

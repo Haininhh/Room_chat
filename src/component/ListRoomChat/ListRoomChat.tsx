@@ -8,16 +8,11 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
-import {
-  Switch,
-  Route,
-  Link,
-  useHistory,
-  useRouteMatch,
-} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import add from "../../assets/png/add.png";
 import downArrow from "../../assets/png/down-arrow.png";
 import edit from "../../assets/png/edit.png";
+import userAvatar from "../../assets/png/image-avatar.png";
 import loupe from "../../assets/png/loupe.png";
 import more from "../../assets/png/more.png";
 import { auth, db } from "../../config/FirebaseConfig";
@@ -25,15 +20,13 @@ import { useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/userSlice";
 import { SelectedRoom } from "../RoomChat";
 import AddRoomChat from "./AddRoomChat";
-import userAvatar from "../../assets/png/image-avatar.png";
-import ContainerRoomChat from "../chat-room/ContainerRoomChat";
 
 interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
   setMembers: (param: any) => void;
   setShowRoomChat: (param: boolean) => void;
-  members: any[] | undefined;
-  showRoomChat: boolean;
+  setListRoom: (param: any) => void;
+  listRoom: any[];
 }
 interface Condition {
   fieldName: string;
@@ -50,13 +43,13 @@ const ListRoomChat = ({
   getSelectRoom,
   setMembers,
   setShowRoomChat,
-  members,
-  showRoomChat,
+  setListRoom,
+  listRoom,
 }: Props) => {
   const history = useHistory();
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
-  const [data, setData] = useState<any[]>([]);
+
   const user = useAppSelector(selectUser);
   const { uid, photoURL } = user;
 
@@ -83,18 +76,18 @@ const ListRoomChat = ({
           document.id = doc.id;
           items.push(document);
         });
-        setData(items);
+        setListRoom(items);
       });
       return () => {
         unsubcribe();
       };
     };
     getRooms(conditionRef);
-  }, [conditionRef, setData]);
+  }, [conditionRef, setListRoom]);
 
   const selectedRoom: SelectedRoom = useMemo(
-    () => data.find((room) => room.id === selectedRoomId),
-    [data, selectedRoomId]
+    () => listRoom.find((room) => room.id === selectedRoomId),
+    [listRoom, selectedRoomId]
   );
 
   useEffect(() => {
@@ -186,7 +179,7 @@ const ListRoomChat = ({
           </p>
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
-            {data.map((doc) => (
+            {listRoom.map((doc, index) => (
               <li
                 className="roomlist__item-name"
                 key={doc.id}
@@ -195,7 +188,7 @@ const ListRoomChat = ({
                   setShowRoomChat(true);
                 }}
               >
-                <Link to={`/room-chat/${doc.name}`}>{doc.name}</Link>
+                <Link to={`/room-chat/${index}`}>{doc.name}</Link>
               </li>
             ))}
 
@@ -213,7 +206,7 @@ const ListRoomChat = ({
             <AddRoomChat
               show={modalShow}
               onHide={() => setModalShow(false)}
-              setData={setData}
+              setListRoom={setListRoom}
             />
           </ul>
         </div>
@@ -226,18 +219,6 @@ const ListRoomChat = ({
       >
         Đăng xuất
       </button>
-      {/* <Switch>
-        <Route
-          path="/:id"
-          children={
-            <ContainerRoomChat
-              selectedRoom={selectedRoom}
-              members={members}
-              showRoomChat={showRoomChat}
-            />
-          }
-        />
-      </Switch> */}
     </>
   );
 };

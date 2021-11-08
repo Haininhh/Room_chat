@@ -8,10 +8,10 @@ import { selectUser } from "../../store/userSlice";
 interface Props {
   onHide: () => void;
   show: Boolean;
-  setData: (param: any[]) => void;
+  setListRoom: (param: any[]) => void;
 }
 
-const AddRoomChat = ({ setData, ...props }: Props) => {
+const AddRoomChat = ({ setListRoom, ...props }: Props) => {
   const user = useAppSelector(selectUser);
   const { uid } = user;
   const [addRoom, setAddRoom] = useState({
