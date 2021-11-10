@@ -18,7 +18,7 @@ import more from "../../../assets/png/more.png";
 import { auth, db } from "../../../config/FirebaseConfig";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/userSlice";
-import AddRoomChat from "../../AddRoomChat";
+import AddRoomChat from "../../RoomChatCommon/AddRoomChat";
 
 interface Props {
   setShowRoomChat: (param: boolean) => void;
