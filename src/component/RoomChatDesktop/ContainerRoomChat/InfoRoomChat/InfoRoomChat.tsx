@@ -1,7 +1,7 @@
 import { Avatar } from "antd";
 import React from "react";
-import { SelectedRoom } from "../../RoomChat";
-import userAvatar from "../../../assets/png/image-avatar.png";
+import { SelectedRoom } from "../../../RoomChat";
+import userAvatar from "../../../../assets/png/image-avatar.png";
 
 interface Props {
   members: any[] | undefined;

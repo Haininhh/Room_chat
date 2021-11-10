@@ -19,10 +19,10 @@ import {
   useState,
 } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
-import { db } from "../../../config/FirebaseConfig";
-import { useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/userSlice";
-import { SelectedRoom } from "../../RoomChat";
+import { db } from "../../../../config/FirebaseConfig";
+import { useAppSelector } from "../../../../store/hooks";
+import { selectUser } from "../../../../store/userSlice";
+import { SelectedRoom } from "../../../RoomChat";
 import MessageChat from "./MessageChat";
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 

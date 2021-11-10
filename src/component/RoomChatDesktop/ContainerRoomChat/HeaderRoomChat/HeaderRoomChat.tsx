@@ -1,13 +1,13 @@
 import { Avatar, Tooltip } from "antd";
 import { Link } from "react-router-dom";
-import bell from "../../../assets/png//bell.png";
-import facetime from "../../../assets/png//facetime-button.png";
-import loupe from "../../../assets/png//loupe.png";
-import more from "../../../assets/png//more.png";
-import phone from "../../../assets/png//phone-call.png";
-import backarrow from "../../../assets/png/back-arrow.png";
-import userAvatar from "../../../assets/png/image-avatar.png";
-import { SelectedRoom } from "../../RoomChat";
+import bell from "../../../../assets/png/bell.png";
+import facetime from "../../../../assets/png/facetime-button.png";
+import loupe from "../../../../assets/png/loupe.png";
+import more from "../../../../assets/png/more.png";
+import phone from "../../../../assets/png/phone-call.png";
+import backarrow from "../../../../assets/png/back-arrow.png";
+import userAvatar from "../../../../assets/png/image-avatar.png";
+import { SelectedRoom } from "../../../RoomChat";
 
 interface Props {
   members: any[] | undefined;

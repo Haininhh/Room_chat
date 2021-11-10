@@ -1,44 +1,26 @@
 import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-} from "react-router-dom";
-import ContainerRoomChat from "./chat-room/ContainerRoomChat";
-import "./chatRoom.css";
+import { Route, Switch, useLocation } from "react-router-dom";
+import ContainerRoomChat from "../RoomChatMobile/ContainerRoomChat/ContainerRoomChat";
 import ListRoomChat from "./ListRoomChat/ListRoomChat";
-import { SelectedRoom } from "./RoomChat";
-
-const ModalSwitch = () => {
-  return (
-    <Router>
-      <RoomChatMobile />
-    </Router>
-  );
-};
 
 const RoomChatMobile = () => {
   const [showRoomChat, setShowRoomChat] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState<SelectedRoom | undefined>(
-    undefined
-  );
   const [members, setMembers] = useState<any[]>([]);
   const [listRoom, setListRoom] = useState<any[]>([]);
   const location: any = useLocation();
   const room = location.state && location.state.room;
+
   return (
-    <div>
+    <div className="container container__mobile max-width-100">
       <Switch location={room || location}>
         <Route
-          path="/"
+          exact
+          path="/room-chat"
           children={
             <ListRoomChat
-              getSelectRoom={setSelectedRoom}
-              setMembers={setMembers}
               setShowRoomChat={setShowRoomChat}
-              setListRoom={setListRoom}
               listRoom={listRoom}
+              setListRoom={setListRoom}
             />
           }
         />
@@ -46,7 +28,7 @@ const RoomChatMobile = () => {
           path="/room-chat/:id"
           children={
             <ContainerRoomChat
-              selectedRoom={selectedRoom}
+              setMembers={setMembers}
               members={members}
               showRoomChat={showRoomChat}
               listRoom={listRoom}
@@ -58,4 +40,4 @@ const RoomChatMobile = () => {
   );
 };
 
-export default ModalSwitch;
+export default RoomChatMobile;

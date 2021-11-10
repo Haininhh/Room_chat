@@ -1,9 +1,9 @@
 import { Avatar, Typography } from "antd";
 import dateFormat from "dateformat";
 import React from "react";
-import userAvatar from "../../../assets/png/image-avatar.png";
-import { useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/userSlice";
+import { useAppSelector } from "../../../../store/hooks";
+import { selectUser } from "../../../../store/userSlice";
+import userAvatar from "../../../../assets/png/image-avatar.png";
 import { Message } from "./ContentRoomChat";
 
 const MessageChat = ({

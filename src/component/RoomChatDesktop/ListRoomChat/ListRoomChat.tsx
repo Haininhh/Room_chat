@@ -9,17 +9,17 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import add from "../../assets/png/add.png";
-import downArrow from "../../assets/png/down-arrow.png";
-import edit from "../../assets/png/edit.png";
-import userAvatar from "../../assets/png/image-avatar.png";
-import loupe from "../../assets/png/loupe.png";
-import more from "../../assets/png/more.png";
-import { auth, db } from "../../config/FirebaseConfig";
-import { useAppSelector } from "../../store/hooks";
-import { selectUser } from "../../store/userSlice";
-import { SelectedRoom } from "../RoomChat";
-import AddRoomChat from "./AddRoomChat";
+import add from "../../../assets/png/add.png";
+import downArrow from "../../../assets/png/down-arrow.png";
+import edit from "../../../assets/png/edit.png";
+import userAvatar from "../../../assets/png/image-avatar.png";
+import loupe from "../../../assets/png/loupe.png";
+import more from "../../../assets/png/more.png";
+import { auth, db } from "../../../config/FirebaseConfig";
+import { useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/userSlice";
+import AddRoomChat from "../../AddRoomChat";
+import { SelectedRoom } from "../../RoomChat";
 
 interface Props {
   getSelectRoom: (param: SelectedRoom) => void;
@@ -33,7 +33,7 @@ interface Condition {
   opStr: WhereFilterOp;
   value: string;
 }
-interface UserCondition {
+export interface UserCondition {
   fieldName: string;
   opStr: WhereFilterOp;
   value: string[];
@@ -179,7 +179,7 @@ const ListRoomChat = ({
           </p>
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
-            {listRoom.map((doc, index) => (
+            {listRoom.map((doc) => (
               <li
                 className="roomlist__item-name"
                 key={doc.id}
@@ -188,7 +188,12 @@ const ListRoomChat = ({
                   setShowRoomChat(true);
                 }}
               >
-                <Link to={`/room-chat/${index}`}>{doc.name}</Link>
+                <Link
+                  to={`/room-chat/${doc.name}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  {doc.name}
+                </Link>
               </li>
             ))}
 

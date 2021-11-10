@@ -1,31 +1,26 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { SelectedRoom } from "../RoomChat";
+import { SelectedRoom } from "../../RoomChat";
 import ContentRoomChat from "./ContentRoomChat/ContentRoomChat";
 import HeaderRoomChat from "./HeaderRoomChat/HeaderRoomChat";
 import InfoRoomChat from "./InfoRoomChat/InfoRoomChat";
 
 interface Props {
   showRoomChat: boolean;
-  selectedRoom: SelectedRoom | undefined;
   members: any[] | undefined;
   listRoom: any[];
+  setMembers: (param: any) => void;
+  selectedRoom: SelectedRoom | undefined;
 }
 
 const ContainerRoomChat = ({
   showRoomChat,
-  selectedRoom,
   members,
   listRoom,
+  selectedRoom,
 }: Props) => {
-  let { id }: any = useParams();
-
-  const room: any = listRoom[parseInt(id, 10)];
-  if (!room) return <div>Bạn chưa chọn phòng</div>;
-
   return (
     <div className="height-100vh">
-      {showRoomChat && room ? (
+      {showRoomChat && selectedRoom ? (
         <>
           <HeaderRoomChat selectedRoom={selectedRoom} members={members} />
           <div className="content__roomchat-container d-flex">

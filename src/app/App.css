@@ -189,6 +189,9 @@
 .d-inline-block {
   display: inline-block;
 }
+.container__mobile {
+  display: none;
+}
 
 /* ---------------------------------------- */
 
@@ -250,6 +253,8 @@
     display: none;
   }
 }
+
+/* Screen: 576px */
 @media (max-width: 575.98px) {
   .col-xs-12 {
     width: 100%;
@@ -271,9 +276,6 @@
     top: 4px;
     right: 6px;
   }
-  .list-room-chat {
-    width: 100%;
-  }
   .w-20px {
     width: 20px;
   }
@@ -281,15 +283,18 @@
     width: 32px;
     height: 32px;
   }
-  .list-room-chat {
-    display: none;
-  }
   .content__roomchat-container {
     display: block;
     height: calc(100% - 70px);
   }
   .list__bottom {
     padding: 0 8px;
+  }
+  .container__desktop {
+    display: none;
+  }
+  .container__mobile {
+    display: block;
   }
 
   /* Header roomchat */
