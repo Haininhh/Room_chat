@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Room } from "../../store/assign";
-import ContainerRoomChat from "../RoomChatDesktop/ContainerRoomChat/ContainerRoomChat";
-import ListRoomChat from "../RoomChatDesktop/ListRoomChat/ListRoomChat";
+import ContainerRoomChat from "./ContainerRoomChat";
+import ListRoomChat from "./ListRoomChat";
 
 const RoomChatDesktop = () => {
   const [selectedRoom, setSelectedRoom] = useState<Room | undefined>(undefined);

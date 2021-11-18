@@ -23,8 +23,7 @@ import { db } from "../../../../config/FirebaseConfig";
 import { Room } from "../../../../store/assign";
 import { useAppSelector } from "../../../../store/store";
 import { selectUser } from "../../../../store/userSlice";
-import MessageChat from "../../../RoomChatMobile/ContainerRoomChat/ContentRoomChat/MessageChat";
-
+import MessageChat from "./MessageChat";
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
 export interface Message {
@@ -48,24 +47,23 @@ interface Condition {
 const ContentRoomChat = ({ selectedRoom }: Props) => {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
-  const roomId = selectedRoom?.id;
   const user = useAppSelector(selectUser);
   const { displayName, photoURL, uid, email } = user;
   const createdAt = Timestamp.fromDate(new Date());
-  const messagesRef = doc(collection(db, "messages"));
-  const data = {
-    photoURL: photoURL,
-    email: email,
-    displayName: displayName,
-    createdAt: createdAt,
-    text: text,
-    roomId: roomId,
-    uid: uid,
-  };
 
   const handleMessageChange: EventHandler<KeyboardEvent<HTMLInputElement>> =
     async (e) => {
+      const messagesRef = doc(collection(db, "messages"));
       if (e.key === "Enter") {
+        const data = {
+          photoURL: photoURL,
+          email: email,
+          displayName: displayName,
+          createdAt: createdAt,
+          text: text,
+          roomId: selectedRoom?.id,
+          uid: uid,
+        };
         await setDoc(messagesRef, data);
         setText("");
       }
@@ -73,6 +71,16 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
 
   const handleSendMessage = async (e: MouseEvent) => {
     e.preventDefault();
+    const messagesRef = doc(collection(db, "messages"));
+    const data = {
+      photoURL: photoURL,
+      email: email,
+      displayName: displayName,
+      createdAt: createdAt,
+      text: text,
+      roomId: selectedRoom?.id,
+      uid: uid,
+    };
     await setDoc(messagesRef, data);
     setText("");
   };

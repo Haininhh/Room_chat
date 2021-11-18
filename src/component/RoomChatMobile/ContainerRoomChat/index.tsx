@@ -6,9 +6,9 @@ import { Room } from "../../../store/assign";
 import { setMember } from "../../../store/memberSlice";
 import { selectRoomList } from "../../../store/roomSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { UserCondition } from "../ListRoomChat/ListRoomChat";
-import ContentRoomChat from "./ContentRoomChat/ContentRoomChat";
-import HeaderRoomChat from "./HeaderRoomChat/HeaderRoomChat";
+import { UserCondition } from "../ListRoomChat";
+import ContentRoomChat from "./ContentRoomChat";
+import HeaderRoomChat from "./HeaderRoomChat";
 import InfoRoomChat from "./InfoRoomChat/InfoRoomChat";
 
 interface Props {

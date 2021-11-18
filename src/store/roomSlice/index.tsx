@@ -15,6 +15,10 @@ const roomListSlice = createSlice({
   initialState,
   reducers: {
     setRoomList: (state: RoomList, action: Action) => {
+      if (state.rooms.find((room) => room.id === action.payload.id)) {
+        return state;
+      }
+
       const newState = [...state.rooms, action.payload];
       return {
         rooms: newState,

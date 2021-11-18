@@ -4,7 +4,7 @@ import React from "react";
 import { selectUser } from "../../store/userSlice";
 import userAvatar from "../../assets/png/image-avatar.png";
 
-import { Message } from "../RoomChatDesktop/ContainerRoomChat/ContentRoomChat/ContentRoomChat";
+import { Message } from "../RoomChatDesktop/ContainerRoomChat/ContentRoomChat";
 import { useAppSelector } from "../../store/store";
 
 const MessageChat = ({
@@ -15,12 +15,13 @@ const MessageChat = ({
   uid,
   email,
 }: Message) => {
+  const user = useAppSelector(selectUser);
+
   const formatDate = (createdAt: any) => {
     const formatDate = createdAt.toDate();
     const formattedDate = dateFormat(formatDate, "ddd, h:MM TT");
     return formattedDate;
   };
-  const user = useAppSelector(selectUser);
 
   return (
     <div className="message">

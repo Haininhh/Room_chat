@@ -3,7 +3,7 @@ import dateFormat from "dateformat";
 import React from "react";
 import { selectUser } from "../../../../store/userSlice";
 import userAvatar from "../../../../assets/png/image-avatar.png";
-import { Message } from "./ContentRoomChat";
+import { Message } from ".";
 import { useAppSelector } from "../../../../store/store";
 
 const MessageChat = ({

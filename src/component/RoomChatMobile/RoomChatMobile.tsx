@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
-import ContainerRoomChat from "../RoomChatMobile/ContainerRoomChat/ContainerRoomChat";
-import ListRoomChat from "./ListRoomChat/ListRoomChat";
+import ContainerRoomChat from "./ContainerRoomChat";
+import ListRoomChat from "./ListRoomChat";
 
 const RoomChatMobile = () => {
   const [showRoomChat, setShowRoomChat] = useState(false);

@@ -7,7 +7,6 @@ import {
   setDoc,
   Timestamp,
   where,
-  WhereFilterOp,
 } from "firebase/firestore";
 import {
   ChangeEvent,
@@ -15,7 +14,6 @@ import {
   KeyboardEvent,
   MouseEvent,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
@@ -23,7 +21,8 @@ import { db } from "../../../../config/FirebaseConfig";
 import { Room } from "../../../../store/assign";
 import { useAppSelector } from "../../../../store/store";
 import { selectUser } from "../../../../store/userSlice";
-import MessageChat from "./MessageChat";
+import MessageChat from "../../../RoomChatMobile/ContainerRoomChat/ContentRoomChat/MessageChat";
+
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
 export interface Message {
@@ -38,33 +37,27 @@ export interface Message {
 interface Props {
   selectedRoom: Room | undefined;
 }
-interface Condition {
-  fieldName: string;
-  opStr: WhereFilterOp;
-  value: string;
-}
 
 const ContentRoomChat = ({ selectedRoom }: Props) => {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
-  const roomId = selectedRoom?.id;
   const user = useAppSelector(selectUser);
   const { displayName, photoURL, uid, email } = user;
   const createdAt = Timestamp.fromDate(new Date());
-  const messagesRef = doc(collection(db, "messages"));
-  const data = {
-    photoURL: photoURL,
-    email: email,
-    displayName: displayName,
-    createdAt: createdAt,
-    text: text,
-    roomId: roomId,
-    uid: uid,
-  };
 
   const handleMessageChange: EventHandler<KeyboardEvent<HTMLInputElement>> =
     async (e) => {
       if (e.key === "Enter") {
+        const messagesRef = doc(collection(db, "messages"));
+        const data = {
+          photoURL: photoURL,
+          email: email,
+          displayName: displayName,
+          createdAt: createdAt,
+          text: text,
+          roomId: selectedRoom?.id,
+          uid: uid,
+        };
         await setDoc(messagesRef, data);
         setText("");
       }
@@ -72,24 +65,26 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
 
   const handleSendMessage = async (e: MouseEvent) => {
     e.preventDefault();
+    const messagesRef = doc(collection(db, "messages"));
+    const data = {
+      photoURL: photoURL,
+      email: email,
+      displayName: displayName,
+      createdAt: createdAt,
+      text: text,
+      roomId: selectedRoom?.id,
+      uid: uid,
+    };
     await setDoc(messagesRef, data);
     setText("");
   };
-  const condition: Condition | undefined = useMemo(() => {
-    if (!selectedRoom) return;
-    return {
-      fieldName: "roomId",
-      opStr: "==",
-      value: selectedRoom.id,
-    };
-  }, [selectedRoom]);
 
   useEffect(() => {
-    if (!condition) return;
-    const getRooms = async (condition: Condition) => {
+    const getRooms = async () => {
+      if (!selectedRoom) return;
       const q = query(
         collection(db, "messages"),
-        where(condition.fieldName, condition.opStr, condition.value),
+        where("roomId", "==", selectedRoom?.id),
         orderBy("createdAt", "asc")
       );
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -105,8 +100,8 @@ const ContentRoomChat = ({ selectedRoom }: Props) => {
         unsubscribe();
       };
     };
-    getRooms(condition);
-  }, [condition]);
+    getRooms();
+  }, [selectedRoom, setMessages]);
 
   return (
     <div className="content__roomchat">

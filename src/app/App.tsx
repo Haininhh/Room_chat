@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     const unregisterAuthObserver = onAuthStateChanged(auth, async (user) => {
-      if (!user) return;
+      if (!user) return history.push("/");
       const { displayName, email, uid, photoURL }: User = user;
       await dispatch(getUser({ displayName, email, uid, photoURL }));
       history.push("/room-chat");

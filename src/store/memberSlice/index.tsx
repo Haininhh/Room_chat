@@ -16,6 +16,9 @@ const memberSlice = createSlice({
   initialState,
   reducers: {
     setMember: (state: Member[], action: any) => {
+      if (state.find((room) => room.uid === action.payload.uid)) {
+        return state;
+      }
       return [...state, action.payload];
     },
   },

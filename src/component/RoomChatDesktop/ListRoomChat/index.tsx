@@ -46,6 +46,7 @@ const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
       const q = query(collectionRef);
       const unsubcribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
+          console.log(doc.id, doc.data());
           const { name, description, members } = doc.data() as Room;
           const id = doc.id;
           dispatch(setRoomList({ name, description, members, id }));
@@ -65,6 +66,7 @@ const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
 
   useEffect(() => {
     if (!selectedRoom) return;
+
     setSelectRoom(selectedRoom);
   });
 
@@ -181,7 +183,9 @@ const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
       <button
         className="header__roomchat-user__btn-logout"
         onClick={() => {
-          signOut(auth).then(() => history.push("/"));
+          signOut(auth).then(() => {
+            history.push("/");
+          });
         }}
       >
         Đăng xuất
