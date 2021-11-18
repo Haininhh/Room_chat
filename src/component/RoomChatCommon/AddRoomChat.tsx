@@ -2,16 +2,15 @@ import { collection, doc, setDoc } from "@firebase/firestore";
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { db } from "../../config/FirebaseConfig";
-import { useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/store";
 import { selectUser } from "../../store/userSlice";
 
 interface Props {
   onHide: () => void;
   show: Boolean;
-  setListRoom: (param: any[]) => void;
 }
 
-const AddRoomChat = ({ setListRoom, ...props }: Props) => {
+const AddRoomChat = ({ ...props }: Props) => {
   const user = useAppSelector(selectUser);
   const { uid } = user;
   const [addRoom, setAddRoom] = useState({

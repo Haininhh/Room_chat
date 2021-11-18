@@ -1,34 +1,26 @@
 import React from "react";
-import { SelectedRoom } from "../../RoomChat";
+import { Room } from "../../../store/assign";
 import ContentRoomChat from "./ContentRoomChat/ContentRoomChat";
 import HeaderRoomChat from "./HeaderRoomChat/HeaderRoomChat";
 import InfoRoomChat from "./InfoRoomChat/InfoRoomChat";
 
 interface Props {
   showRoomChat: boolean;
-  members: any[] | undefined;
-  listRoom: any[];
-  setMembers: (param: any) => void;
-  selectedRoom: SelectedRoom | undefined;
+  selectedRoom: Room | undefined;
 }
 
-const ContainerRoomChat = ({
-  showRoomChat,
-  members,
-  listRoom,
-  selectedRoom,
-}: Props) => {
+const ContainerRoomChat = ({ showRoomChat, selectedRoom }: Props) => {
   return (
     <div className="height-100vh">
       {showRoomChat && selectedRoom ? (
         <>
-          <HeaderRoomChat selectedRoom={selectedRoom} members={members} />
+          <HeaderRoomChat selectedRoom={selectedRoom} />
           <div className="content__roomchat-container d-flex">
             <div className="w-70 col-lg-12">
               <ContentRoomChat selectedRoom={selectedRoom} />
             </div>
             <div className="w-30">
-              <InfoRoomChat selectedRoom={selectedRoom} members={members} />
+              <InfoRoomChat selectedRoom={selectedRoom} />
             </div>
           </div>
         </>

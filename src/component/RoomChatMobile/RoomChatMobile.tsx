@@ -5,8 +5,6 @@ import ListRoomChat from "./ListRoomChat/ListRoomChat";
 
 const RoomChatMobile = () => {
   const [showRoomChat, setShowRoomChat] = useState(false);
-  const [members, setMembers] = useState<any[]>([]);
-  const [listRoom, setListRoom] = useState<any[]>([]);
   const location: any = useLocation();
   const room = location.state && location.state.room;
 
@@ -16,24 +14,11 @@ const RoomChatMobile = () => {
         <Route
           exact
           path="/room-chat"
-          children={
-            <ListRoomChat
-              setShowRoomChat={setShowRoomChat}
-              listRoom={listRoom}
-              setListRoom={setListRoom}
-            />
-          }
+          children={<ListRoomChat setShowRoomChat={setShowRoomChat} />}
         />
         <Route
           path="/room-chat/:id"
-          children={
-            <ContainerRoomChat
-              setMembers={setMembers}
-              members={members}
-              showRoomChat={showRoomChat}
-              listRoom={listRoom}
-            />
-          }
+          children={<ContainerRoomChat showRoomChat={showRoomChat} />}
         />
       </Switch>
     </div>

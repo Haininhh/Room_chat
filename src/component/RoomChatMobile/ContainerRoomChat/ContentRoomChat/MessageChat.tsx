@@ -1,10 +1,10 @@
 import { Avatar, Typography } from "antd";
 import dateFormat from "dateformat";
 import React from "react";
-import { useAppSelector } from "../../../../store/hooks";
 import { selectUser } from "../../../../store/userSlice";
 import userAvatar from "../../../../assets/png/image-avatar.png";
 import { Message } from "./ContentRoomChat";
+import { useAppSelector } from "../../../../store/store";
 
 const MessageChat = ({
   text,

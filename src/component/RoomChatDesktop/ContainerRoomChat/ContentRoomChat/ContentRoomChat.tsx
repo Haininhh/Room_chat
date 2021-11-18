@@ -20,9 +20,9 @@ import {
 } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
 import { db } from "../../../../config/FirebaseConfig";
-import { useAppSelector } from "../../../../store/hooks";
+import { Room } from "../../../../store/assign";
+import { useAppSelector } from "../../../../store/store";
 import { selectUser } from "../../../../store/userSlice";
-import { SelectedRoom } from "../../../RoomChat";
 import MessageChat from "../../../RoomChatMobile/ContainerRoomChat/ContentRoomChat/MessageChat";
 
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
@@ -37,7 +37,7 @@ export interface Message {
   email: string;
 }
 interface Props {
-  selectedRoom: SelectedRoom | undefined;
+  selectedRoom: Room | undefined;
 }
 interface Condition {
   fieldName: string;

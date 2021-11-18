@@ -1,20 +1,23 @@
 import { Avatar, Tooltip } from "antd";
 import { Link } from "react-router-dom";
+import backarrow from "../../../../assets/png/back-arrow.png";
 import bell from "../../../../assets/png/bell.png";
 import facetime from "../../../../assets/png/facetime-button.png";
+import userAvatar from "../../../../assets/png/image-avatar.png";
 import loupe from "../../../../assets/png/loupe.png";
 import more from "../../../../assets/png/more.png";
 import phone from "../../../../assets/png/phone-call.png";
-import backarrow from "../../../../assets/png/back-arrow.png";
-import userAvatar from "../../../../assets/png/image-avatar.png";
-import { SelectedRoom } from "../../../RoomChat";
+import { Room } from "../../../../store/assign";
+import { selectMember } from "../../../../store/memberSlice";
+import { useAppSelector } from "../../../../store/store";
 
 interface Props {
-  members: any[] | undefined;
-  selectedRoom: SelectedRoom | undefined;
+  selectedRoom: Room | undefined;
 }
 
-const HeaderRoomChat = ({ selectedRoom, members }: Props) => {
+const HeaderRoomChat = ({ selectedRoom }: Props) => {
+  const members = useAppSelector(selectMember);
+
   return (
     <div className="header__roomchat">
       <div className="header__roomchat-container">

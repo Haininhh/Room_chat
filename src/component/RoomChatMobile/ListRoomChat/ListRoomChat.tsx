@@ -6,7 +6,7 @@ import {
   where,
   WhereFilterOp,
 } from "firebase/firestore";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import add from "../../../assets/png/add.png";
@@ -16,63 +16,56 @@ import userAvatar from "../../../assets/png/image-avatar.png";
 import loupe from "../../../assets/png/loupe.png";
 import more from "../../../assets/png/more.png";
 import { auth, db } from "../../../config/FirebaseConfig";
-import { useAppSelector } from "../../../store/hooks";
+import { Room } from "../../../store/assign";
+import { selectRoomList, setRoomList } from "../../../store/roomSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { selectUser } from "../../../store/userSlice";
 import AddRoomChat from "../../RoomChatCommon/AddRoomChat";
 
 interface Props {
   setShowRoomChat: (param: boolean) => void;
-  setListRoom: (param: any[]) => void;
-  listRoom: any[];
 }
-interface Condition {
-  fieldName: string;
-  opStr: WhereFilterOp;
-  value: string;
-}
+
 export interface UserCondition {
   fieldName: string;
   opStr: WhereFilterOp;
   value: string[];
 }
 
-const ListRoomChat = ({ setShowRoomChat, setListRoom, listRoom }: Props) => {
+const ListRoomChat = ({ setShowRoomChat }: Props) => {
   const history = useHistory();
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
+  const dispatch = useAppDispatch();
+
+  // Select User from store
   const user = useAppSelector(selectUser);
   const { uid, photoURL } = user;
 
-  const conditionRef: Condition | null = useMemo(() => {
-    return {
-      fieldName: "members",
-      opStr: "array-contains",
-      value: uid,
-    };
-  }, [uid]);
+  // Select Room List from store
+  const roomList = useAppSelector(selectRoomList);
+  const { rooms } = roomList;
 
+  // Set Room List
   useEffect(() => {
-    if (!conditionRef) return;
-    const getRooms = async (condition: Condition) => {
+    const getRooms = async () => {
       const collectionRef = query(
         collection(db, "rooms"),
-        where(condition.fieldName, condition.opStr, condition.value)
+        where("members", "array-contains", uid)
       );
       const q = query(collectionRef);
       const unsubcribe = onSnapshot(q, (querySnapshot) => {
-        const items: any[] = [];
         querySnapshot.forEach((doc) => {
-          const document: any = doc.data();
-          document.id = doc.id;
-          items.push(document);
+          const { name, description, members } = doc.data() as Room;
+          const id = doc.id;
+          dispatch(setRoomList({ name, description, members, id }));
         });
-        setListRoom(items);
       });
       return () => {
         unsubcribe();
       };
     };
-    getRooms(conditionRef);
-  }, [conditionRef, setListRoom]);
+    getRooms();
+  }, [uid, dispatch]);
 
   return (
     <div className="height-100vh">
@@ -128,19 +121,19 @@ const ListRoomChat = ({ setShowRoomChat, setListRoom, listRoom }: Props) => {
           </p>
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
-            {listRoom.map((doc) => (
+            {rooms.map((room) => (
               <li
                 className="roomlist__item-name"
-                key={doc.id}
+                key={room.id}
                 onClick={() => {
                   setShowRoomChat(true);
                 }}
               >
                 <Link
-                  to={`/room-chat/${doc.name}`}
+                  to={`/room-chat/${room.name}`}
                   style={{ textDecoration: "none" }}
                 >
-                  {doc.name}
+                  {room.name}
                 </Link>
               </li>
             ))}
@@ -156,11 +149,7 @@ const ListRoomChat = ({ setShowRoomChat, setListRoom, listRoom }: Props) => {
               <span>Thêm phòng</span>
             </Button>
 
-            <AddRoomChat
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-              setListRoom={setListRoom}
-            />
+            <AddRoomChat show={modalShow} onHide={() => setModalShow(false)} />
           </ul>
         </div>
       </div>

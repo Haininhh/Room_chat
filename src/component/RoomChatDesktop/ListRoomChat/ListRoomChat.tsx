@@ -1,11 +1,5 @@
 import { signOut } from "@firebase/auth";
-import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-  WhereFilterOp,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
@@ -16,114 +10,86 @@ import userAvatar from "../../../assets/png/image-avatar.png";
 import loupe from "../../../assets/png/loupe.png";
 import more from "../../../assets/png/more.png";
 import { auth, db } from "../../../config/FirebaseConfig";
-import { useAppSelector } from "../../../store/hooks";
+import { Room } from "../../../store/assign";
+import { setMember } from "../../../store/memberSlice";
+import { selectRoomList, setRoomList } from "../../../store/roomSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { selectUser } from "../../../store/userSlice";
 import AddRoomChat from "../../RoomChatCommon/AddRoomChat";
-import { SelectedRoom } from "../../RoomChat";
 
 interface Props {
-  getSelectRoom: (param: SelectedRoom) => void;
-  setMembers: (param: any) => void;
+  setSelectRoom: (param: Room) => void;
   setShowRoomChat: (param: boolean) => void;
-  setListRoom: (param: any) => void;
-  listRoom: any[];
-}
-interface Condition {
-  fieldName: string;
-  opStr: WhereFilterOp;
-  value: string;
-}
-export interface UserCondition {
-  fieldName: string;
-  opStr: WhereFilterOp;
-  value: string[];
 }
 
-const ListRoomChat = ({
-  getSelectRoom,
-  setMembers,
-  setShowRoomChat,
-  setListRoom,
-  listRoom,
-}: Props) => {
+const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
   const history = useHistory();
   const [modalShow, setModalShow] = React.useState<Boolean>(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
 
+  const dispatch = useAppDispatch();
+  // Selector User
   const user = useAppSelector(selectUser);
   const { uid, photoURL } = user;
 
-  const conditionRef: Condition | null = useMemo(() => {
-    return {
-      fieldName: "members",
-      opStr: "array-contains",
-      value: uid,
-    };
-  }, [uid]);
+  // Selector List Room
+  const roomList = useAppSelector(selectRoomList);
+  const { rooms } = roomList;
 
+  // Get List Room
   useEffect(() => {
-    if (!conditionRef) return;
-    const getRooms = async (condition: Condition) => {
+    const getRooms = async () => {
       const collectionRef = query(
         collection(db, "rooms"),
-        where(condition.fieldName, condition.opStr, condition.value)
+        where("members", "array-contains", uid)
       );
       const q = query(collectionRef);
       const unsubcribe = onSnapshot(q, (querySnapshot) => {
-        const items: any[] = [];
         querySnapshot.forEach((doc) => {
-          const document: any = doc.data();
-          document.id = doc.id;
-          items.push(document);
+          const { name, description, members } = doc.data() as Room;
+          const id = doc.id;
+          dispatch(setRoomList({ name, description, members, id }));
         });
-        setListRoom(items);
       });
       return () => {
         unsubcribe();
       };
     };
-    getRooms(conditionRef);
-  }, [conditionRef, setListRoom]);
+    getRooms();
+  }, [uid, dispatch]);
 
-  const selectedRoom: SelectedRoom = useMemo(
-    () => listRoom.find((room) => room.id === selectedRoomId),
-    [listRoom, selectedRoomId]
+  const selectedRoom: Room | undefined = useMemo(
+    () => rooms.find((room) => room.id === selectedRoomId),
+    [rooms, selectedRoomId]
   );
 
   useEffect(() => {
-    getSelectRoom(selectedRoom);
+    if (!selectedRoom) return;
+    setSelectRoom(selectedRoom);
   });
 
-  // get members from users database;
-  const usersCondition: UserCondition | undefined = useMemo(() => {
-    if (!selectedRoom) return;
-    return {
-      fieldName: uid,
-      opStr: "in",
-      value: selectedRoom.members,
-    };
-  }, [uid, selectedRoom]);
-
+  // GET Member from users database;
   useEffect(() => {
-    if (!usersCondition) return;
-    const getRooms = async (usersCondition: UserCondition) => {
+    const getRooms = async () => {
+      if (!selectedRoom?.members) return;
       const q = query(
         collection(db, "users"),
-        where("uid", usersCondition.opStr, usersCondition.value)
+        where("uid", "in", selectedRoom?.members)
       );
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const members: any[] = [];
+      const unsubscribe = await onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          members.push(doc.data());
+          const { displayName, email, photoURL, providerId, uid } = doc.data();
+          dispatch(
+            setMember({ displayName, email, photoURL, providerId, uid })
+          );
         });
-        setMembers(members);
       });
       return () => {
         unsubscribe();
       };
     };
-    getRooms(usersCondition);
-  }, [usersCondition, setMembers]);
+    getRooms();
+  }, [dispatch, selectedRoom?.members]);
 
   return (
     <>
@@ -179,20 +145,20 @@ const ListRoomChat = ({
           </p>
           <ul className="list__bottom-roomlist__item">
             {/* Danh sách phòng */}
-            {listRoom.map((doc) => (
+            {rooms.map((room) => (
               <li
                 className="roomlist__item-name"
-                key={doc.id}
+                key={room.id}
                 onClick={() => {
-                  setSelectedRoomId(doc.id);
+                  setSelectedRoomId(room.id);
                   setShowRoomChat(true);
                 }}
               >
                 <Link
-                  to={`/room-chat/${doc.name}`}
+                  to={`/room-chat/${room.name}`}
                   style={{ textDecoration: "none" }}
                 >
-                  {doc.name}
+                  {room.name}
                 </Link>
               </li>
             ))}
@@ -208,11 +174,7 @@ const ListRoomChat = ({
               <span>Thêm phòng</span>
             </Button>
 
-            <AddRoomChat
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-              setListRoom={setListRoom}
-            />
+            <AddRoomChat show={modalShow} onHide={() => setModalShow(false)} />
           </ul>
         </div>
       </div>

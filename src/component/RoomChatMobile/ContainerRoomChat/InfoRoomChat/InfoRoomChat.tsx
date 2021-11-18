@@ -1,14 +1,17 @@
 import { Avatar } from "antd";
 import React from "react";
-import { SelectedRoom } from "../../../RoomChat";
 import userAvatar from "../../../../assets/png/image-avatar.png";
+import { useAppSelector } from "../../../../store/store";
+import { selectMember } from "../../../../store/memberSlice";
+import { Room } from "../../../../store/assign";
 
 interface Props {
-  members: any[] | undefined;
-  selectedRoom: SelectedRoom | undefined;
+  selectedRoom: Room | undefined;
 }
 
-const InfoRoomChat = ({ selectedRoom, members }: Props) => {
+const InfoRoomChat = ({ selectedRoom }: Props) => {
+  const members = useAppSelector(selectMember);
+
   return (
     <div className="room__info">
       <h5 className="room__info-about color-grey">Thông tin</h5>

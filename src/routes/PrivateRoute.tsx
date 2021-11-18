@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, RouteProps, Route } from "react-router-dom";
-import { useAppSelector } from "../store/hooks";
+import { useAppSelector } from "../store/store";
 import { selectUser } from "../store/userSlice";
 
 const PrivateRoute = (props: RouteProps) => {

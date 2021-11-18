@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "../config/FirebaseConfig";
 import routes from "../routes/Route";
-import { useAppDispatch } from "../store/hooks";
-import { getMe } from "../store/userSlice";
+import { User } from "../store/assign";
+import { useAppDispatch } from "../store/store";
+import { getUser } from "../store/userSlice";
 import "./App.css";
 
 const App = () => {
@@ -13,11 +14,10 @@ const App = () => {
 
   useEffect(() => {
     const unregisterAuthObserver = onAuthStateChanged(auth, async (user) => {
-      await dispatch(getMe());
-      if (auth.currentUser) {
-        history.push("/room-chat");
-      }
-      return;
+      if (!user) return;
+      const { displayName, email, uid, photoURL }: User = user;
+      await dispatch(getUser({ displayName, email, uid, photoURL }));
+      history.push("/room-chat");
     });
     return () => unregisterAuthObserver();
   }, [history, dispatch]);

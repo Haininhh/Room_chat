@@ -2,7 +2,10 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../../config/FirebaseConfig";
-import { SelectedRoom } from "../../RoomChat";
+import { Room } from "../../../store/assign";
+import { setMember } from "../../../store/memberSlice";
+import { selectRoomList } from "../../../store/roomSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { UserCondition } from "../ListRoomChat/ListRoomChat";
 import ContentRoomChat from "./ContentRoomChat/ContentRoomChat";
 import HeaderRoomChat from "./HeaderRoomChat/HeaderRoomChat";
@@ -10,21 +13,17 @@ import InfoRoomChat from "./InfoRoomChat/InfoRoomChat";
 
 interface Props {
   showRoomChat: boolean;
-  members: any[] | undefined;
-  listRoom: any[];
-  setMembers: (param: any) => void;
 }
 
-const ContainerRoomChat = ({
-  showRoomChat,
-  members,
-  listRoom,
-  setMembers,
-}: Props) => {
+const ContainerRoomChat = ({ showRoomChat }: Props) => {
   let { id }: any = useParams();
-  const selectedRoom: SelectedRoom = useMemo(
-    () => listRoom.find((room) => room.name === id),
-    [listRoom, id]
+  const dispatch = useAppDispatch();
+  const roomlist = useAppSelector(selectRoomList);
+  const { rooms } = roomlist;
+
+  const selectedRoom: Room | undefined = useMemo(
+    () => rooms.find((room) => room.name === id),
+    [rooms, id]
   );
 
   const usersCondition: UserCondition | undefined = useMemo(() => {
@@ -44,28 +43,29 @@ const ContainerRoomChat = ({
         where("uid", usersCondition.opStr, usersCondition.value)
       );
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const members: any[] = [];
         querySnapshot.forEach((doc) => {
-          members.push(doc.data());
+          const { displayName, email, photoURL, providerId, uid } = doc.data();
+          dispatch(
+            setMember({ displayName, email, photoURL, providerId, uid })
+          );
         });
-        setMembers(members);
       });
       return () => {
         unsubscribe();
       };
     };
     getRooms(usersCondition);
-  }, [usersCondition, setMembers]);
+  }, [usersCondition, dispatch]);
 
   return (
     <div className="height-100vh">
-      <HeaderRoomChat selectedRoom={selectedRoom} members={members} />
+      <HeaderRoomChat selectedRoom={selectedRoom} />
       <div className="content__roomchat-container d-flex">
         <div className="w-70 col-lg-12">
           <ContentRoomChat selectedRoom={selectedRoom} />
         </div>
         <div className="w-30">
-          <InfoRoomChat selectedRoom={selectedRoom} members={members} />
+          <InfoRoomChat selectedRoom={selectedRoom} />
         </div>
       </div>
     </div>
