@@ -1,8 +1,8 @@
 import React from "react";
 import { Room } from "../../../store/assign";
 import ContentRoomChat from "./ContentRoomChat";
-import HeaderRoomChat from "./HeaderRoomChat";
-import InfoRoomChat from "./InfoRoomChat";
+import HeaderRoomChat from "../HeaderRoomChat";
+import InfoRoomChat from "../InfoRoomChat";
 
 interface Props {
   showRoomChat: boolean;

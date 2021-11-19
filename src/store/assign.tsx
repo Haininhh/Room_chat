@@ -4,6 +4,14 @@ export interface User {
   uid: string | null;
   photoURL: string | null;
 }
+export interface Member {
+  createAt: any;
+  displayName: string;
+  email: string;
+  photoURL: string;
+  providerId: string;
+  uid: string;
+}
 export interface Room {
   name: string;
   description: string;

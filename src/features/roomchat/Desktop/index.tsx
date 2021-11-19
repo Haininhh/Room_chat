@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Room } from "../../store/assign";
+import { Room } from "../../../store/assign";
 import ContainerRoomChat from "./ContainerRoomChat";
 import ListRoomChat from "./ListRoomChat";
 

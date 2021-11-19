@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import "./roomchat.css";
-import RoomChatDesktop from "./RoomChatDesktop/RoomChatDesktop";
-import RoomChatMobile from "./RoomChatMobile/RoomChatMobile";
+import RoomChatDesktop from "./Desktop";
+import RoomChatMobile from "./Mobile";
 
 const RoomChat = () => {
   return (

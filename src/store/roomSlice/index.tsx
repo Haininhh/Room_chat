@@ -18,7 +18,6 @@ const roomListSlice = createSlice({
       if (state.rooms.find((room) => room.id === action.payload.id)) {
         return state;
       }
-
       const newState = [...state.rooms, action.payload];
       return {
         rooms: newState,

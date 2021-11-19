@@ -6,10 +6,10 @@ import { Room } from "../../../store/assign";
 import { setMember } from "../../../store/memberSlice";
 import { selectRoomList } from "../../../store/roomSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { UserCondition } from "../ListRoomChat";
+import { UserCondition } from "./ListRoomChat";
 import ContentRoomChat from "./ContentRoomChat";
-import HeaderRoomChat from "./HeaderRoomChat";
-import InfoRoomChat from "./InfoRoomChat/InfoRoomChat";
+import HeaderRoomChat from "../HeaderRoomChat";
+import InfoRoomChat from "../InfoRoomChat";
 
 interface Props {
   showRoomChat: boolean;
@@ -45,6 +45,7 @@ const ContainerRoomChat = ({ showRoomChat }: Props) => {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const { displayName, email, photoURL, providerId, uid } = doc.data();
+          // console.log(doc.data().length);
           dispatch(
             setMember({ displayName, email, photoURL, providerId, uid })
           );

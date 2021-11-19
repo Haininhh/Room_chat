@@ -1,11 +1,20 @@
 import { Avatar, Typography } from "antd";
 import dateFormat from "dateformat";
-import React from "react";
-import { selectUser } from "../../store/userSlice";
+import { Timestamp } from "firebase/firestore";
+import React, { useEffect, useRef } from "react";
 import userAvatar from "../../assets/png/image-avatar.png";
-
-import { Message } from "../RoomChatDesktop/ContainerRoomChat/ContentRoomChat";
 import { useAppSelector } from "../../store/store";
+import { selectUser } from "../../store/userSlice";
+
+export interface Message {
+  text: string;
+  displayName: string;
+  photoURL: string | null;
+  roomId: string;
+  createdAt: Timestamp;
+  uid: string;
+  email: string;
+}
 
 const MessageChat = ({
   text,
@@ -15,16 +24,21 @@ const MessageChat = ({
   uid,
   email,
 }: Message) => {
-  const user = useAppSelector(selectUser);
+  const messagesEndRef: any = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(scrollToBottom, [text]);
 
   const formatDate = (createdAt: any) => {
     const formatDate = createdAt.toDate();
     const formattedDate = dateFormat(formatDate, "ddd, h:MM TT");
     return formattedDate;
   };
+  const user = useAppSelector(selectUser);
 
   return (
-    <div className="message">
+    <div className="message" ref={messagesEndRef}>
       {user.uid === uid ? (
         <>
           <div className="message__text-right d-flex align-center">

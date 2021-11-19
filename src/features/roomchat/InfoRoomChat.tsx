@@ -1,9 +1,9 @@
 import { Avatar } from "antd";
 import React from "react";
-import userAvatar from "../../../../assets/png/image-avatar.png";
-import { useAppSelector } from "../../../../store/store";
-import { selectMember } from "../../../../store/memberSlice";
-import { Room } from "../../../../store/assign";
+import userAvatar from "../../assets/png/image-avatar.png";
+import { Room } from "../../store/assign";
+import { selectMember } from "../../store/memberSlice";
+import { useAppSelector } from "../../store/store";
 
 interface Props {
   selectedRoom: Room | undefined;

@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import RoomChat from "../component/RoomChat";
+import RoomChat from "../features/roomchat";
 import Dashboard from "../features/dashboard/Dashboard";
 import ForgotPassword from "../features/forgotPassword/ForgotPassword";
 import Login from "../features/login/Login";

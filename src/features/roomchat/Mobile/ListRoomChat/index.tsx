@@ -1,26 +1,19 @@
 import { signOut } from "@firebase/auth";
-import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-  WhereFilterOp,
-} from "firebase/firestore";
-import React, { useEffect } from "react";
+import { WhereFilterOp } from "firebase/firestore";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import add from "../../../assets/png/add.png";
-import downArrow from "../../../assets/png/down-arrow.png";
-import edit from "../../../assets/png/edit.png";
-import userAvatar from "../../../assets/png/image-avatar.png";
-import loupe from "../../../assets/png/loupe.png";
-import more from "../../../assets/png/more.png";
-import { auth, db } from "../../../config/FirebaseConfig";
-import { Room } from "../../../store/assign";
-import { selectRoomList, setRoomList } from "../../../store/roomSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { selectUser } from "../../../store/userSlice";
-import AddRoomChat from "../../RoomChatCommon/AddRoomChat";
+import { auth } from "../../../../config/FirebaseConfig";
+import { selectRoomList } from "../../../../store/roomSlice";
+import { useAppSelector } from "../../../../store/store";
+import { selectUser } from "../../../../store/userSlice";
+import add from "../../../../assets/png/add.png";
+import downArrow from "../../../../assets/png/down-arrow.png";
+import edit from "../../../../assets/png/edit.png";
+import userAvatar from "../../../../assets/png/image-avatar.png";
+import loupe from "../../../../assets/png/loupe.png";
+import more from "../../../../assets/png/more.png";
+import AddRoomChat from "../../AddRoomChat";
 
 interface Props {
   setShowRoomChat: (param: boolean) => void;
@@ -34,38 +27,15 @@ export interface UserCondition {
 
 const ListRoomChat = ({ setShowRoomChat }: Props) => {
   const history = useHistory();
-  const [modalShow, setModalShow] = React.useState<Boolean>(false);
-  const dispatch = useAppDispatch();
+  const [modalShow, setModalShow] = useState<Boolean>(false);
 
   // Select User from store
   const user = useAppSelector(selectUser);
-  const { uid, photoURL } = user;
+  const { photoURL } = user;
 
   // Select Room List from store
   const roomList = useAppSelector(selectRoomList);
   const { rooms } = roomList;
-
-  // Set Room List
-  useEffect(() => {
-    const getRooms = async () => {
-      const collectionRef = query(
-        collection(db, "rooms"),
-        where("members", "array-contains", uid)
-      );
-      const q = query(collectionRef);
-      const unsubcribe = onSnapshot(q, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const { name, description, members } = doc.data() as Room;
-          const id = doc.id;
-          dispatch(setRoomList({ name, description, members, id }));
-        });
-      });
-      return () => {
-        unsubcribe();
-      };
-    };
-    getRooms();
-  }, [uid, dispatch]);
 
   return (
     <div className="height-100vh">

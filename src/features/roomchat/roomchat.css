@@ -109,7 +109,6 @@
 }
 .w-70 {
   width: 70%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
 }
 .w-30 {
   width: 30%;
@@ -173,6 +172,7 @@ span.roomlist__item-add-btn {
 .content__roomchat-message {
   overflow-y: auto;
   margin-bottom: 48px;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
 }
 .content__roomchat-input-group {
   position: absolute;

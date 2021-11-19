@@ -327,4 +327,7 @@
     width: 16px;
     color: #fff;
   }
+  .content__roomchat-message {
+    padding-right: 6px;
+  }
 }

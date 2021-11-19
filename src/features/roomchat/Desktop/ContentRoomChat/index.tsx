@@ -23,7 +23,8 @@ import { db } from "../../../../config/FirebaseConfig";
 import { Room } from "../../../../store/assign";
 import { useAppSelector } from "../../../../store/store";
 import { selectUser } from "../../../../store/userSlice";
-import MessageChat from "./MessageChat";
+import MessageChat from "../../MessengeChat";
+
 //overflow-y: auto: thêm thanh scroll lên xuống khi phần content chat vượt quá chiều cao cố định
 
 export interface Message {
