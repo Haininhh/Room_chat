@@ -1,5 +1,4 @@
 import { Avatar, Tooltip } from "antd";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import backarrow from "../../assets/png/back-arrow.png";
 import bell from "../../assets/png/bell.png";
@@ -18,9 +17,6 @@ interface Props {
 
 const HeaderRoomChat = ({ selectedRoom }: Props) => {
   const members = useAppSelector(selectMember);
-  useEffect(() => {
-    console.log(members.length);
-  }, [members]);
 
   return (
     <div className="header__roomchat">

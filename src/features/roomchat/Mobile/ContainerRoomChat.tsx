@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../../config/FirebaseConfig";
 import { Room } from "../../../store/assign";
-import { setMember } from "../../../store/memberSlice";
+import { clearMember, setMember } from "../../../store/memberSlice";
 import { selectRoomList } from "../../../store/roomSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { UserCondition } from "./ListRoomChat";
@@ -37,7 +37,8 @@ const ContainerRoomChat = ({ showRoomChat }: Props) => {
 
   useEffect(() => {
     if (!usersCondition) return;
-    const getRooms = async (usersCondition: UserCondition) => {
+    dispatch(clearMember({}));
+    const getMembers = async (usersCondition: UserCondition) => {
       const q = query(
         collection(db, "users"),
         where("uid", usersCondition.opStr, usersCondition.value)
@@ -45,7 +46,6 @@ const ContainerRoomChat = ({ showRoomChat }: Props) => {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const { displayName, email, photoURL, providerId, uid } = doc.data();
-          // console.log(doc.data().length);
           dispatch(
             setMember({ displayName, email, photoURL, providerId, uid })
           );
@@ -55,7 +55,7 @@ const ContainerRoomChat = ({ showRoomChat }: Props) => {
         unsubscribe();
       };
     };
-    getRooms(usersCondition);
+    getMembers(usersCondition);
   }, [usersCondition, dispatch]);
 
   return (

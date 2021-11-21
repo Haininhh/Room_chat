@@ -19,11 +19,14 @@ const memberSlice = createSlice({
       if (state.find((state) => state.uid === action.payload.uid)) {
         return state;
       }
-      return [...state, action.payload];
+      return state = [...state, action.payload];
     },
+    clearMember: (state: Member[], action: any) => {
+      return state = [];
+    }
   },
 });
 
 export const selectMember = (state: RootState) => state.member;
-export const { setMember } = memberSlice.actions;
+export const { clearMember, setMember } = memberSlice.actions;
 export default memberSlice;

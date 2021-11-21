@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { auth, db } from "../../../../config/FirebaseConfig";
 import { Room } from "../../../../store/assign";
-import { setMember } from "../../../../store/memberSlice";
+import { clearMember, setMember } from "../../../../store/memberSlice";
 import { selectRoomList, setRoomList } from "../../../../store/roomSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { selectUser } from "../../../../store/userSlice";
@@ -71,7 +71,8 @@ const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
 
   // GET Member from users database;
   useEffect(() => {
-    const getRooms = async () => {
+    dispatch(clearMember({}));
+    const getMembers = async () => {
       if (!selectedRoom?.members) return;
       const q = query(
         collection(db, "users"),
@@ -89,7 +90,7 @@ const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
         unsubscribe();
       };
     };
-    getRooms();
+    getMembers();
   }, [dispatch, selectedRoom?.members]);
 
   return (
