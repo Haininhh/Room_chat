@@ -19,7 +19,7 @@ import edit from "../../../../assets/png/edit.png";
 import userAvatar from "../../../../assets/png/image-avatar.png";
 import loupe from "../../../../assets/png/loupe.png";
 import more from "../../../../assets/png/more.png";
-import AddRoomChat from "../../AddRoomChat";
+import AddRoomChat from "../../Common/AddRoomChat";
 
 interface Props {
   setSelectRoom: (param: Room) => void;

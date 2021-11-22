@@ -2,9 +2,9 @@ import { Avatar, Typography } from "antd";
 import dateFormat from "dateformat";
 import { Timestamp } from "firebase/firestore";
 import React, { useEffect, useRef } from "react";
-import userAvatar from "../../assets/png/image-avatar.png";
-import { useAppSelector } from "../../store/store";
-import { selectUser } from "../../store/userSlice";
+import userAvatar from "../../../assets/png/image-avatar.png";
+import { useAppSelector } from "../../../store/store";
+import { selectUser } from "../../../store/userSlice";
 
 export interface Message {
   text: string;
