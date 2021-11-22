@@ -23,10 +23,15 @@ const roomListSlice = createSlice({
         rooms: newState,
       };
     },
+    clearRoomList: (state: RoomList | undefined, action: Action) => {
+      return {
+        rooms: [],
+      };
+    },
   },
 });
 
 export const selectRoomList = (state: RootState) => state.roomList;
-export const { setRoomList } = roomListSlice.actions;
+export const { setRoomList, clearRoomList } = roomListSlice.actions;
 
 export default roomListSlice;

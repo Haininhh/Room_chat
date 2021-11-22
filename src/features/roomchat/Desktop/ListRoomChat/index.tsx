@@ -6,7 +6,11 @@ import { Link, useHistory } from "react-router-dom";
 import { auth, db } from "../../../../config/FirebaseConfig";
 import { Room } from "../../../../store/assign";
 import { clearMember, setMember } from "../../../../store/memberSlice";
-import { selectRoomList, setRoomList } from "../../../../store/roomSlice";
+import {
+  clearRoomList,
+  selectRoomList,
+  setRoomList,
+} from "../../../../store/roomSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { selectUser } from "../../../../store/userSlice";
 import add from "../../../../assets/png/add.png";
@@ -39,6 +43,14 @@ const ListRoomChat = ({ setSelectRoom, setShowRoomChat }: Props) => {
 
   // Get List Room
   useEffect(() => {
+    dispatch(
+      clearRoomList({
+        name: "",
+        description: "",
+        members: [],
+        id: "",
+      })
+    );
     const getRooms = async () => {
       const collectionRef = query(
         collection(db, "rooms"),

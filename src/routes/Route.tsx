@@ -1,8 +1,8 @@
 import { Route, Switch } from "react-router-dom";
-import RoomChat from "../features/roomchat";
 import Dashboard from "../features/dashboard/Dashboard";
 import ForgotPassword from "../features/forgotPassword/ForgotPassword";
 import Login from "../features/login/Login";
+import RoomChat from "../features/roomchat";
 import Signup from "../features/signup/Signup";
 import SignupSuccess from "../features/signup/SignupSuccess";
 import PrivateRoute from "./PrivateRoute";
